@@ -8,7 +8,7 @@
 <script src="{{ .base_path }}assets/qrcode/qrious2.min.js?{{ .cur_ver }}"></script>
 
 <style>
-/* ====== Global Styles ====== */
+/* ====== General Styles ====== */
 body, html, #app {
     margin: 0;
     padding: 0;
@@ -19,7 +19,6 @@ body, html, #app {
     overflow-x: hidden;
 }
 
-/* ====== Main Layout ====== */
 .ant-layout {
     background: transparent !important;
 }
@@ -166,6 +165,15 @@ body, html, #app {
     background: #2a2a47 !important;
     color: #fff !important;
 }
+
+.ant-descriptions-title, .ant-descriptions-item-label {
+    color: #fff !important;
+}
+
+.ant-descriptions-item-content {
+    color: #a3d9ff !important;
+}
+
 </style>
 {{ template "page/head_end" .}}
 
@@ -219,7 +227,7 @@ body, html, #app {
                             <div class="qr-label">{{ i18n "pages.settings.subSettings"}} Json</div>
                         </div>
                     </div>
-
+                    
                     <h3 class="section-heading" style="margin-top: 30px;">Subscription Info</h3>
                     <div class="info-grid">
                         <div class="info-item">
