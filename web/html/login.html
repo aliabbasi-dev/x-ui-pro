@@ -1,94 +1,75 @@
 {{ template "page/head_start" .}}
 <style>
-/* ====== General Styles and Reset ====== */
+/* ====== Reset & Global Styles ====== */
 body, html, #app {
-    margin: 0; padding: 0; height: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: 'Poppins', sans-serif;
-    /* Use a simple dark background for the entire page */
-    background: #1a1a2e;
+    /* Main gradient background for the whole page */
+    background: linear-gradient(135deg,#1a1a2e,#162447,#1f4068);
     color: #fff;
     overflow: hidden;
 }
 
-/* ====== Main Page Container ====== */
-#app {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* ====== Login Container - The two-pane card ====== */
-.login-container {
-    display: flex;
-    max-width: 900px; /* Increased size to fit two panes */
+/* ====== Main Container for the two panes ====== */
+.login-container-wrapper {
+    position: relative;
+    z-index: 10;
+    max-width: 1000px;
     width: 90%;
     height: 600px;
-    background: rgba(26, 26, 46, 0.8); /* Dark semi-transparent background for the whole card */
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex; /* Use flexbox for the two-pane layout */
     border-radius: 20px;
-    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
     overflow: hidden; /* Ensures child elements don't spill out */
 }
 
-/* ====== Left Pane - Login Form ====== */
-.login-pane {
+/* ====== Left Pane (Login Form) ====== */
+.login-form-pane {
     flex: 1; /* Takes up one part of the flexbox */
-    padding: 3rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(26, 26, 46, 0.8);
+    padding: 3rem 2rem;
+    position: relative;
+    z-index: 15;
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(25px) saturate(180%);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.login-pane .logo {
+.login-form-pane .logo-section {
     position: absolute;
     top: 20px;
     left: 20px;
 }
-
-.login-pane .user-icon {
-    font-size: 4rem;
-    color: #00ffc8;
-    margin-bottom: 2rem;
+.login-form-pane .setting-section {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 15;
 }
 
-.login-pane .links {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 10px;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.login-pane .links a {
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.login-pane .links a:hover {
-    color: #00ffc8;
-}
-
-/* ====== Right Pane - Welcome Section ====== */
-.welcome-pane {
+/* ====== Right Pane (Welcome Section) ====== */
+.welcome-info-pane {
     flex: 1.5; /* Takes up more space than the login pane */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 3rem;
     position: relative;
     overflow: hidden;
 }
 
-.welcome-pane::before {
+/* The animated glowing swirl */
+.welcome-info-pane::before {
     content: '';
     position: absolute;
     top: 0;
@@ -99,19 +80,19 @@ body, html, #app {
                 radial-gradient(circle at 30% 70%, #00ffe7, transparent 50%);
     animation: swirlEffect 20s linear infinite alternate;
 }
-
 @keyframes swirlEffect {
     0% { transform: scale(1.5) rotate(0deg); }
     100% { transform: scale(1.5) rotate(360deg); }
 }
 
-.welcome-pane .content {
+.welcome-info-pane .content {
     position: relative;
     z-index: 10;
     text-align: center;
+    padding: 2rem;
 }
 
-.welcome-pane .welcome-text {
+.welcome-info-pane .welcome-text {
     font-size: 4rem;
     font-weight: 800;
     margin-bottom: 1rem;
@@ -120,40 +101,21 @@ body, html, #app {
     -webkit-text-fill-color: transparent;
 }
 
-.welcome-pane p {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.6);
-    line-height: 1.6;
+/* ====== Login Form Elements ====== */
+.title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    background: linear-gradient(90deg, #00ffe7, #ff00e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowText 3s ease-in-out infinite alternate;
+}
+@keyframes glowText {
+    0% { text-shadow: 0 0 5px #00ffe7, 0 0 10px #ff00e1; }
+    100% { text-shadow: 0 0 20px #00ffe7, 0 0 40px #ff00e1; }
 }
 
-.welcome-pane .member-link {
-    margin-top: 2rem;
-    color: #00ffc8;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s;
-}
-.welcome-pane .member-link:hover {
-    color: #ff00e1;
-}
-
-/* ====== Form Inputs and Button (Modified from existing code) ====== */
-#login {
-    position: relative;
-    z-index: 10;
-    max-width: 400px;
-    width: 90%;
-    margin: auto;
-    text-align: center;
-    transition: none; /* Removing hover effect as per image */
-    background: none; /* Removing background from the card itself */
-    backdrop-filter: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-}
-
-/* Re-purposing existing classes for the new design */
 a-input, a-input-password {
     width: 100%;
     margin-bottom: 1rem;
@@ -163,15 +125,17 @@ a-input, a-input-password {
     color: #fff !important;
     transition: all 0.3s;
 }
-a-input:focus, a-input-password:focus{
+
+a-input:focus, a-input-password:focus {
     box-shadow: 0 0 15px rgba(0,255,200,0.6);
     border-color: #00ffc8 !important;
 }
 
-.ant-input-prefix, .ant-input-password-icon{
+.ant-input-prefix, .ant-input-password-icon {
     color: #00ffc8;
 }
 
+/* ====== Neon Button ====== */
 .ant-btn-primary-login {
     width: 100%;
     padding: 12px;
@@ -180,109 +144,105 @@ a-input:focus, a-input-password:focus{
     font-weight: 700;
     background: linear-gradient(90deg, #00ffe7, #ff00e1);
     color: #000;
-    box-shadow: 0 0 15px rgba(0,255,200,0.5),0 0 30px rgba(255,0,255,0.3);
+    box-shadow: 0 0 15px rgba(0,255,200,0.5), 0 0 30px rgba(255,0,255,0.3);
     border: none;
     transition: all 0.3s;
 }
 
 .ant-btn-primary-login:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(0,255,200,0.8),0 0 50px rgba(255,0,255,0.6);
+    box-shadow: 0 0 25px rgba(0,255,200,0.8), 0 0 50px rgba(255,0,255,0.6);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .login-container {
+/* ====== Responsive Design ====== */
+@media(max-width: 768px){
+    .login-container-wrapper {
         flex-direction: column;
         height: auto;
     }
-    .welcome-pane {
-        display: none; /* Hide the welcome pane on smaller screens */
+    .welcome-info-pane {
+        display: none; /* Hide the welcome pane on small screens */
     }
-    .login-pane {
-        width: 100%;
+    .login-form-pane {
         border-right: none;
+        padding: 2rem 1rem;
+    }
+    .title {
+        font-size: 2rem;
     }
 }
 </style>
 {{ template "page/head_end" .}}
 
 {{ template "page/body_start" .}}
-<div class="login-container">
-    <a-col class="login-pane">
-        <div class="logo">
-            <a href="#">
-                <img src="/path/to/your/logo.svg" alt="Logo" style="width: 50px; opacity: 0.8;">
-            </a>
-        </div>
-        <div class="setting-section">
-            <a-popover :overlay-class-name="themeSwitcher.currentTheme" title='{{ i18n "menu.settings" }}' placement="bottomRight" trigger="click">
-                <template slot="content">
-                    <a-space direction="vertical" :size="10">
-                        <a-theme-switch-login></a-theme-switch-login>
-                        <span>{{ i18n "pages.settings.language" }}</span>
-                        <a-select ref="selectLang" class="w-100" v-model="lang" @change="LanguageManager.setLanguage(lang)" :dropdown-class-name="themeSwitcher.currentTheme">
-                            <a-select-option :value="l.value" v-for="l in LanguageManager.supportedLanguages">
-                                <span role="img" aria-label="l.name" v-text="l.icon"></span>
-                                &nbsp;&nbsp;<span v-text="l.name"></span>
-                            </a-select-option>
-                        </a-select>
-                    </a-space>
-                </template>
-                <a-button shape="circle" icon="setting"></a-button>
-            </a-popover>
-        </div>
+<a-layout id="app" v-cloak>
+    <div class="login-container-wrapper">
+        <a-col class="login-form-pane">
+            <div class="logo-section">
+                <a href="#"><a-icon type="user-add" style="font-size: 32px; color: #00ffe7;" /></a>
+            </div>
+            <div class="setting-section">
+                <a-popover :overlay-class-name="themeSwitcher.currentTheme" title='{{ i18n "menu.settings" }}' placement="bottomRight" trigger="click">
+                    <template slot="content">
+                        <a-space direction="vertical" :size="10">
+                            <a-theme-switch-login></a-theme-switch-login>
+                            <span>{{ i18n "pages.settings.language" }}</span>
+                            <a-select ref="selectLang" class="w-100" v-model="lang" @change="LanguageManager.setLanguage(lang)" :dropdown-class-name="themeSwitcher.currentTheme">
+                                <a-select-option :value="l.value" v-for="l in LanguageManager.supportedLanguages">
+                                    <span role="img" aria-label="l.name" v-text="l.icon"></span>
+                                    &nbsp;&nbsp;<span v-text="l.name"></span>
+                                </a-select-option>
+                            </a-select>
+                        </a-space>
+                    </template>
+                    <a-button shape="circle" icon="setting"></a-button>
+                </a-popover>
+            </div>
 
-        <h2 class="title">{{ i18n "pages.login.hello" }}</h2>
+            <h2 class="title">{{ i18n "pages.login.hello" }}</h2>
 
-        <a-form @submit.prevent="login">
-            <a-space direction="vertical" size="middle">
-                <a-form-item>
-                    <a-input autocomplete="username" name="username" v-model.trim="user.username" placeholder='{{ i18n "username" }}' autofocus required>
-                        <a-icon slot="prefix" type="user"></a-icon>
-                    </a-input>
-                </a-form-item>
+            <a-form @submit.prevent="login" style="width: 100%;">
+                <a-space direction="vertical" size="middle" style="width: 100%;">
+                    <a-form-item>
+                        <a-input autocomplete="username" name="username" v-model.trim="user.username" placeholder='{{ i18n "username" }}' autofocus required>
+                            <a-icon slot="prefix" type="user"></a-icon>
+                        </a-input>
+                    </a-form-item>
 
-                <a-form-item>
-                    <a-input-password autocomplete="password" name="password" v-model.trim="user.password" placeholder='{{ i18n "password" }}' required>
-                        <a-icon slot="prefix" type="lock"></a-icon>
-                    </a-input-password>
-                </a-form-item>
+                    <a-form-item>
+                        <a-input-password autocomplete="password" name="password" v-model.trim="user.password" placeholder='{{ i18n "password" }}' required>
+                            <a-icon slot="prefix" type="lock"></a-icon>
+                        </a-input-password>
+                    </a-form-item>
 
-                <a-form-item v-if="twoFactorEnable">
-                    <a-input autocomplete="one-time-code" name="twoFactorCode" v-model.trim="user.twoFactorCode" placeholder='{{ i18n "twoFactorCode" }}' required>
-                        <a-icon slot="prefix" type="key"></a-icon>
-                    </a-input>
-                </a-form-item>
+                    <a-form-item v-if="twoFactorEnable">
+                        <a-input autocomplete="one-time-code" name="twoFactorCode" v-model.trim="user.twoFactorCode" placeholder='{{ i18n "twoFactorCode" }}' required>
+                            <a-icon slot="prefix" type="key"></a-icon>
+                        </a-input>
+                    </a-form-item>
 
-                <div class="links">
-                    <span>{{ i18n "remember" }}</span>
-                    <a href="#">{{ i18n "forget_password" }}</a>
-                </div>
+                    <a-form-item>
+                        <a-button class="ant-btn-primary-login" type="primary" :loading="loadingStates.spinning" html-type="submit">
+                            [[ loadingStates.spinning ? '' : '{{ i18n "login" }}' ]]
+                        </a-button>
+                    </a-form-item>
+                </a-space>
+            </a-form>
+        </a-col>
 
-                <a-form-item>
-                    <a-button class="ant-btn-primary-login" type="primary" :loading="loadingStates.spinning" html-type="submit">
-                        [[ loadingStates.spinning ? '' : '{{ i18n "login" }}' ]]
-                    </a-button>
-                </a-form-item>
-            </a-space>
-        </a-form>
-    </a-col>
-
-    <div class="welcome-pane">
-        <div class="content">
-            <h1 class="welcome-text">Welcome.</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                nascetur ridiculus mus.
-            </p>
-            <p>
-                Not a member? <a href="#" class="member-link">Sign up now</a>
-            </p>
+        <div class="welcome-info-pane">
+            <div class="content">
+                <h1 class="welcome-text">Welcome.</h1>
+                <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                </p>
+                <p style="margin-top: 2rem;">
+                    Not a member? <a href="#" style="color: #00ffe7; font-weight: 600;">Sign up now</a>
+                </p>
+            </div>
         </div>
     </div>
-</div>
+</a-layout>
 
 {{template "page/body_scripts" .}}
 {{template "component/aThemeSwitch" .}}
