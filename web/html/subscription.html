@@ -216,7 +216,98 @@ body, html, #app {
                         </a-popover>
                     </template>
 
-                    <h3 class="section-heading">QR Codes</h3>
+                    
+                    
+                    <h3 class="section-heading" style="margin-top: 30px;">Subscription Info</h3>
+<div class="info-grid">
+    <!-- Status -->
+    <div class="info-item">
+        <a-icon type="check-circle" class="info-icon" />
+        <div class="info-text">
+            <div class="info-label">[[ i18n("subscription.status") ]]</div>
+            <div class="info-value">
+                <template v-if="isUnlimited">
+                    <a-tag color="cyan">[[ i18n("subscription.unlimited") ]]</a-tag>
+                </template>
+                <template v-else>
+                    <a-tag :color="isActive ? 'green' : 'red'">
+                        [[ isActive ? i18n("subscription.active") : i18n("subscription.inactive") ]]
+                    </a-tag>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <!-- Usage -->
+    <div class="info-item">
+        <a-icon type="pie-chart" class="info-icon" />
+        <div class="info-text">
+            <div class="info-label">[[ i18n("usage") ]]</div>
+            <div class="info-value">[[ app.used ]]</div>
+        </div>
+    </div>
+
+    <!-- Total quota -->
+    <div class="info-item">
+        <a-icon type="database" class="info-icon" />
+        <div class="info-text">
+            <div class="info-label">[[ i18n("subscription.totalQuota") ]]</div>
+            <div class="info-value">[[ app.total ]]</div>
+        </div>
+    </div>
+
+    <!-- Remained -->
+    <div class="info-item" v-if="app.totalByte > 0">
+        <a-icon type="hourglass" class="info-icon" />
+        <div class="info-text">
+            <div class="info-label">[[ i18n("remained") ]]</div>
+            <div class="info-value">[[ app.remained ]]</div>
+        </div>
+    </div>
+
+    <!-- Last online -->
+    <div class="info-item">
+        <a-icon type="history" class="info-icon" />
+        <div class="info-text">
+            <div class="info-label">[[ i18n("lastOnline") ]]</div>
+            <div class="info-value">
+                <template v-if="app.lastOnlineMs > 0">
+                    <template v-if="app.datepicker === 'gregorian'">
+                        [[ DateUtil.formatMillis(app.lastOnlineMs) ]]
+                    </template>
+                    <template v-else>
+                        [[ DateUtil.convertToJalalian(moment(app.lastOnlineMs)) ]]
+                    </template>
+                </template>
+                <template v-else>
+                    <span>-</span>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expiry -->
+    <div class="info-item">
+        <a-icon type="calendar" class="info-icon" />
+        <div class="info-text">
+            <div class="info-label">[[ i18n("subscription.expiry") ]]</div>
+            <div class="info-value">
+                <template v-if="app.expireMs === 0">
+                    [[ i18n("subscription.noExpiry") ]]
+                </template>
+                <template v-else>
+                    <template v-if="app.datepicker === 'gregorian'">
+                        [[ DateUtil.formatMillis(app.expireMs) ]]
+                    </template>
+                    <template v-else>
+                        [[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]
+                    </template>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+<h3 class="section-heading">QR Codes</h3>
                     <div class="qr-container-flex">
                         <div class="qr-box">
                             <canvas id="qrcode" class="qr-cv" title='{{ i18n "copy" }}' @click="copy(app.subUrl)"></canvas>
@@ -225,83 +316,6 @@ body, html, #app {
                         <div class="qr-box">
                             <canvas id="qrcode-subjson" class="qr-cv" title='{{ i18n "copy" }}' @click="copy(app.subJsonUrl)"></canvas>
                             <div class="qr-label">{{ i18n "pages.settings.subSettings"}} Json</div>
-                        </div>
-                    </div>
-                    
-                    <h3 class="section-heading" style="margin-top: 30px;">Subscription Info</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <a-icon type="check-circle" class="info-icon" />
-                            <div class="info-text">
-                                <div class="info-label">{{ i18n "subscription.status" }}</div>
-                                <div class="info-value">
-                                    <template v-if="isUnlimited">
-                                        <a-tag color="cyan">{{ i18n "subscription.unlimited" }}</a-tag>
-                                    </template>
-                                    <template v-else>
-                                        <a-tag :color="isActive ? 'green' : 'red'">[[ isActive ? '{{ i18n "subscription.active" }}' : '{{ i18n "subscription.inactive" }}' ]]</a-tag>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <a-icon type="pie-chart" class="info-icon" />
-                            <div class="info-text">
-                                <div class="info-label">{{ i18n "usage" }}</div>
-                                <div class="info-value">[[ app.used ]]</div>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <a-icon type="database" class="info-icon" />
-                            <div class="info-text">
-                                <div class="info-label">{{ i18n "subscription.totalQuota" }}</div>
-                                <div class="info-value">[[ app.total ]]</div>
-                            </div>
-                        </div>
-                        <div class="info-item" v-if="app.totalByte > 0">
-                            <a-icon type="hourglass" class="info-icon" />
-                            <div class="info-text">
-                                <div class="info-label">{{ i18n "remained" }}</div>
-                                <div class="info-value">[[ app.remained ]]</div>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <a-icon type="history" class="info-icon" />
-                            <div class="info-text">
-                                <div class="info-label">{{ i18n "lastOnline" }}</div>
-                                <div class="info-value">
-                                    <template v-if="app.lastOnlineMs > 0">
-                                        <template v-if="app.datepicker === 'gregorian'">
-                                            [[ DateUtil.formatMillis(app.lastOnlineMs) ]]
-                                        </template>
-                                        <template v-else>
-                                            [[ DateUtil.convertToJalalian(moment(app.lastOnlineMs)) ]]
-                                        </template>
-                                    </template>
-                                    <template v-else>
-                                        <span>-</span>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <a-icon type="calendar" class="info-icon" />
-                            <div class="info-text">
-                                <div class="info-label">{{ i18n "subscription.expiry" }}</div>
-                                <div class="info-value">
-                                    <template v-if="app.expireMs === 0">
-                                        {{ i18n "subscription.noExpiry" }}
-                                    </template>
-                                    <template v-else>
-                                        <template v-if="app.datepicker === 'gregorian'">
-                                            [[ DateUtil.formatMillis(app.expireMs) ]]
-                                        </template>
-                                        <template v-else>
-                                            [[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]
-                                        </template>
-                                    </template>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
