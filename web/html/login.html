@@ -6,8 +6,7 @@ body, html, #app {
     padding: 0;
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    /* Main gradient background for the whole page */
-    background: linear-gradient(135deg,#1a1a2e,#162447,#1f4068);
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
     color: #fff;
     overflow: hidden;
 }
@@ -16,23 +15,23 @@ body, html, #app {
 .login-container-wrapper {
     position: relative;
     z-index: 10;
-    max-width: 1000px;
+    max-width: 1100px;
     width: 90%;
     height: 600px;
     margin: auto;
     top: 50%;
     transform: translateY(-50%);
-    display: flex; /* Use flexbox for the two-pane layout */
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
-    overflow: hidden; /* Ensures child elements don't spill out */
+    display: flex;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
 }
 
 /* ====== Left Pane (Login Form) ====== */
 .login-form-pane {
-    flex: 1; /* Takes up one part of the flexbox */
+    flex: 1.2;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -41,25 +40,26 @@ body, html, #app {
     position: relative;
     z-index: 15;
     background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(25px) saturate(180%);
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .login-form-pane .logo-section {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 25px;
+    left: 25px;
 }
 .login-form-pane .setting-section {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 25px;
+    right: 25px;
     z-index: 15;
 }
 
 /* ====== Right Pane (Welcome Section) ====== */
 .welcome-info-pane {
-    flex: 1.5; /* Takes up more space than the login pane */
+    flex: 1.5;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -68,21 +68,26 @@ body, html, #app {
     overflow: hidden;
 }
 
-/* The animated glowing swirl */
 .welcome-info-pane::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 70% 30%, #ff00e1, transparent 50%),
-                radial-gradient(circle at 30% 70%, #00ffe7, transparent 50%);
-    animation: swirlEffect 20s linear infinite alternate;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, #5b46a2, transparent 50%),
+                radial-gradient(circle, #833ab4, transparent 50%),
+                radial-gradient(circle, #fd1d1d, transparent 50%),
+                radial-gradient(circle, #fcb045, transparent 50%);
+    animation: backgroundMove 30s linear infinite;
+    opacity: 0.3;
 }
-@keyframes swirlEffect {
-    0% { transform: scale(1.5) rotate(0deg); }
-    100% { transform: scale(1.5) rotate(360deg); }
+@keyframes backgroundMove {
+    0% { transform: scale(1.2) rotate(0deg) translate(0, 0); }
+    25% { transform: scale(1.2) rotate(90deg) translate(50px, 50px); }
+    50% { transform: scale(1.2) rotate(180deg) translate(0, 0); }
+    75% { transform: scale(1.2) rotate(270deg) translate(-50px, -50px); }
+    100% { transform: scale(1.2) rotate(360deg) translate(0, 0); }
 }
 
 .welcome-info-pane .content {
@@ -93,65 +98,60 @@ body, html, #app {
 }
 
 .welcome-info-pane .welcome-text {
-    font-size: 4rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    background: linear-gradient(90deg, #00ffe7, #ff00e1);
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(90deg, #a3d9ff, #f3a3ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 /* ====== Login Form Elements ====== */
 .title {
-    font-size: 2.5rem;
-    font-weight: 800;
+    font-size: 2rem;
+    font-weight: 700;
     margin-bottom: 2rem;
-    background: linear-gradient(90deg, #00ffe7, #ff00e1);
+    background: linear-gradient(90deg, #a3d9ff, #f3a3ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: glowText 3s ease-in-out infinite alternate;
-}
-@keyframes glowText {
-    0% { text-shadow: 0 0 5px #00ffe7, 0 0 10px #ff00e1; }
-    100% { text-shadow: 0 0 20px #00ffe7, 0 0 40px #ff00e1; }
 }
 
 a-input, a-input-password {
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     border-radius: 12px;
-    border: 1px solid rgba(0,255,200,0.5) !important;
-    background: rgba(0,0,0,0.3) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    background: rgba(0,0,0,0.2) !important;
     color: #fff !important;
     transition: all 0.3s;
 }
 
 a-input:focus, a-input-password:focus {
-    box-shadow: 0 0 15px rgba(0,255,200,0.6);
-    border-color: #00ffc8 !important;
+    box-shadow: 0 0 10px rgba(163,217,255,0.6);
+    border-color: #a3d9ff !important;
 }
 
 .ant-input-prefix, .ant-input-password-icon {
-    color: #00ffc8;
+    color: #a3d9ff;
 }
 
-/* ====== Neon Button ====== */
+/* ====== Polished Button ====== */
 .ant-btn-primary-login {
     width: 100%;
-    padding: 12px;
+    height: 50px;
     border-radius: 12px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    background: linear-gradient(90deg, #00ffe7, #ff00e1);
-    color: #000;
-    box-shadow: 0 0 15px rgba(0,255,200,0.5), 0 0 30px rgba(255,0,255,0.3);
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #f3a3ff, #a3d9ff);
+    color: #1a1a2e;
     border: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     transition: all 0.3s;
 }
 
 .ant-btn-primary-login:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(0,255,200,0.8), 0 0 50px rgba(255,0,255,0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
 /* ====== Responsive Design ====== */
@@ -159,13 +159,19 @@ a-input:focus, a-input-password:focus {
     .login-container-wrapper {
         flex-direction: column;
         height: auto;
+        border-radius: 0;
+        box-shadow: none;
+        width: 100%;
     }
     .welcome-info-pane {
-        display: none; /* Hide the welcome pane on small screens */
+        display: none;
     }
     .login-form-pane {
         border-right: none;
-        padding: 2rem 1rem;
+        padding: 3rem 1.5rem;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
     }
     .title {
         font-size: 2rem;
@@ -179,7 +185,7 @@ a-input:focus, a-input-password:focus {
     <div class="login-container-wrapper">
         <a-col class="login-form-pane">
             <div class="logo-section">
-                <a href="#"><a-icon type="user-add" style="font-size: 32px; color: #00ffe7;" /></a>
+                <a href="#"><a-icon type="user-add" style="font-size: 38px; color: #a3d9ff;" /></a>
             </div>
             <div class="setting-section">
                 <a-popover :overlay-class-name="themeSwitcher.currentTheme" title='{{ i18n "menu.settings" }}' placement="bottomRight" trigger="click">
@@ -233,11 +239,11 @@ a-input:focus, a-input-password:focus {
         <div class="welcome-info-pane">
             <div class="content">
                 <h1 class="welcome-text">Welcome.</h1>
-                <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+                <p style="color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 400px; margin: 0 auto;">
                     یک پنل کنترل پیشرفته مبتنی بر وب با کد باز که برای مدیریت سرور Xray-core طراحی شده است. این پنل یک رابط کاربری آسان برای پیکربندی و نظارت بر پروتکل‌های مختلف VPN و پراکسی ارائه می‌دهد.
                 </p>
-                <p style="margin-top: 2rem;">
-                   توسعه یافته <a href="#" style="color: #00ffe7; font-weight: 600;">@BeguBEm</a>
+                <p style="margin-top: 2rem; color: rgba(255,255,255,0.5);">
+                    توسعه یافته <a href="#" style="color: #a3d9ff; font-weight: 600;">@BeguBEm</a>
                 </p>
             </div>
         </div>
