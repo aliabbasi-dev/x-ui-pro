@@ -1,223 +1,197 @@
 {{ template "page/head_start" .}}
 <style>
-  /* ====== Reset & Basic Styles ====== */
+  /* ====== Reset & Base ====== */
   body, html, #app {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1f2c34, #1a1f27);
+    margin: 0; padding: 0;
+    height: 100%; font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at 20% 30%, #0f2027, #203a43, #2c5364);
     overflow: hidden;
+    color: #fff;
   }
 
-  /* ====== Waves Header ====== */
-  .waves-header {
-    position: absolute;
-    width: 100%;
-    height: 40vh;
-    overflow: hidden;
-    top: 0;
-    left: 0;
+  /* ====== Animated Background Particles ====== */
+  body::before {
+    content: '';
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: radial-gradient(circle, rgba(0,255,200,0.1) 0%, transparent 70%);
+    animation: bgPulse 10s ease-in-out infinite alternate;
     z-index: 0;
   }
 
-  .waves-header svg {
-    width: 100%;
-    height: 100%;
+  @keyframes bgPulse {
+    0% { transform: scale(1); opacity:0.6;}
+    50% { transform: scale(1.1); opacity:0.8;}
+    100% { transform: scale(1); opacity:0.6;}
   }
 
-  /* ====== Login Card Glassmorphism ====== */
+  /* ====== Waves / SVG ====== */
+  .waves-header {
+    position: absolute; width: 100%; height: 50%;
+    top:0; left:0; overflow:hidden; z-index:1;
+  }
+  .waves-header svg {
+    width:100%; height:100%;
+  }
+
+  /* ====== Login Card ====== */
   #login {
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    background-color: rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-    padding: 2rem;
     position: relative;
     z-index: 10;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(255,255,255,0.05);
+    border-radius: 25px;
+    padding: 3rem 2rem;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 20px 60px rgba(0, 255, 200, 0.3);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
   }
 
   #login:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.4);
+    transform: translateY(-10px);
+    box-shadow: 0 30px 80px rgba(0,255,200,0.5);
   }
 
+  /* ====== Title Animation ====== */
   .title.headline {
-    text-align: center;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 2.4rem;
-    margin-bottom: 2rem;
-    overflow: hidden;
+    text-align: center; font-size: 2.5rem; font-weight: 700;
+    margin-bottom: 2rem; position: relative;
+    overflow:hidden;
+    letter-spacing: 1px;
   }
 
   .headline b {
     display: inline-block;
-    transition: all 0.5s ease;
-    opacity: 0;
+    opacity: 0; transform: translateY(30px);
+    transition: all 0.6s ease;
   }
 
   .headline .is-visible {
-    opacity: 1;
+    opacity:1; transform: translateY(0);
   }
 
+  /* ====== Inputs Neon Style ====== */
   a-input, a-input-password {
     border-radius: 12px;
-    background-color: rgba(255, 255, 255, 0.12) !important;
-    border: none !important;
-    color: #fff !important;
+    border: 1px solid rgba(0,255,200,0.4) !important;
+    background: rgba(0,0,0,0.3) !important;
+    color:#fff !important;
+    transition: all 0.3s ease;
   }
-
-  a-input input, a-input-password input {
-    color: #fff !important;
+  a-input:focus, a-input-password:focus {
+    box-shadow: 0 0 15px rgba(0,255,200,0.6);
+    border-color: #00ffc8 !important;
   }
 
   .ant-input-prefix, .ant-input-password-icon {
-    color: #00d9a5;
+    color: #00ffc8;
   }
 
+  /* ====== Button Neon ====== */
   .ant-btn-primary-login {
-    width: 100%;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #00d9a5, #008571);
-    border: none;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
+    width: 100%; padding: 12px;
+    border-radius: 12px; font-size: 1.2rem; font-weight:600;
+    background: linear-gradient(90deg, #00ffcc, #00d9ff);
+    color:#000; text-shadow: 0 0 3px #fff;
+    box-shadow: 0 0 15px rgba(0,255,200,0.5);
+    border:none; transition: all 0.3s ease;
   }
-
   .ant-btn-primary-login:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 217, 165, 0.5);
+    box-shadow: 0 0 30px rgba(0,255,200,0.8), 0 0 60px rgba(0,200,255,0.6);
+    transform: scale(1.05);
   }
 
+  /* ====== Settings Button ====== */
   .setting-section {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 20;
+    position: absolute; top: 1rem; right: 1rem; z-index:20;
   }
 
-  /* Wave button background effect */
-  .wave-btn-bg {
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-  }
-
-  .wave-btn-bg::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -50%;
-    width: 200%;
-    height: 100%;
-    background: rgba(255,255,255,0.1);
-    transform: skewX(-20deg);
-    transition: all 0.5s;
-  }
-
-  .wave-btn-bg:hover::before {
-    left: 100%;
-  }
-
-  /* Scrollable layout */
-  .under {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 1;
-    position: relative;
-  }
 </style>
 {{ template "page/head_end" .}}
 
 {{ template "page/body_start" .}}
-<a-layout id="app" v-cloak :class="themeSwitcher.currentTheme + ' login-app'">
-  <transition name="fade" appear>
-    <a-layout-content class="under">
-      <div class="waves-header">
-        <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
-          <defs>
-            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-          </defs>
-          <g class="parallax">
-            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(0, 217, 165, 0.05)" />
-            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(0, 217, 165, 0.05)" />
-            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(0, 217, 165, 0.05)" />
-            <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(0, 217, 165, 0.15)" />
-          </g>
-        </svg>
-      </div>
-      <a-row type="flex" justify="center" align="middle" class="h-100">
-        <a-col :xs="22" :sm="14" :md="12" :lg="8" :xl="6" :xxl="5" id="login">
-          <template v-if="!loadingStates.fetched">
-            <div class="text-center">
-              <a-spin size="large" />
-            </div>
-          </template>
-          <template v-else>
-            <div class="setting-section">
-              <a-popover :overlay-class-name="themeSwitcher.currentTheme" title='{{ i18n "menu.settings" }}'
-                placement="bottomRight" trigger="click">
-                <template slot="content">
-                  <a-space direction="vertical" :size="10">
-                    <a-theme-switch-login></a-theme-switch-login>
-                    <span>{{ i18n "pages.settings.language" }}</span>
-                    <a-select ref="selectLang" class="w-100" v-model="lang"
-                      @change="LanguageManager.setLanguage(lang)" :dropdown-class-name="themeSwitcher.currentTheme">
-                      <a-select-option :value="l.value" v-for="l in LanguageManager.supportedLanguages">
-                        <span role="img" aria-label="l.name" v-text="l.icon"></span>
-                        &nbsp;&nbsp;<span v-text="l.name"></span>
-                      </a-select-option>
-                    </a-select>
-                  </a-space>
-                </template>
-                <a-button shape="circle" icon="setting"></a-button>
-              </a-popover>
-            </div>
-            <h2 class="title headline zoom">
-              <span class="words-wrapper">
-                <b class="is-visible">{{ i18n "pages.login.hello" }}</b>
-                <b>{{ i18n "pages.login.title" }}</b>
-              </span>
-            </h2>
-            <a-form @submit.prevent="login">
-              <a-space direction="vertical" size="middle">
-                <a-form-item>
-                  <a-input autocomplete="username" name="username" v-model.trim="user.username"
-                    placeholder='{{ i18n "username" }}' autofocus required>
-                    <a-icon slot="prefix" type="user" class="fs-1rem"></a-icon>
-                  </a-input>
-                </a-form-item>
-                <a-form-item>
-                  <a-input-password autocomplete="password" name="password" v-model.trim="user.password"
-                    placeholder='{{ i18n "password" }}' required>
-                    <a-icon slot="prefix" type="lock" class="fs-1rem"></a-icon>
-                  </a-input-password>
-                </a-form-item>
-                <a-form-item v-if="twoFactorEnable">
-                  <a-input autocomplete="one-time-code" name="twoFactorCode" v-model.trim="user.twoFactorCode"
-                    placeholder='{{ i18n "twoFactorCode" }}' required>
-                    <a-icon slot="prefix" type="key" class="fs-1rem"></a-icon>
-                  </a-input>
-                </a-form-item>
-                <a-form-item>
-                  <a-button class="ant-btn-primary-login" type="primary" :loading="loadingStates.spinning" html-type="submit">
-                    [[ loadingStates.spinning ? '' : '{{ i18n "login" }}' ]]
-                  </a-button>
-                </a-form-item>
+<a-layout id="app" v-cloak class="login-app">
+  <a-layout-content class="under" style="display:flex; justify-content:center; align-items:center; min-height:100vh;">
+    <div class="waves-header">
+      <svg viewBox="0 0 500 150" preserveAspectRatio="none">
+        <path d="M0,50 C150,150 350,0 500,100 L500,0 L0,0 Z" style="stroke:none; fill: rgba(0,255,200,0.1);">
+          <animate attributeName="d" dur="8s" repeatCount="indefinite"
+            values="M0,50 C150,150 350,0 500,100 L500,0 L0,0 Z;
+                    M0,80 C150,0 350,150 500,50 L500,0 L0,0 Z;
+                    M0,50 C150,150 350,0 500,100 L500,0 L0,0 Z"/>
+        </path>
+      </svg>
+    </div>
+
+    <a-col :xs="22" :sm="14" :md="12" :lg="6" id="login">
+      <template v-if="!loadingStates.fetched">
+        <div class="text-center"><a-spin size="large"/></div>
+      </template>
+      <template v-else>
+        <div class="setting-section">
+          <a-popover :overlay-class-name="themeSwitcher.currentTheme" title='{{ i18n "menu.settings" }}'
+            placement="bottomRight" trigger="click">
+            <template slot="content">
+              <a-space direction="vertical" :size="10">
+                <a-theme-switch-login></a-theme-switch-login>
+                <span>{{ i18n "pages.settings.language" }}</span>
+                <a-select ref="selectLang" class="w-100" v-model="lang"
+                  @change="LanguageManager.setLanguage(lang)" :dropdown-class-name="themeSwitcher.currentTheme">
+                  <a-select-option :value="l.value" v-for="l in LanguageManager.supportedLanguages">
+                    <span role="img" aria-label="l.name" v-text="l.icon"></span>
+                    &nbsp;&nbsp;<span v-text="l.name"></span>
+                  </a-select-option>
+                </a-select>
               </a-space>
-            </a-form>
-          </template>
-        </a-col>
-      </a-row>
-    </a-layout-content>
-  </transition>
+            </template>
+            <a-button shape="circle" icon="setting"></a-button>
+          </a-popover>
+        </div>
+
+        <h2 class="title headline">
+          <span class="words-wrapper">
+            <b class="is-visible">{{ i18n "pages.login.hello" }}</b>
+            <b>{{ i18n "pages.login.title" }}</b>
+          </span>
+        </h2>
+
+        <a-form @submit.prevent="login">
+          <a-space direction="vertical" size="middle">
+            <a-form-item>
+              <a-input autocomplete="username" name="username" v-model.trim="user.username"
+                placeholder='{{ i18n "username" }}' autofocus required>
+                <a-icon slot="prefix" type="user"></a-icon>
+              </a-input>
+            </a-form-item>
+
+            <a-form-item>
+              <a-input-password autocomplete="password" name="password" v-model.trim="user.password"
+                placeholder='{{ i18n "password" }}' required>
+                <a-icon slot="prefix" type="lock"></a-icon>
+              </a-input-password>
+            </a-form-item>
+
+            <a-form-item v-if="twoFactorEnable">
+              <a-input autocomplete="one-time-code" name="twoFactorCode" v-model.trim="user.twoFactorCode"
+                placeholder='{{ i18n "twoFactorCode" }}' required>
+                <a-icon slot="prefix" type="key"></a-icon>
+              </a-input>
+            </a-form-item>
+
+            <a-form-item>
+              <a-button class="ant-btn-primary-login" type="primary" :loading="loadingStates.spinning" html-type="submit">
+                [[ loadingStates.spinning ? '' : '{{ i18n "login" }}' ]]
+              </a-button>
+            </a-form-item>
+          </a-space>
+        </a-form>
+      </template>
+    </a-col>
+  </a-layout-content>
 </a-layout>
+
 {{template "page/body_scripts" .}}
 {{template "component/aThemeSwitch" .}}
 
@@ -227,41 +201,42 @@
     el: '#app',
     data: {
       themeSwitcher,
-      loadingStates: { fetched: false, spinning: false },
-      user: { username: "", password: "", twoFactorCode: "" },
-      twoFactorEnable: false,
-      lang: ""
+      loadingStates: { fetched:false, spinning:false },
+      user: { username:"", password:"", twoFactorCode:"" },
+      twoFactorEnable:false,
+      lang:""
     },
     async mounted() {
       this.lang = LanguageManager.getLanguage();
       this.twoFactorEnable = await this.getTwoFactorEnable();
     },
-    methods: {
+    methods:{
       async login() {
         this.loadingStates.spinning = true;
         const msg = await HttpUtil.post('/login', this.user);
-        if (msg.success) location.href = basePath + 'panel/';
+        if(msg.success) location.href = basePath + 'panel/';
         this.loadingStates.spinning = false;
       },
       async getTwoFactorEnable() {
         const msg = await HttpUtil.post('/getTwoFactorEnable');
-        if (msg.success) {
+        if(msg.success) {
           this.twoFactorEnable = msg.obj;
           this.loadingStates.fetched = true;
           return msg.obj;
         }
-      },
-    },
+      }
+    }
   });
 
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function(){
     const headlines = document.querySelectorAll('.headline b');
-    let index = 0;
-    setInterval(() => {
-      headlines.forEach(h => h.classList.remove('is-visible'));
+    let index=0;
+    setInterval(()=>{
+      headlines.forEach(h=>h.classList.remove('is-visible'));
       headlines[index].classList.add('is-visible');
-      index = (index + 1) % headlines.length;
-    }, 3000);
+      index=(index+1)%headlines.length;
+    },3000);
   });
 </script>
+
 {{ template "page/body_end" .}}
