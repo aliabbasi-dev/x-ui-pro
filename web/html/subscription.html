@@ -8,7 +8,7 @@
 <script src="{{ .base_path }}assets/qrcode/qrious2.min.js?{{ .cur_ver }}"></script>
 
 <style>
-/* ====== Reset & Global Styles ====== */
+/* Reset and Global Styles */
 body, html, #app {
     margin: 0;
     padding: 0;
@@ -16,186 +16,163 @@ body, html, #app {
     font-family: 'Poppins', sans-serif;
     color: #fff;
     overflow-x: hidden;
+    background: #121212; /* A deep, dark background */
 }
 
-/* ====== Animated Background (New) ====== */
-body {
-    background: #1a1a2e;
+/* New Modern Card */
+.modern-card {
+    background: #1e1e1e !important;
+    border: none !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+    transition: all 0.3s ease;
     overflow: hidden;
 }
 
-.background-animated {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 20% 20%, rgba(0,255,255,0.1), transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255,0,255,0.1), transparent 50%);
-    background-size: 200% 200%;
-    animation: moveBG 20s linear infinite alternate;
-    z-index: -1;
-}
-
-@keyframes moveBG {
-    0% { background-position: 0% 0%, 100% 100%; }
-    100% { background-position: 100% 0%, 0% 100%; }
-}
-
-/* ====== Card Styles (Glassmorphism) ====== */
-.subscription-card {
-    background: rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 20px !important;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3) !important;
-    transition: all 0.3s ease;
-}
-
-.subscription-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.5) !important;
-}
-
+/* Card Header */
 .ant-card-head {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
-
 .ant-card-head-title, .ant-card-extra {
     color: #fff !important;
+    font-weight: 600;
 }
 
+/* Card Body */
 .ant-card-body {
     background: transparent !important;
+    padding: 24px;
 }
 
-.ant-descriptions-title {
-    color: #fff !important;
-}
-
-/* Ensure descriptions content and labels are visible */
-.ant-descriptions-item-label, .ant-descriptions-item-content {
-    color: rgba(255, 255, 255, 0.8) !important;
-}
-
-.ant-descriptions-bordered .ant-descriptions-item-label,
-.ant-descriptions-bordered .ant-descriptions-item-content {
-    background: transparent !important;
-    border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-/* ====== QR Code Boxes (Modern & Circular) ====== */
-.qr-box {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-    margin: 0 auto;
-    border: 2px solid #ff00e1;
-    box-shadow: 0 0 20px #ff00e1, inset 0 0 10px #ff00e1;
-    transition: all 0.4s ease;
-}
-
-.qr-box:hover {
-    transform: scale(1.05) rotate(5deg);
-    box-shadow: 0 0 30px #00ffe7, inset 0 0 15px #00ffe7;
-    border-color: #00ffe7;
-}
-
-.qr-box .qr-tag {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, #ff00e7, #00ffe7) !important;
-    color: #fff !important;
-    border: none !important;
-    box-shadow: 0 0 10px #ff00e7;
+/* Section Headings */
+.section-title {
+    font-size: 1.2rem;
     font-weight: 600;
-    z-index: 10;
-    padding: 4px 10px;
+    margin-bottom: 20px;
+    color: #00e0ff;
+    border-bottom: 2px solid rgba(0, 224, 255, 0.2);
+    padding-bottom: 5px;
+}
+
+/* QR Code Section */
+.qr-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+.qr-container {
+    background: #2b2b2b;
+    padding: 15px;
     border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    text-align: center;
+    position: relative;
 }
-
+.qr-title {
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
 .qr-cv {
-    border-radius: 50%;
+    display: block;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.3s;
+}
+.qr-cv:hover {
+    transform: scale(1.05);
 }
 
-/* ====== Gradient Buttons ====== */
-.ant-btn-primary {
-    background: linear-gradient(90deg, #00ffe7, #ff00e7) !important;
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+.info-item {
+    background: #2b2b2b;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.info-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+.info-icon {
+    font-size: 24px;
+    color: #00e0ff;
+}
+.info-text {
+    flex-grow: 1;
+}
+.info-label {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 4px;
+}
+.info-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Gradient Buttons */
+.gradient-button {
+    background: linear-gradient(90deg, #00e0ff, #ff00ff) !important;
     border: none !important;
     color: #1a1a2e !important;
-    font-weight: 600;
+    font-weight: 600 !important;
     border-radius: 10px !important;
-    box-shadow: 0 5px 20px rgba(0, 255, 200, 0.2), 0 5px 20px rgba(255, 0, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 224, 255, 0.2), 0 4px 15px rgba(255, 0, 255, 0.2);
     transition: all 0.3s ease;
 }
-
-.ant-btn-primary:hover {
+.gradient-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 255, 200, 0.4), 0 8px 30px rgba(255, 0, 255, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 224, 255, 0.4), 0 6px 20px rgba(255, 0, 255, 0.4);
 }
 
-.ant-dropdown-link {
-    color: #fff !important;
-}
-
+/* Dropdown Menu */
 .ant-dropdown-menu {
-    background: rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background: #2b2b2b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px;
 }
-
 .ant-dropdown-menu-item {
     color: #fff !important;
     transition: background-color 0.2s;
 }
-
 .ant-dropdown-menu-item:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    color: #00ffe7 !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #00e0ff !important;
 }
 
-/* ====== Adjustments for layout and spacing ====== */
-.qr-row {
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.qr-col {
+/* General Layout Adjustments */
+.flex-center {
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
+    align-items: center;
+}
+.mt-5 {
+    margin-top: 3rem;
 }
 
-.ant-list-bordered {
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    background: transparent !important;
-}
-
-.ant-list-item {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
 </style>
 {{ template "page/head_end" .}}
 
 {{ template "page/body_start" .}}
-<div class="background-animated"></div>
 <a-layout id="app" v-cloak :class="themeSwitcher.currentTheme">
     <a-layout-content class="p-2">
-        <a-row type="flex" justify="center" class="mt-2">
+        <a-row type="flex" justify="center" class="mt-5">
             <a-col :xs="24" :sm="22" :md="18" :lg="14" :xl="12">
-                <a-card hoverable class="subscription-card">
+                <a-card class="modern-card">
                     <template #title>
                         <a-space>
                             <span>{{ i18n "subscription.title" }}</span>
@@ -219,11 +196,8 @@ body {
                                                          label="English"
                                                          v-for="l in LanguageManager.supportedLanguages"
                                                          :key="l.value">
-                                            <span role="img"
-                                                  :aria-label="l.name"
-                                                  v-text="l.icon"></span>
-                                            &nbsp;&nbsp;<span
-                                                  v-text="l.name"></span>
+                                            <span role="img" :aria-label="l.name" v-text="l.icon"></span>
+                                            &nbsp;&nbsp;<span v-text="l.name"></span>
                                         </a-select-option>
                                     </a-select>
                                 </a-space>
@@ -233,189 +207,151 @@ body {
                     </template>
 
                     <a-form layout="vertical">
-                        <a-form-item>
-                            <a-space direction="vertical" align="center" style="width:100%;">
-                                <a-row type="flex" :gutter="[8,8]"
-                                       justify="center" class="qr-row">
-                                    <a-col :xs="24" :sm="12" class="qr-col">
-                                        <tr-qr-box class="qr-box">
-                                            <a-tag color="purple" class="qr-tag">
-                                                <span>{{ i18n "pages.settings.subSettings"}}</span>
-                                            </a-tag>
-                                            <tr-qr-bg class="qr-bg-sub">
-                                                <tr-qr-bg-inner class="qr-bg-sub-inner">
-                                                    <canvas id="qrcode"
-                                                            class="qr-cv"
-                                                            title='{{ i18n "copy" }}'
-                                                            @click="copy(app.subUrl)"></canvas>
-                                                </tr-qr-bg-inner>
-                                            </tr-qr-bg>
-                                        </tr-qr-box>
-                                    </a-col>
-                                    <a-col :xs="24" :sm="12" class="qr-col">
-                                        <tr-qr-box class="qr-box">
-                                            <a-tag color="purple" class="qr-tag">
-                                                <span>{{ i18n "pages.settings.subSettings"}} Json</span>
-                                            </a-tag>
-                                            <tr-qr-bg class="qr-bg-sub">
-                                                <tr-qr-bg-inner class="qr-bg-sub-inner">
-                                                    <canvas id="qrcode-subjson"
-                                                            class="qr-cv"
-                                                            title='{{ i18n "copy" }}'
-                                                            @click="copy(app.subJsonUrl)"></canvas>
-                                                </tr-qr-bg-inner>
-                                            </tr-qr-bg>
-                                        </tr-qr-box>
-                                    </a-col>
-                                </a-row>
-                            </a-space>
-                        </a-form-item>
-
-                        <a-form-item>
-                            <a-descriptions bordered :column="1" size="small">
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.subId" }}'>[[
-                                    app.sId
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.status" }}'>
-                                    <template v-if="isUnlimited">
-                                        <a-tag color="purple">{{ i18n
-                                            "subscription.unlimited" }}</a-tag>
-                                    </template>
-                                    <template v-else>
-                                        <a-tag
-                                            :color="isActive ? 'green' : 'red'">[[
-                                            isActive ? '{{ i18n
-                                            "subscription.active" }}' : '{{ i18n
-                                            "subscription.inactive" }}'
-                                            ]]</a-tag>
-                                    </template>
-                                </a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.downloaded" }}'>[[
-                                    app.download
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.uploaded" }}'>[[
-                                    app.upload
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "usage" }}'>[[ app.used
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.totalQuota" }}'>[[
-                                    app.total
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item v-if="app.totalByte > 0"
-                                    label='{{ i18n "remained" }}'>[[
-                                    app.remained ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "lastOnline" }}'>
-                                    <template v-if="app.lastOnlineMs > 0">
-                                        <template
-                                            v-if="app.datepicker === 'gregorian'">
-                                            [[
-                                            DateUtil.formatMillis(app.lastOnlineMs)
-                                            ]]
-                                        </template>
-                                        <template v-else>
-                                            [[
-                                            DateUtil.convertToJalalian(moment(app.lastOnlineMs))
-                                            ]]
-                                        </template>
-                                    </template>
-                                    <template v-else>
-                                        <span>-</span>
-                                    </template>
-                                </a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.expiry" }}'>
-                                    <template v-if="app.expireMs === 0">
-                                        {{ i18n "subscription.noExpiry" }}
-                                    </template>
-                                    <template v-else>
-                                        <template
-                                            v-if="app.datepicker === 'gregorian'">
-                                            [[
-                                            DateUtil.formatMillis(app.expireMs)
-                                            ]]
-                                        </template>
-                                        <template v-else>
-                                            [[
-                                            DateUtil.convertToJalalian(moment(app.expireMs))
-                                            ]]
-                                        </template>
-                                    </template>
-                                </a-descriptions-item>
-                            </a-descriptions>
-                        </a-form-item>
-
-                        <br />
-                        <a-list bordered>
-                            <a-list-item v-for="(link, idx) in links" :key="link">
-                                <div style="width:100%; text-align:center;">
-                                    <a-button type="primary" :block="isMobile"
-                                        @click="copy(link)">[[ linkName(link, idx)
-                                        ]]</a-button>
+                        <h2 class="section-title">QR Codes</h2>
+                        <a-row :gutter="[24, 24]" type="flex" justify="center">
+                            <a-col :xs="24" :sm="12">
+                                <div class="qr-container flex-center">
+                                    <h4 class="qr-title">{{ i18n "pages.settings.subSettings"}}</h4>
+                                    <canvas id="qrcode" class="qr-cv" title='{{ i18n "copy" }}' @click="copy(app.subUrl)"></canvas>
                                 </div>
-                            </a-list-item>
-                        </a-list>
-                        <br />
+                            </a-col>
+                            <a-col :xs="24" :sm="12">
+                                <div class="qr-container flex-center">
+                                    <h4 class="qr-title">{{ i18n "pages.settings.subSettings"}} Json</h4>
+                                    <canvas id="qrcode-subjson" class="qr-cv" title='{{ i18n "copy" }}' @click="copy(app.subJsonUrl)"></canvas>
+                                </div>
+                            </a-col>
+                        </a-row>
 
-                        <a-form-item>
-                            <a-row type="flex" justify="center" :gutter="[8,8]"
-                                style="width:100%">
-                                <a-col :xs="24" :sm="12"
-                                    style="text-align:center;">
-                                    <a-dropdown :trigger="['click']">
-                                        <a-button :block="isMobile"
-                                            :style="{ marginTop: isMobile ? '6px' : 0 }"
-                                            size="large" type="primary">
-                                            Android <a-icon type="down" />
-                                        </a-button>
-                                        <a-menu slot="overlay"
-                                            :class="themeSwitcher.currentTheme">
-                                            <a-menu-item key="android-v2box"
-                                                @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
-                                            <a-menu-item key="android-v2rayng"
-                                                @click="open('v2rayng://install-config?url=' + encodeURIComponent(app.subUrl))">V2RayNG</a-menu-item>
-                                            <a-menu-item key="android-singbox"
-                                                @click="copy(app.subUrl)">Sing-box</a-menu-item>
-                                            <a-menu-item key="android-v2raytun"
-                                                @click="copy(app.subUrl)">V2RayTun</a-menu-item>
-                                            <a-menu-item key="android-npvtunnel"
-                                                @click="copy(app.subUrl)">NPV
-                                                Tunnel</a-menu-item>
-                                        </a-menu>
-                                    </a-dropdown>
-                                </a-col>
-                                <a-col :xs="24" :sm="12"
-                                    style="text-align:center;">
-                                    <a-dropdown :trigger="['click']">
-                                        <a-button :block="isMobile"
-                                            :style="{ marginTop: isMobile ? '6px' : 0 }"
-                                            size="large" type="primary">
-                                            iOS <a-icon type="down" />
-                                        </a-button>
-                                        <a-menu slot="overlay"
-                                            :class="themeSwitcher.currentTheme">
-                                            <a-menu-item key="ios-shadowrocket"
-                                                @click="open('shadowrocket://add/subscription?url=' + encodeURIComponent(app.subUrl) + '&remark=' + encodeURIComponent(app.sId))">Shadowrocket</a-menu-item>
-                                            <a-menu-item key="ios-v2box"
-                                                @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
-                                            <a-menu-item key="ios-streisand"
-                                                @click="open('streisand://import/' + encodeURIComponent(app.subUrl))">Streisand</a-menu-item>
-                                            <a-menu-item key="ios-v2raytun"
-                                                @click="copy(app.subUrl)">V2RayTun</a-menu-item>
-                                            <a-menu-item key="ios-npvtunnel"
-                                                @click="copy(app.subUrl)">NPV
-                                                Tunnel</a-menu-item>
-                                        </a-menu>
-                                    </a-dropdown>
-                                </a-col>
-                            </a-row>
-                        </a-form-item>
+                        <h2 class="section-title" style="margin-top: 30px;">Subscription Info</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <a-icon type="idcard" class="info-icon" />
+                                <div class="info-text">
+                                    <div class="info-label">{{ i18n "subscription.subId" }}</div>
+                                    <div class="info-value">[[ app.sId ]]</div>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <a-icon type="check-circle" class="info-icon" :style="{ color: isActive ? '#00e0ff' : '#ff4d4f' }" />
+                                <div class="info-text">
+                                    <div class="info-label">{{ i18n "subscription.status" }}</div>
+                                    <div class="info-value">
+                                        <template v-if="isUnlimited">
+                                            <a-tag color="cyan">{{ i18n "subscription.unlimited" }}</a-tag>
+                                        </template>
+                                        <template v-else>
+                                            <a-tag :color="isActive ? 'green' : 'red'">[[ isActive ? '{{ i18n "subscription.active" }}' : '{{ i18n "subscription.inactive" }}' ]]</a-tag>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <a-icon type="arrow-down" class="info-icon" />
+                                <div class="info-text">
+                                    <div class="info-label">{{ i18n "subscription.downloaded" }}</div>
+                                    <div class="info-value">[[ app.download ]]</div>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <a-icon type="arrow-up" class="info-icon" />
+                                <div class="info-text">
+                                    <div class="info-label">{{ i18n "subscription.uploaded" }}</div>
+                                    <div class="info-value">[[ app.upload ]]</div>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <a-icon type="pie-chart" class="info-icon" />
+                                <div class="info-text">
+                                    <div class="info-label">{{ i18n "usage" }}</div>
+                                    <div class="info-value">[[ app.used ]]</div>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <a-icon type="database" class="info-icon" />
+                                <div class="info-text">
+                                    <div class="info-label">{{ i18n "subscription.totalQuota" }}</div>
+                                    <div class="info-value">[[ app.total ]]</div>
+                                </div>
+                            </div>
+                            <div class="info-item" v-if="app.totalByte > 0">
+                                <a-icon type="hourglass" class="info-icon" />
+                                <div class="info-text">
+                                    <div class="info-label">{{ i18n "remained" }}</div>
+                                    <div class="info-value">[[ app.remained ]]</div>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <a-icon type="history" class="info-icon" />
+                                <div class="info-text">
+                                    <div class="info-label">{{ i18n "lastOnline" }}</div>
+                                    <div class="info-value">
+                                        <template v-if="app.lastOnlineMs > 0">
+                                            <template v-if="app.datepicker === 'gregorian'">
+                                                [[ DateUtil.formatMillis(app.lastOnlineMs) ]]
+                                            </template>
+                                            <template v-else>
+                                                [[ DateUtil.convertToJalalian(moment(app.lastOnlineMs)) ]]
+                                            </template>
+                                        </template>
+                                        <template v-else>
+                                            <span>-</span>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <a-icon type="calendar" class="info-icon" />
+                                <div class="info-text">
+                                    <div class="info-label">{{ i18n "subscription.expiry" }}</div>
+                                    <div class="info-value">
+                                        <template v-if="app.expireMs === 0">
+                                            {{ i18n "subscription.noExpiry" }}
+                                        </template>
+                                        <template v-else>
+                                            <template v-if="app.datepicker === 'gregorian'">
+                                                [[ DateUtil.formatMillis(app.expireMs) ]]
+                                            </template>
+                                            <template v-else>
+                                                [[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]
+                                            </template>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 class="section-title" style="margin-top: 30px;">One-click Links</h2>
+                        <a-row type="flex" justify="center" :gutter="[16,16]">
+                            <a-col :xs="24" :sm="12">
+                                <a-dropdown :trigger="['click']">
+                                    <a-button :block="isMobile" class="gradient-button" size="large">
+                                        Android <a-icon type="down" />
+                                    </a-button>
+                                    <a-menu slot="overlay" :class="themeSwitcher.currentTheme">
+                                        <a-menu-item key="android-v2box" @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
+                                        <a-menu-item key="android-v2rayng" @click="open('v2rayng://install-config?url=' + encodeURIComponent(app.subUrl))">V2RayNG</a-menu-item>
+                                        <a-menu-item key="android-singbox" @click="copy(app.subUrl)">Sing-box</a-menu-item>
+                                        <a-menu-item key="android-v2raytun" @click="copy(app.subUrl)">V2RayTun</a-menu-item>
+                                        <a-menu-item key="android-npvtunnel" @click="copy(app.subUrl)">NPV Tunnel</a-menu-item>
+                                    </a-menu>
+                                </a-dropdown>
+                            </a-col>
+                            <a-col :xs="24" :sm="12">
+                                <a-dropdown :trigger="['click']">
+                                    <a-button :block="isMobile" class="gradient-button" size="large">
+                                        iOS <a-icon type="down" />
+                                    </a-button>
+                                    <a-menu slot="overlay" :class="themeSwitcher.currentTheme">
+                                        <a-menu-item key="ios-shadowrocket" @click="open('shadowrocket://add/subscription?url=' + encodeURIComponent(app.subUrl) + '&remark=' + encodeURIComponent(app.sId))">Shadowrocket</a-menu-item>
+                                        <a-menu-item key="ios-v2box" @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
+                                        <a-menu-item key="ios-streisand" @click="open('streisand://import/' + encodeURIComponent(app.subUrl))">Streisand</a-menu-item>
+                                        <a-menu-item key="ios-v2raytun" @click="copy(app.subUrl)">V2RayTun</a-menu-item>
+                                        <a-menu-item key="ios-npvtunnel" @click="copy(app.subUrl)">NPV Tunnel</a-menu-item>
+                                    </a-menu>
+                                </a-dropdown>
+                            </a-col>
+                        </a-row>
                     </a-form>
                 </a-card>
             </a-col>
