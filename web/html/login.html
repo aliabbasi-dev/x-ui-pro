@@ -1,110 +1,109 @@
 {{ template "page/head_start" .}}
 <style>
-  /* ====== Reset ====== */
-  body, html, #app {
-    margin:0; padding:0; height:100%;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(120deg,#2a2a72,#009ffd,#2a2a72);
-    overflow:hidden;
-    color:#fff;
-  }
+/* ====== Reset ====== */
+body, html, #app {
+  margin:0; padding:0; height:100%;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg,#1a1a2e,#162447,#1f4068);
+  color:#fff;
+  overflow:hidden;
+}
 
-  /* ====== Background Animation ====== */
-  .bg-animation {
-    position:fixed; top:0; left:0; width:100%; height:100%;
-    background: radial-gradient(circle at 25% 25%, rgba(0,255,200,0.2), transparent 50%), 
-                radial-gradient(circle at 75% 75%, rgba(255,0,255,0.2), transparent 50%);
-    background-size:200% 200%;
-    animation: moveBG 15s linear infinite alternate;
-    z-index:0;
-  }
+/* ====== Animated Background ====== */
+.bg-animation {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background: radial-gradient(circle at 20% 20%, rgba(0,255,255,0.1), transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(255,0,255,0.1), transparent 50%);
+  background-size:200% 200%;
+  animation: moveBG 20s linear infinite alternate;
+  z-index:0;
+}
+@keyframes moveBG {
+  0%{background-position:0% 0%,100% 100%;}
+  100%{background-position:100% 0%,0% 100%;}
+}
 
-  @keyframes moveBG {
-    0%{background-position:0% 0%,100% 100%;}
-    100%{background-position:100% 0%,0% 100%;}
-  }
+/* ====== Login Card ====== */
+#login {
+  position: relative;
+  z-index:10;
+  max-width:400px; width:90%;
+  margin:auto; top:50%; transform:translateY(-50%);
+  background: rgba(255,255,255,0.05);
+  border-radius:20px;
+  padding:3rem 2rem;
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 15px 60px rgba(0,255,200,0.3);
+  text-align:center;
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+#login:hover {
+  transform:translateY(-10px);
+  box-shadow:0 25px 80px rgba(0,255,200,0.5);
+}
 
-  /* ====== Login Card ====== */
-  #login {
-    position:relative;
-    z-index:10;
-    max-width:400px; width:90%;
-    margin:auto; top:50%; transform:translateY(-50%);
-    background: rgba(255,255,255,0.05);
-    border-radius:20px;
-    padding:3rem 2rem;
-    backdrop-filter: blur(25px) saturate(180%);
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border:1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 15px 60px rgba(0,255,200,0.3);
-    text-align:center;
-    transition: transform 0.4s, box-shadow 0.4s;
-  }
+/* ====== Title ====== */
+.title {
+  font-size:2.5rem; font-weight:800;
+  margin-bottom:2rem;
+  background: linear-gradient(90deg, #00ffe7, #ff00e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glowText 3s ease-in-out infinite alternate;
+}
+@keyframes glowText{
+  0%{text-shadow:0 0 5px #00ffe7,0 0 10px #ff00e1;}
+  100%{text-shadow:0 0 20px #00ffe7,0 0 40px #ff00e1;}
+}
 
-  #login:hover {
-    transform:translateY(-10px);
-    box-shadow:0 25px 80px rgba(0,255,200,0.5);
-  }
+/* ====== Inputs ====== */
+a-input, a-input-password {
+  width:100%;
+  margin-bottom:1rem;
+  border-radius:12px;
+  border:1px solid rgba(0,255,200,0.5) !important;
+  background: rgba(0,0,0,0.3) !important;
+  color:#fff !important;
+  transition: all 0.3s;
+}
+a-input:focus, a-input-password:focus{
+  box-shadow:0 0 15px rgba(0,255,200,0.6);
+  border-color:#00ffc8 !important;
+}
+.ant-input-prefix, .ant-input-password-icon{
+  color:#00ffc8;
+}
 
-  /* ====== Title ====== */
-  .title {
-    font-size:2.5rem; font-weight:800;
-    margin-bottom:2rem;
-    background: linear-gradient(90deg, #00ffe7, #ff00e1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: glowText 3s ease-in-out infinite alternate;
-  }
+/* ====== Button Neon ====== */
+.ant-btn-primary-login{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  font-size:1.2rem;
+  font-weight:700;
+  background: linear-gradient(90deg,#00ffe7,#ff00e1);
+  color:#000;
+  box-shadow:0 0 15px rgba(0,255,200,0.5),0 0 30px rgba(255,0,255,0.3);
+  border:none;
+  transition: all 0.3s;
+}
+.ant-btn-primary-login:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 25px rgba(0,255,200,0.8),0 0 50px rgba(255,0,255,0.6);
+}
 
-  @keyframes glowText{
-    0%{text-shadow:0 0 5px #00ffe7,0 0 10px #ff00e1;}
-    100%{text-shadow:0 0 20px #00ffe7,0 0 40px #ff00e1;}
-  }
+/* ====== Settings Icon ====== */
+.setting-section {
+  position:absolute; top:1rem; right:1rem; z-index:15;
+}
 
-  /* ====== Input Fields ====== */
-  a-input, a-input-password {
-    width:100%;
-    margin-bottom:1rem;
-    border-radius:12px;
-    border:1px solid rgba(0,255,200,0.5) !important;
-    background: rgba(0,0,0,0.3) !important;
-    color:#fff !important;
-    transition: all 0.3s;
-  }
-
-  a-input:focus, a-input-password:focus{
-    box-shadow:0 0 15px rgba(0,255,200,0.6);
-    border-color:#00ffc8 !important;
-  }
-
-  .ant-input-prefix, .ant-input-password-icon{
-    color:#00ffc8;
-  }
-
-  /* ====== Button Neon ====== */
-  .ant-btn-primary-login{
-    width:100%;
-    padding:12px;
-    border-radius:12px;
-    font-size:1.2rem;
-    font-weight:700;
-    background: linear-gradient(90deg,#00ffe7,#ff00e1);
-    color:#000;
-    box-shadow:0 0 15px rgba(0,255,200,0.5),0 0 30px rgba(255,0,255,0.3);
-    border:none;
-    transition: all 0.3s;
-  }
-
-  .ant-btn-primary-login:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 25px rgba(0,255,200,0.8),0 0 50px rgba(255,0,255,0.6);
-  }
-
-  /* ====== Settings ====== */
-  .setting-section {
-    position:absolute; top:1rem; right:1rem; z-index:15;
-  }
-
+/* ====== Responsive ====== */
+@media(max-width:480px){
+  #login {padding:2rem 1rem;}
+  .title {font-size:2rem;}
+}
 </style>
 {{ template "page/head_end" .}}
 

@@ -4,18 +4,18 @@
 body, html, #app {
   margin:0; padding:0; height:100%;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(120deg,#1a1a2e,#162447,#1f4068);
+  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
   color:#fff;
   overflow-x:hidden;
 }
 
-/* ====== Background animation ====== */
+/* ====== Animated Background ====== */
 .bg-animation {
   position:fixed; top:0; left:0; width:100%; height:100%;
-  background: radial-gradient(circle at 20% 20%, rgba(0,255,255,0.1), transparent 50%),
-              radial-gradient(circle at 80% 80%, rgba(255,0,255,0.1), transparent 50%);
+  background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(0,255,255,0.05), transparent 50%);
   background-size:200% 200%;
-  animation: moveBG 20s linear infinite alternate;
+  animation: moveBG 25s linear infinite alternate;
   z-index:0;
 }
 @keyframes moveBG {
@@ -23,155 +23,132 @@ body, html, #app {
   100%{background-position:100% 0%,0% 100%;}
 }
 
-/* ====== Card ====== */
+/* ====== Subscription Card ====== */
 .subscription-card {
-  position: relative;
-  background: rgba(255,255,255,0.05);
-  border-radius: 20px;
+  position:relative;
+  z-index:10;
+  border-radius:20px;
   padding:2rem;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border:1px solid rgba(255,255,255,0.2);
-  box-shadow: 0 10px 40px rgba(0,255,200,0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.subscription-card:hover {
-  transform:translateY(-5px);
-  box-shadow: 0 20px 60px rgba(0,255,200,0.5);
-}
-
-/* ====== Title ====== */
-.subscription-card .ant-card-head-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, #00ffe7, #ff00e1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 10px rgba(0,255,200,0.5);
-}
-
-/* ====== QR Boxes ====== */
-.qr-box {
   background: rgba(255,255,255,0.05);
-  border-radius: 15px;
-  padding:1rem;
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
   border:1px solid rgba(255,255,255,0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 15px 60px rgba(0,255,255,0.3);
+  transition: transform 0.4s, box-shadow 0.4s;
 }
-.qr-box:hover {
-  transform: scale(1.05);
-  box-shadow:0 0 20px rgba(0,255,200,0.5),0 0 40px rgba(255,0,255,0.3);
+.subscription-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 25px 80px rgba(0,255,255,0.5);
 }
-.qr-cv {
-  cursor:pointer;
-  border-radius:12px;
-  box-shadow:0 5px 20px rgba(0,255,200,0.2);
+
+/* ====== QR Box ====== */
+.qr-box {
+  background: rgba(0,0,0,0.3);
+  border-radius: 16px;
+  padding: 10px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 5px 25px rgba(0,255,255,0.2);
+  transition: transform 0.3s;
 }
+.qr-box:hover { transform: scale(1.05); }
+.qr-tag { font-weight:bold; color:#fff; background:linear-gradient(90deg,#00ffe7,#ff00e1); border-radius:12px; }
 
 /* ====== Buttons ====== */
-.ant-btn-primary {
-  background: linear-gradient(90deg,#00ffe7,#ff00e1);
-  color:#000;
-  border:none;
+.a-btn-neon {
+  width:100%;
+  padding:12px;
   border-radius:12px;
   font-weight:700;
-  box-shadow:0 0 10px rgba(0,255,200,0.5),0 0 25px rgba(255,0,255,0.3);
+  background: linear-gradient(90deg,#00ffe7,#ff00e1);
+  color:#000;
+  box-shadow:0 0 15px rgba(0,255,255,0.5),0 0 30px rgba(255,0,255,0.3);
+  border:none;
   transition: all 0.3s;
 }
-.ant-btn-primary:hover {
-  transform: scale(1.05);
-  box-shadow:0 0 20px rgba(0,255,200,0.8),0 0 40px rgba(255,0,255,0.6);
-}
-
-/* ====== Tags ====== */
-.ant-tag-purple {
-  background: rgba(128,0,128,0.2);
-  color:#ffccff;
-  font-weight:600;
-  border-radius:10px;
-  padding:0 0.5rem;
+.a-btn-neon:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 25px rgba(0,255,255,0.8),0 0 50px rgba(255,0,255,0.6);
 }
 
 /* ====== Descriptions ====== */
-.ant-descriptions-bordered .ant-descriptions-item-label {
-  color: #00ffe7;
-  font-weight:600;
-}
-.ant-descriptions-bordered .ant-descriptions-item-content {
-  color: #fff;
-  font-weight:500;
+a-descriptions-item span, a-tag {
+  color:#fff;
 }
 
-/* ====== Dropdown ====== */
-.ant-dropdown-menu {
-  backdrop-filter: blur(15px);
-  background: rgba(255,255,255,0.05) !important;
-  border-radius:15px;
-  border:1px solid rgba(255,255,255,0.2);
-}
-
-/* ====== Responsive spacing ====== */
+/* ====== Responsive ====== */
 @media(max-width:768px){
-  .subscription-card {
-    padding:1.5rem;
-  }
+  .subscription-card { padding:1.5rem; }
+  .qr-box { margin-bottom:15px; }
+  .a-btn-neon { font-size:0.9rem; }
 }
 </style>
 {{ template "page/head_end" .}}
 
 {{ template "page/body_start" .}}
 <div class="bg-animation"></div>
-
-<a-layout id="app" v-cloak :class="themeSwitcher.currentTheme">
-  <a-layout-content class="p-2">
-    <a-row type="flex" justify="center" class="mt-2">
+<a-layout id="app" v-cloak>
+  <a-layout-content class="p-3">
+    <a-row type="flex" justify="center">
       <a-col :xs="24" :sm="22" :md="18" :lg="14" :xl="12">
         <a-card hoverable class="subscription-card">
+          
+          <!-- Header -->
           <template #title>
             <a-space>
               <span>{{ i18n "subscription.title" }}</span>
-              <a-tag color="purple">{{ .sId }}</a-tag>
+              <a-tag>{{ .sId }}</a-tag>
             </a-space>
           </template>
 
-          <!-- QR Section -->
-          <a-row type="flex" :gutter="[16,16]" justify="center">
-            <a-col :xs="24" :sm="12" style="text-align:center;">
-              <div class="qr-box">
-                <canvas id="qrcode" class="qr-cv" title="{{ i18n "copy" }}" @click="copy(app.subUrl)"></canvas>
-              </div>
-            </a-col>
-            <a-col :xs="24" :sm="12" style="text-align:center;">
-              <div class="qr-box">
-                <canvas id="qrcode-subjson" class="qr-cv" title="{{ i18n "copy" }}" @click="copy(app.subJsonUrl)"></canvas>
-              </div>
-            </a-col>
-          </a-row>
+          <!-- QR Codes -->
+          <a-form layout="vertical">
+            <a-form-item>
+              <a-row :gutter="[16,16]" justify="center">
+                <a-col :xs="24" :sm="12" style="text-align:center;">
+                  <div class="qr-box">
+                    <a-tag color="purple" class="qr-tag">{{ i18n "pages.settings.subSettings"}}</a-tag>
+                    <canvas id="qrcode" class="qr-cv" title='{{ i18n "copy" }}' @click="copy(app.subUrl)"></canvas>
+                  </div>
+                </a-col>
+                <a-col :xs="24" :sm="12" style="text-align:center;">
+                  <div class="qr-box">
+                    <a-tag color="purple" class="qr-tag">{{ i18n "pages.settings.subSettings"}} Json</a-tag>
+                    <canvas id="qrcode-subjson" class="qr-cv" title='{{ i18n "copy" }}' @click="copy(app.subJsonUrl)"></canvas>
+                  </div>
+                </a-col>
+              </a-row>
+            </a-form-item>
+          </a-form>
 
-          <!-- Subscription Info -->
-          <a-descriptions bordered :column="1" size="small" style="margin-top:1rem;">
-            <a-descriptions-item label="{{ i18n 'subscription.subId' }}">[[ app.sId ]]</a-descriptions-item>
-            <a-descriptions-item label="{{ i18n 'subscription.status' }}">
-              <template v-if="isUnlimited">
-                <a-tag color="purple">{{ i18n "subscription.unlimited" }}</a-tag>
-              </template>
-              <template v-else>
-                <a-tag :color="isActive ? 'green' : 'red'">[[ isActive ? '{{ i18n "subscription.active" }}' : '{{ i18n "subscription.inactive" }}' ]]</a-tag>
-              </template>
-            </a-descriptions-item>
-            <a-descriptions-item label="{{ i18n 'subscription.downloaded' }}">[[ app.download ]]</a-descriptions-item>
-            <a-descriptions-item label="{{ i18n 'subscription.uploaded' }}">[[ app.upload ]]</a-descriptions-item>
-            <a-descriptions-item label="{{ i18n 'usage' }}">[[ app.used ]]</a-descriptions-item>
-            <a-descriptions-item label="{{ i18n 'subscription.totalQuota' }}">[[ app.total ]]</a-descriptions-item>
-          </a-descriptions>
+          <!-- Details -->
+          <a-form layout="vertical">
+            <a-form-item>
+              <a-descriptions bordered :column="1" size="small">
+                <a-descriptions-item label='{{ i18n "subscription.subId" }}'>[[ app.sId ]]</a-descriptions-item>
+                <a-descriptions-item label='{{ i18n "subscription.status" }}'>
+                  <template v-if="isUnlimited">
+                    <a-tag color="purple">{{ i18n "subscription.unlimited" }}</a-tag>
+                  </template>
+                  <template v-else>
+                    <a-tag :color="isActive ? 'green':'red'">[[ isActive ? '{{ i18n "subscription.active" }}':'{{ i18n "subscription.inactive" }}' ]]</a-tag>
+                  </template>
+                </a-descriptions-item>
+                <a-descriptions-item label='{{ i18n "subscription.downloaded" }}'>[[ app.download ]]</a-descriptions-item>
+                <a-descriptions-item label='{{ i18n "subscription.uploaded" }}'>[[ app.upload ]]</a-descriptions-item>
+                <a-descriptions-item label='{{ i18n "usage" }}'>[[ app.used ]]</a-descriptions-item>
+                <a-descriptions-item label='{{ i18n "subscription.totalQuota" }}'>[[ app.total ]]</a-descriptions-item>
+                <a-descriptions-item v-if="app.totalByte>0" label='{{ i18n "remained" }}'>[[ app.remained ]]</a-descriptions-item>
+              </a-descriptions>
+            </a-form-item>
+          </a-form>
 
-          <!-- Links -->
-          <a-list bordered style="margin-top:1rem;">
+          <!-- Download Links -->
+          <a-list bordered>
             <a-list-item v-for="(link, idx) in links" :key="link">
-              <a-button type="primary" block @click="copy(link)">[[ linkName(link, idx) ]]</a-button>
+              <a-button class="a-btn-neon" :block="isMobile" @click="copy(link)">[[ linkName(link, idx) ]]</a-button>
             </a-list-item>
           </a-list>
+
         </a-card>
       </a-col>
     </a-row>
@@ -180,5 +157,4 @@ body, html, #app {
 
 {{template "component/aThemeSwitch" .}}
 <script src="{{ .base_path }}assets/js/subscription.js?{{ .cur_ver }}"></script>
-
 {{ template "page/body_end" .}}
