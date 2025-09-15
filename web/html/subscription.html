@@ -184,42 +184,54 @@ body, html, #app {
     margin: auto;
 }
 
-/* ====== Responsive: Square Card on Mobile ====== */
+/* ====== Responsive Styles for Mobile ====== */
 @media (max-width: 768px) {
     .elegant-card {
         width: 90vw;
-        height: 90vw; /* مربعی */
-        max-height: 90vh;
+        max-width: 500px;
+        height: auto; /* اجازه می‌ده محتوا خودش ارتفاع بده */
+        border-radius: 15px;
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        gap: 15px;
+        margin: 10px auto;
     }
 
     .chart-container {
-        width: 80%;
-        height: 80%;
+        width: 100%;
+        max-width: 250px;
+        height: 250px;
         margin: auto;
     }
 
     .qr-container-flex {
         flex-direction: column;
         gap: 15px;
+        align-items: center;
     }
 
     .link-buttons {
         flex-direction: column;
+        gap: 10px;
     }
 
     .info-grid {
         grid-template-columns: 1fr !important;
     }
 
-    .ant-descriptions-item-label, .ant-descriptions-item-content {
+    .ant-descriptions-item-label,
+    .ant-descriptions-item-content {
         display: block !important;
         width: 100% !important;
     }
+
+    .qr-box {
+        width: 200px; /* اندازه ثابت برای QR روی موبایل */
+        height: 200px;
+    }
 }
+
 </style>
 
 {{ template "page/head_end" .}}
@@ -307,7 +319,7 @@ body, html, #app {
                                     </template>
                                 </a-descriptions-item>
                                 <a-descriptions-item label='{{ i18n "subscription.expiry" }}'>
-                                     <template v-if="!app.expireMs || new Date(app.expireMs).getTime() <= Date.now()">
+                                      <template v-if="app.expireMs == 0">
                                         {{ i18n "subscription.noExpiry" }}
                                     </template>
                                     <template v-else>
