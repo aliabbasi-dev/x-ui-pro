@@ -234,7 +234,7 @@ body, html, #app {
                                     label='{{ i18n "subscription.subId" }}'>[[
                                     app.sId
                                     ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.status" }}'>
+                               <a-descriptions-item label='{{ i18n "subscription.status" }}'>
     <!-- اگر اشتراک نامحدود است -->
     <template v-if="isUnlimited">
         <a-tag color="purple">{{ i18n "subscription.unlimited" }}</a-tag>
@@ -242,8 +242,8 @@ body, html, #app {
 
     <!-- اگر اشتراک محدود است -->
     <template v-else>
-        <a-tag :color="isActive && (app.expireMs === 0 || app.expireMs > Date.now()) ? 'green' : 'red'">
-            [[ isActive && (app.expireMs === 0 || app.expireMs > Date.now()) 
+        <a-tag :color="isActive && (getExpireTs(app.expireMs) === 0 || getExpireTs(app.expireMs) > Date.now()) ? 'green' : 'red'">
+            [[ isActive && (getExpireTs(app.expireMs) === 0 || getExpireTs(app.expireMs) > Date.now()) 
                 ? '{{ i18n "subscription.active" }}' 
                 : '{{ i18n "subscription.inactive" }}' ]]
         </a-tag>
@@ -289,8 +289,8 @@ body, html, #app {
                                 </a-descriptions-item>
                                 <a-descriptions-item
                                     label='{{ i18n "subscription.expiry" }}'>
-                                    <template v-if="app.expire === 0">
-                                        app.expireMs
+                                    <template v-if="!app.expire">
+                                    {{ i18n "subscription.noExpiry" }}
                                     </template>
                                     <template v-else>
                                         <template
@@ -351,6 +351,14 @@ body, html, #app {
             </a-col>
         </a-row>
     </a-layout-content>
+
+    <script>
+  
+  function getExpireTs(expire) {
+    if (!expire) return 0;
+    return typeof expire === 'number' ? expire : new Date(expire).getTime();
+  }
+</script>
 </a-layout>
 
 <template id="subscription-data" data-sid="{{ .sId }}"

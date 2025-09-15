@@ -20,13 +20,32 @@ body, html, #app {
     height: 600px;
     margin: auto;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%) scale(0.95); /* Initial state for animation */
+    animation: fadeInScale 1s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
     border-radius: 25px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 15px 60px rgba(0, 0, 0, 0.4);
     overflow: hidden;
+}
+@keyframes fadeInScale {
+    to {
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+/* Add a subtle inner glow */
+.login-container-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px;
+    box-shadow: inset 0 0 30px rgba(163, 217, 255, 0.2);
+    pointer-events: none;
 }
 
 /* ====== Left Pane (Login Form) ====== */
@@ -43,6 +62,18 @@ body, html, #app {
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-right: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideInLeft 1.2s forwards cubic-bezier(0.19, 1, 0.22, 1);
+    opacity: 0; /* Initial state for animation */
+}
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .login-form-pane .logo-section {
@@ -68,6 +99,7 @@ body, html, #app {
     overflow: hidden;
 }
 
+/* Animate the ::before pseudo-element */
 .welcome-info-pane::before {
     content: '';
     position: absolute;
@@ -96,14 +128,28 @@ body, html, #app {
     text-align: center;
     padding: 2rem;
 }
-
-.welcome-info-pane .welcome-text {
+/* Animation for the welcome text */
+.welcome-text {
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
     background: linear-gradient(90deg, #a3d9ff, #f3a3ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(20px);
+    animation: fadeInUp 1.5s 0.5s forwards cubic-bezier(0.19, 1, 0.22, 1);
+}
+@keyframes fadeInUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.welcome-info-pane .content p {
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(20px);
+    animation: fadeInUp 1.5s 0.8s forwards cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 /* ====== Login Form Elements ====== */
@@ -127,7 +173,7 @@ a-input, a-input-password {
 }
 
 a-input:focus, a-input-password:focus {
-    box-shadow: 0 0 10px rgba(163,217,255,0.6);
+    box-shadow: 0 0 15px rgba(163,217,255,0.8);
     border-color: #a3d9ff !important;
 }
 
@@ -147,11 +193,41 @@ a-input:focus, a-input-password:focus {
     border: none;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     transition: all 0.3s;
+    overflow: hidden; /* For the shiny effect */
+    position: relative;
+    z-index: 1;
 }
 
 .ant-btn-primary-login:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Shiny hover effect */
+.ant-btn-primary-login::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 10%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    animation: shinyEffect 2s linear infinite;
+    animation-play-state: paused;
+}
+.ant-btn-primary-login:hover::before {
+    opacity: 1;
+    animation-play-state: running;
+}
+@keyframes shinyEffect {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ====== Responsive Design ====== */
@@ -164,9 +240,13 @@ a-input:focus, a-input-password:focus {
         box-shadow: none;
         top: 0;
         transform: none;
+        animation: none; /* Disable animation on mobile */
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .login-container-wrapper::after {
+        display: none;
     }
 
     .welcome-info-pane {
@@ -180,6 +260,7 @@ a-input:focus, a-input-password:focus {
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
         max-width: 400px;
+        animation: none; /* Disable animation on mobile */
     }
     
     .title {
