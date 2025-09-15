@@ -158,21 +158,30 @@ a-input:focus, a-input-password:focus {
 @media(max-width: 768px){
     .login-container-wrapper {
         flex-direction: column;
-        height: auto;
+        height: 100%;
+        width: 100%;
         border-radius: 0;
         box-shadow: none;
-        width: 100%;
+        top: 0;
+        transform: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
+
     .welcome-info-pane {
         display: none;
     }
+    
     .login-form-pane {
         border-right: none;
         padding: 3rem 1.5rem;
         background: transparent;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
+        max-width: 400px;
     }
+    
     .title {
         font-size: 2rem;
     }

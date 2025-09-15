@@ -234,21 +234,22 @@ body, html, #app {
                                     label='{{ i18n "subscription.subId" }}'>[[
                                     app.sId
                                     ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.status" }}'>
-                                    <template v-if="isUnlimited">
-                                        <a-tag color="purple">{{ i18n
-                                            "subscription.unlimited" }}</a-tag>
-                                    </template>
-                                    <template v-else>
-                                        <a-tag
-                                            :color="isActive ? 'green' : 'red'">[[
-                                            isActive ? '{{ i18n
-                                            "subscription.active" }}' : '{{ i18n
-                                            "subscription.inactive" }}'
-                                            ]]</a-tag>
-                                    </template>
-                                </a-descriptions-item>
+                                <a-descriptions-item label='{{ i18n "subscription.status" }}'>
+    <!-- اگر اشتراک نامحدود است -->
+    <template v-if="isUnlimited">
+        <a-tag color="purple">{{ i18n "subscription.unlimited" }}</a-tag>
+    </template>
+
+    <!-- اگر اشتراک محدود است -->
+    <template v-else>
+        <a-tag :color="isActive && (app.expireMs === 0 || app.expireMs > Date.now()) ? 'green' : 'red'">
+            [[ isActive && (app.expireMs === 0 || app.expireMs > Date.now()) 
+                ? '{{ i18n "subscription.active" }}' 
+                : '{{ i18n "subscription.inactive" }}' ]]
+        </a-tag>
+    </template>
+</a-descriptions-item>
+
                                 <a-descriptions-item
                                     label='{{ i18n "subscription.downloaded" }}'>[[
                                     app.download
@@ -288,19 +289,19 @@ body, html, #app {
                                 </a-descriptions-item>
                                 <a-descriptions-item
                                     label='{{ i18n "subscription.expiry" }}'>
-                                    <template v-if="app.expireMs === 0">
-                                        {{ i18n "subscription.noExpiry" }}
+                                    <template v-if="app.expire === 0">
+                                        app.expireMs
                                     </template>
                                     <template v-else>
                                         <template
                                             v-if="app.datepicker === 'gregorian'">
                                             [[
-                                            DateUtil.formatMillis(app.expireMs)
+                                            DateUtil.formatMillis(app.expire)
                                             ]]
                                         </template>
                                         <template v-else>
                                             [[
-                                            DateUtil.convertToJalalian(moment(app.expireMs))
+                                            DateUtil.convertToJalalian(moment(app.expire))
                                             ]]
                                         </template>
                                     </template>
