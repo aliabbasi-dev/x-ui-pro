@@ -344,11 +344,7 @@ body, html, #app {
             </a-col>
         </a-row>
     </a-layout-content>
-    <script>
-        function getExpireTs(expire) {
-            if (!expire) return 0;
-            return typeof expire === 'number' ? expire : new Date(expire).getTime();
-        }
+    
     </script>
 </a-layout>
 
@@ -368,29 +364,13 @@ body, html, #app {
 {{template "component/aThemeSwitch" .}}
 <script src="{{ .base_path }}assets/js/subscription.js?{{ .cur_ver }}"></script>
 <script>
-    // Vue instance logic
+    // تابع کمکی برای تبدیل تاریخ انقضا به میلی‌ثانیه
+    function getExpireTs(expire) {
+        if (!expire) return 0;
+        return typeof expire === 'number' ? expire : new Date(expire).getTime();
+    }
 
-computed: {
-    // ...
-    isUnlimited() {
-        return this.app.totalByte === 0;
-    },
-    subscriptionStatus() {
-        if (this.isUnlimited) {
-            return { color: 'purple', text: this.i18n("subscription.unlimited") };
-        }
-        const now = Date.now();
-        // Check if the expiration date exists and if it's in the past
-        if (this.app.expire > 0 && this.app.expire < now) {
-            return { color: 'red', text: this.i18n("subscription.inactive") };
-        }
-        // If there is no expiration or it is in the future
-        return { color: 'green', text: this.i18n("subscription.active") };
-    },
-    // ...
-},
-
-
+    // این تابع مطمئن می‌شه که DOM کاملاً بارگذاری شده
     document.addEventListener('DOMContentLoaded', function() {
         const dataElement = document.getElementById('subscription-data');
         const appData = {
@@ -408,10 +388,13 @@ computed: {
             uploadByte: parseInt(dataElement.getAttribute('data-uploadbyte')),
             totalByte: parseInt(dataElement.getAttribute('data-totalbyte')),
             lastOnlineMs: parseInt(dataElement.getAttribute('data-lastonline')),
-            datepicker: dataElement.getAttribute('data-datepicker')
+            datepicker: dataElement.getAttribute('data-datepicker'),
+            // اضافه کردن expireMs به داده‌ها
+            expireMs: getExpireTs(dataElement.getAttribute('data-expire')),
         };
         const links = document.getElementById('subscription-links').value.trim().split('\n').filter(e => e);
 
+        // ایجاد Vue Instance اصلی
         new Vue({
             el: '#app',
             data() {
@@ -427,8 +410,15 @@ computed: {
                 isUnlimited() {
                     return this.app.totalByte === 0;
                 },
-                isActive() {
-                    return this.app.expire > 0 ? this.app.expire > Date.now() : true;
+                subscriptionStatus() {
+                    if (this.isUnlimited) {
+                        return { color: 'purple', text: this.i18n("subscription.unlimited") };
+                    }
+                    const now = Date.now();
+                    if (this.app.expire > 0 && this.app.expire < now) {
+                        return { color: 'red', text: this.i18n("subscription.inactive") };
+                    }
+                    return { color: 'green', text: this.i18n("subscription.active") };
                 },
                 usagePercentage() {
                     if (this.isUnlimited) return 0;
