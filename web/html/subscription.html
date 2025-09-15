@@ -21,16 +21,9 @@ body, html, #app {
 }
 
 .ant-layout {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    background: transparent !important;
 }
-.ant-layout-content {
-    width: 100%;
-    max-width: 900px; /* این مقدار رو می‌تونید تغییر بدید */
-}
+
 /* ====== Elegant Card Design ====== */
 .elegant-card {
     background: #1a1a2e !important;
@@ -38,8 +31,6 @@ body, html, #app {
     border-radius: 20px !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
     margin-bottom: 24px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .elegant-card .ant-card-head {
@@ -84,6 +75,8 @@ body, html, #app {
 
 .qr-box canvas {
     border-radius: 10px;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 .qr-label {
@@ -191,13 +184,44 @@ body, html, #app {
     margin: auto;
 }
 
+/* ====== Responsive: Square Card on Mobile ====== */
 @media (max-width: 768px) {
+    .elegant-card {
+        width: 90vw;
+        height: 90vw; /* مربعی */
+        max-height: 90vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .chart-container {
+        width: 80%;
+        height: 80%;
+        margin: auto;
+    }
+
+    .qr-container-flex {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .link-buttons {
+        flex-direction: column;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr !important;
+    }
+
     .ant-descriptions-item-label, .ant-descriptions-item-content {
         display: block !important;
         width: 100% !important;
     }
 }
 </style>
+
 {{ template "page/head_end" .}}
 
 {{ template "page/body_start" .}}
@@ -283,7 +307,7 @@ body, html, #app {
                                     </template>
                                 </a-descriptions-item>
                                 <a-descriptions-item label='{{ i18n "subscription.expiry" }}'>
-                                    <template v-if="!app.expireMs || app.expireMs <= 0">
+                                     <template v-if="!app.expireMs || new Date(app.expireMs).getTime() <= Date.now()">
                                         {{ i18n "subscription.noExpiry" }}
                                     </template>
                                     <template v-else>
@@ -351,7 +375,12 @@ body, html, #app {
             </a-col>
         </a-row>
     </a-layout-content>
-  
+    <script>
+        function getExpireTs(expire) {
+            if (!expire) return 0;
+            return typeof expire === 'number' ? expire : new Date(expire).getTime();
+        }
+    </script>
 </a-layout>
 
 <template id="subscription-data" data-sid="{{ .sId }}"
@@ -370,10 +399,6 @@ body, html, #app {
 {{template "component/aThemeSwitch" .}}
 <script src="{{ .base_path }}assets/js/subscription.js?{{ .cur_ver }}"></script>
 <script>
-    function getExpireTs(expire) {
-            if (!expire) return 0;
-            return typeof expire === 'number' ? expire : new Date(expire).getTime();
-        }
     // Vue instance logic
     document.addEventListener('DOMContentLoaded', function() {
         const dataElement = document.getElementById('subscription-data');
