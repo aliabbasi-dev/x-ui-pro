@@ -21,9 +21,16 @@ body, html, #app {
 }
 
 .ant-layout {
-    background: transparent !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
-
+.ant-layout-content {
+    width: 100%;
+    max-width: 900px; /* این مقدار رو می‌تونید تغییر بدید */
+}
 /* ====== Elegant Card Design ====== */
 .elegant-card {
     background: #1a1a2e !important;
@@ -31,6 +38,8 @@ body, html, #app {
     border-radius: 20px !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
     margin-bottom: 24px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .elegant-card .ant-card-head {
@@ -244,17 +253,10 @@ body, html, #app {
                             <a-descriptions bordered :column="1" size="small">
                                 <a-descriptions-item label='{{ i18n "subscription.subId" }}'>[[ app.sId ]]</a-descriptions-item>
                                 <a-descriptions-item label='{{ i18n "subscription.status" }}'>
-                                    <template v-if="isUnlimited">
-                                        <a-tag color="purple">{{ i18n "subscription.unlimited" }}</a-tag>
-                                    </template>
-                                    <template v-else>
-                                        <a-tag :color="isActive && (!app.expireMs || app.expireMs > Date.now()) ? 'green' : 'red'">
-                                            [[ isActive && (!app.expireMs || app.expireMs > Date.now())
-                                            ? '{{ i18n "subscription.active" }}'
-                                            : '{{ i18n "subscription.inactive" }}' ]]
-                                        </a-tag>
-                                    </template>
-                                </a-descriptions-item>
+    <a-tag :color="subscriptionStatus.color">
+        [[ subscriptionStatus.text ]]
+    </a-tag>
+</a-descriptions-item>
                                 <a-descriptions-item label='{{ i18n "subscription.downloaded" }}'>[[ app.download ]]</a-descriptions-item>
                                 <a-descriptions-item label='{{ i18n "subscription.uploaded" }}'>[[ app.upload ]]</a-descriptions-item>
                                 <a-descriptions-item label='{{ i18n "usage" }}'>[[ app.used ]]</a-descriptions-item>
@@ -367,6 +369,28 @@ body, html, #app {
 <script src="{{ .base_path }}assets/js/subscription.js?{{ .cur_ver }}"></script>
 <script>
     // Vue instance logic
+
+computed: {
+    // ...
+    isUnlimited() {
+        return this.app.totalByte === 0;
+    },
+    subscriptionStatus() {
+        if (this.isUnlimited) {
+            return { color: 'purple', text: this.i18n("subscription.unlimited") };
+        }
+        const now = Date.now();
+        // Check if the expiration date exists and if it's in the past
+        if (this.app.expire > 0 && this.app.expire < now) {
+            return { color: 'red', text: this.i18n("subscription.inactive") };
+        }
+        // If there is no expiration or it is in the future
+        return { color: 'green', text: this.i18n("subscription.active") };
+    },
+    // ...
+},
+
+
     document.addEventListener('DOMContentLoaded', function() {
         const dataElement = document.getElementById('subscription-data');
         const appData = {
