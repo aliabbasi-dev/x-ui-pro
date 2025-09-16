@@ -6,7 +6,6 @@
 <script src="{{ .base_path }}assets/js/util/index.js?{{ .cur_ver }}"></script>
 <script src="{{ .base_path }}assets/js/util/date-util.js?{{ .cur_ver }}"></script>
 <script src="{{ .base_path }}assets/qrcode/qrious2.min.js?{{ .cur_ver }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
 <style>
 /* ====== General Styles ====== */
@@ -175,19 +174,6 @@ body, html, #app {
     color: #a3d9ff !important;
 }
 
-.chart-container {
-    position: relative;
-    height: 250px;
-    width: 250px;
-    margin: auto;
-}
-
-@media (max-width: 768px) {
-    .ant-descriptions-item-label, .ant-descriptions-item-content {
-        display: block !important;
-        width: 100% !important;
-    }
-}
 </style>
 {{ template "page/head_end" .}}
 
@@ -213,9 +199,9 @@ body, html, #app {
                                     <a-theme-switch-login></a-theme-switch-login>
                                     <span>{{ i18n "pages.settings.language" }}</span>
                                     <a-select ref="selectLang" class="w-100"
-                                             v-model="lang"
-                                             @change="LanguageManager.setLanguage(lang)"
-                                             :dropdown-class-name="themeSwitcher.currentTheme">
+                                              v-model="lang"
+                                              @change="LanguageManager.setLanguage(lang)"
+                                              :dropdown-class-name="themeSwitcher.currentTheme">
                                         <a-select-option :value="l.value"
                                                          label="English"
                                                          v-for="l in LanguageManager.supportedLanguages"
@@ -229,79 +215,100 @@ body, html, #app {
                             <a-button shape="circle" icon="setting"></a-button>
                         </a-popover>
                     </template>
-                    <a-row :gutter="[16, 16]">
-                        <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="d-flex align-items-center justify-content-center">
-                            <div class="chart-container">
-                                <canvas id="usageChart"></canvas>
-                                <div v-if="isUnlimited" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                                    <a-tag color="purple" style="font-size: 1rem; padding: 5px 10px;">{{ i18n "subscription.unlimited" }}</a-tag>
-                                </div>
-                            </div>
-                        </a-col>
 
-                        <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-                             <h3 class="section-heading">{{ i18n "subscription.details" }}</h3>
+                    
+                     <br />
+                    <a-list bordered>
+                        <a-list-item v-for="(link, idx) in links" :key="link">
+                            <div style="width:100%; text-align:center;">
+                                <a-button type="primary" :block="isMobile"
+                                    @click="copy(link)">[[ linkName(link, idx)
+                                    ]]</a-button>
+                            </div>
+                        </a-list-item>
+                    </a-list>
+                    <br />
+                    <a-form-item>
                             <a-descriptions bordered :column="1" size="small">
-                                <a-descriptions-item label='{{ i18n "subscription.subId" }}'>[[ app.sId ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.status" }}'>
+                                <a-descriptions-item
+                                    label='{{ i18n "subscription.subId" }}'>[[
+                                    app.sId
+                                    ]]</a-descriptions-item>
+                                <a-descriptions-item
+                                    label='{{ i18n "subscription.status" }}'>
                                     <template v-if="isUnlimited">
-                                        <a-tag color="purple">{{ i18n "subscription.unlimited" }}</a-tag>
+                                        <a-tag color="purple">{{ i18n
+                                            "subscription.unlimited" }}</a-tag>
                                     </template>
                                     <template v-else>
-                                        <a-tag :color="isActive && (!app.expireMs || app.expireMs > Date.now()) ? 'green' : 'red'">
-                                            [[ isActive && (!app.expireMs || app.expireMs > Date.now())
-                                            ? '{{ i18n "subscription.active" }}'
-                                            : '{{ i18n "subscription.inactive" }}' ]]
-                                        </a-tag>
+                                        <a-tag
+                                            :color="isActive ? 'green' : 'red'">[[
+                                            isActive ? '{{ i18n
+                                            "subscription.active" }}' : '{{ i18n
+                                            "subscription.inactive" }}'
+                                            ]]</a-tag>
                                     </template>
                                 </a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.downloaded" }}'>[[ app.download ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.uploaded" }}'>[[ app.upload ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "usage" }}'>[[ app.used ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.totalQuota" }}'>[[ app.total ]]</a-descriptions-item>
-                                <a-descriptions-item v-if="app.totalByte > 0" label='{{ i18n "remained" }}'>[[ app.remained ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "lastOnline" }}'>
+                                <a-descriptions-item
+                                    label='{{ i18n "subscription.downloaded" }}'>[[
+                                    app.download
+                                    ]]</a-descriptions-item>
+                                <a-descriptions-item
+                                    label='{{ i18n "subscription.uploaded" }}'>[[
+                                    app.upload
+                                    ]]</a-descriptions-item>
+                                <a-descriptions-item
+                                    label='{{ i18n "usage" }}'>[[ app.used
+                                    ]]</a-descriptions-item>
+                                <a-descriptions-item
+                                    label='{{ i18n "subscription.totalQuota" }}'>[[
+                                    app.total
+                                    ]]</a-descriptions-item>
+                                <a-descriptions-item v-if="app.totalByte > 0"
+                                    label='{{ i18n "remained" }}'>[[
+                                    app.remained ]]</a-descriptions-item>
+                                <a-descriptions-item
+                                    label='{{ i18n "lastOnline" }}'>
                                     <template v-if="app.lastOnlineMs > 0">
-                                        <template v-if="app.datepicker === 'gregorian'">
-                                            [[ DateUtil.formatMillis(app.lastOnlineMs) ]]
+                                        <template
+                                            v-if="app.datepicker === 'gregorian'">
+                                            [[
+                                            DateUtil.formatMillis(app.lastOnlineMs)
+                                            ]]
                                         </template>
                                         <template v-else>
-                                            [[ DateUtil.convertToJalalian(moment(app.lastOnlineMs)) ]]
+                                            [[
+                                            DateUtil.convertToJalalian(moment(app.lastOnlineMs))
+                                            ]]
                                         </template>
                                     </template>
                                     <template v-else>
                                         <span>-</span>
                                     </template>
                                 </a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.expiry" }}'>
-                                    <template v-if="!app.expireMs">
+                                <a-descriptions-item
+                                    label='{{ i18n "subscription.expiry" }}'>
+                                    <template v-if="app.expireMs === 0">
                                         {{ i18n "subscription.noExpiry" }}
                                     </template>
                                     <template v-else>
-                                        <template v-if="app.datepicker === 'gregorian'">
-                                            [[ DateUtil.formatMillis(app.expireMs) ]]
+                                        <template
+                                            v-if="app.datepicker === 'gregorian'">
+                                            [[
+                                            DateUtil.formatMillis(app.expireMs)
+                                            ]]
                                         </template>
                                         <template v-else>
-                                            [[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]
+                                            [[
+                                            DateUtil.convertToJalalian(moment(app.expireMs))
+                                            ]]
                                         </template>
                                     </template>
                                 </a-descriptions-item>
                             </a-descriptions>
-                        </a-col>
-                    </a-row>
-
-                    <br />
-                    <a-list bordered>
-                        <a-list-item v-for="(link, idx) in links" :key="link">
-                            <div style="width:100%; text-align:center;">
-                                <a-button type="primary" :block="isMobile"
-                                          @click="copy(link)">[[ linkName(link, idx)
-                                ]]</a-button>
-                            </div>
-                        </a-list-item>
-                    </a-list>
-                    <br />
-                    <h3 class="section-heading">QR Codes</h3>
+                        </a-form-item>
+                    </a-form>
+<h3 class="section-heading">QR Codes</h3>
                     <div class="qr-container-flex">
                         <div class="qr-box">
                             <canvas id="qrcode" class="qr-cv" title='{{ i18n "copy" }}' @click="copy(app.subUrl)"></canvas>
@@ -312,273 +319,53 @@ body, html, #app {
                             <div class="qr-label">{{ i18n "pages.settings.subSettings"}} Json</div>
                         </div>
                     </div>
-                   <a-form layout="vertical">
-                        <a-form-item>
-                            <a-row type="flex" justify="center" :gutter="[8,8]"
-                                style="width:100%">
-                                <a-col :xs="24" :sm="12"
-                                    style="text-align:center;">
-                                    <!-- Android dropdown -->
-                                    <a-dropdown :trigger="['click']">
-                                        <a-button :block="isMobile"
-                                            :style="{ marginTop: isMobile ? '6px' : 0 }"
-                                            size="large" type="primary">
-                                            Android <a-icon type="down" />
-                                        </a-button>
-                                        <a-menu slot="overlay"
-                                            :class="themeSwitcher.currentTheme">
-                                            <a-menu-item key="android-v2box"
-                                                @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
-                                            <a-menu-item key="android-v2rayng"
-                                                @click="open('v2rayng://install-config?url=' + encodeURIComponent(app.subUrl))">V2RayNG</a-menu-item>
-                                            <a-menu-item key="android-singbox"
-                                                @click="copy(app.subUrl)">Sing-box</a-menu-item>
-                                            <a-menu-item key="android-v2raytun"
-                                                @click="copy(app.subUrl)">V2RayTun</a-menu-item>
-                                            <a-menu-item key="android-npvtunnel"
-                                                @click="copy(app.subUrl)">NPV
-                                                Tunnel</a-menu-item>
-                                        </a-menu>
-                                    </a-dropdown>
-                                </a-col>
-                                <a-col :xs="24" :sm="12"
-                                    style="text-align:center;">
-                                    <!-- iOS dropdown -->
-                                    <a-dropdown :trigger="['click']">
-                                        <a-button :block="isMobile"
-                                            :style="{ marginTop: isMobile ? '6px' : 0 }"
-                                            size="large" type="primary">
-                                            iOS <a-icon type="down" />
-                                        </a-button>
-                                        <a-menu slot="overlay"
-                                            :class="themeSwitcher.currentTheme">
-                                            <a-menu-item key="ios-shadowrocket"
-                                                @click="open('shadowrocket://add/subscription?url=' + encodeURIComponent(app.subUrl) + '&remark=' + encodeURIComponent(app.sId))">Shadowrocket</a-menu-item>
-                                            <a-menu-item key="ios-v2box"
-                                                @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
-                                            <a-menu-item key="ios-streisand"
-                                                @click="open('streisand://import/' + encodeURIComponent(app.subUrl))">Streisand</a-menu-item>
-                                            <a-menu-item key="ios-v2raytun"
-                                                @click="copy(app.subUrl)">V2RayTun</a-menu-item>
-                                            <a-menu-item key="ios-npvtunnel"
-                                                @click="copy(app.subUrl)">NPV
-                                                Tunnel</a-menu-item>
-                                        </a-menu>
-                                    </a-dropdown>
-                                </a-col>
-                            </a-row>
-                        </a-form-item>
-                    </a-form>
+                    <div class="link-buttons">
+                        <a-dropdown :trigger="['click']">
+                            <a-button class="link-button" size="large">
+                                Android <a-icon type="down" />
+                            </a-button>
+                            <a-menu slot="overlay" :class="themeSwitcher.currentTheme">
+                                <a-menu-item key="android-v2box" @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
+                                <a-menu-item key="android-v2rayng" @click="open('v2rayng://install-config?url=' + encodeURIComponent(app.subUrl))">V2RayNG</a-menu-item>
+                                <a-menu-item key="android-singbox" @click="copy(app.subUrl)">Sing-box</a-menu-item>
+                                <a-menu-item key="android-v2raytun" @click="copy(app.subUrl)">V2RayTun</a-menu-item>
+                                <a-menu-item key="android-npvtunnel" @click="copy(app.subUrl)">NPV Tunnel</a-menu-item>
+                            </a-menu>
+                        </a-dropdown>
+                        <a-dropdown :trigger="['click']">
+                            <a-button class="link-button" size="large">
+                                iOS <a-icon type="down" />
+                            </a-button>
+                            <a-menu slot="overlay" :class="themeSwitcher.currentTheme">
+                                <a-menu-item key="ios-shadowrocket" @click="open('shadowrocket://add/subscription?url=' + encodeURIComponent(app.subUrl) + '&remark=' + encodeURIComponent(app.sId))">Shadowrocket</a-menu-item>
+                                <a-menu-item key="ios-v2box" @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
+                                <a-menu-item key="ios-streisand" @click="open('streisand://import/' + encodeURIComponent(app.subUrl))">Streisand</a-menu-item>
+                                <a-menu-item key="ios-v2raytun" @click="copy(app.subUrl)">V2RayTun</a-menu-item>
+                                <a-menu-item key="ios-npvtunnel" @click="copy(app.subUrl)">NPV Tunnel</a-menu-item>
+                            </a-menu>
+                        </a-dropdown>
+                    </div>
+
                 </a-card>
             </a-col>
         </a-row>
     </a-layout-content>
-    <script>
-        function getExpireTs(expire) {
-            if (!expire) return 0;
-            return typeof expire === 'number' ? expire : new Date(expire).getTime();
-        }
-    </script>
 </a-layout>
 
 <template id="subscription-data" data-sid="{{ .sId }}"
-          data-sub-url="{{ .subUrl }}" data-subjson-url="{{ .subJsonUrl }}"
-          data-download="{{ .download }}"
-          data-upload="{{ .upload }}" data-used="{{ .used }}"
-          data-total="{{ .total }}" data-remained="{{ .remained }}"
-          data-expire="{{ .expire }}" data-lastonline="{{ .lastOnline }}"
-          data-downloadbyte="{{ .downloadByte }}"
-          data-uploadbyte="{{ .uploadByte }}" data-totalbyte="{{ .totalByte }}"
-          data-datepicker="{{ .datepicker }}"></template>
+    data-sub-url="{{ .subUrl }}" data-subjson-url="{{ .subJsonUrl }}"
+    data-download="{{ .download }}"
+    data-upload="{{ .upload }}" data-used="{{ .used }}"
+    data-total="{{ .total }}" data-remained="{{ .remained }}"
+    data-expire="{{ .expire }}" data-lastonline="{{ .lastOnline }}"
+    data-downloadbyte="{{ .downloadByte }}"
+    data-uploadbyte="{{ .uploadByte }}" data-totalbyte="{{ .totalByte }}"
+    data-datepicker="{{ .datepicker }}"></template>
 <textarea id="subscription-links"
-          style="display:none">{{ range .result }}{{ . }}
+    style="display:none">{{ range .result }}{{ . }}
 {{ end }}</textarea>
 
 {{template "component/aThemeSwitch" .}}
 <script src="{{ .base_path }}assets/js/subscription.js?{{ .cur_ver }}"></script>
-<script>
-    // Vue instance logic
-    document.addEventListener('DOMContentLoaded', function() {
-        const dataElement = document.getElementById('subscription-data');
-        const appData = {
-            sId: dataElement.getAttribute('data-sid'),
-            subUrl: dataElement.getAttribute('data-sub-url'),
-            subJsonUrl: dataElement.getAttribute('data-subjson-url'),
-            download: dataElement.getAttribute('data-download'),
-            upload: dataElement.getAttribute('data-upload'),
-            used: dataElement.getAttribute('data-used'),
-            total: dataElement.getAttribute('data-total'),
-            remained: dataElement.getAttribute('data-remained'),
-            expire: parseInt(dataElement.getAttribute('data-expire')),
-            lastOnline: dataElement.getAttribute('data-lastonline'),
-            downloadByte: parseInt(dataElement.getAttribute('data-downloadbyte')),
-            uploadByte: parseInt(dataElement.getAttribute('data-uploadbyte')),
-            totalByte: parseInt(dataElement.getAttribute('data-totalbyte')),
-            lastOnlineMs: parseInt(dataElement.getAttribute('data-lastonline')),
-            datepicker: dataElement.getAttribute('data-datepicker')
-        };
-        const links = document.getElementById('subscription-links').value.trim().split('\n').filter(e => e);
-
-        new Vue({
-            el: '#app',
-            data() {
-                return {
-                    app: appData,
-                    links: links,
-                    lang: LanguageManager.getLanguage(),
-                    isMobile: window.innerWidth < 768,
-                    chart: null,
-                };
-            },
-            computed: {
-                isUnlimited() {
-                    return this.app.totalByte === 0;
-                },
-                isActive() {
-                    return this.app.expire > 0 ? this.app.expire > Date.now() : true;
-                },
-                usagePercentage() {
-                    if (this.isUnlimited) return 0;
-                    const total = this.app.totalByte;
-                    const used = this.app.downloadByte + this.app.uploadByte;
-                    return (used / total) * 100;
-                },
-                remainedPercentage() {
-                    return 100 - this.usagePercentage;
-                }
-            },
-            watch: {
-                'app.downloadByte': 'updateChart',
-                'app.uploadByte': 'updateChart',
-                'app.totalByte': 'updateChart',
-            },
-            mounted() {
-                this.initQRCodes();
-                this.initChart();
-                window.addEventListener('resize', this.handleResize);
-            },
-            beforeDestroy() {
-                window.removeEventListener('resize', this.handleResize);
-            },
-            methods: {
-                handleResize() {
-                    this.isMobile = window.innerWidth < 768;
-                },
-                initQRCodes() {
-                    if (this.app.subUrl) {
-                        new QRious({
-                            element: document.getElementById('qrcode'),
-                            value: this.app.subUrl,
-                            size: 200
-                        });
-                    }
-                    if (this.app.subJsonUrl) {
-                        new QRious({
-                            element: document.getElementById('qrcode-subjson'),
-                            value: this.app.subJsonUrl,
-                            size: 200
-                        });
-                    }
-                },
-                initChart() {
-                    if (this.isUnlimited) {
-                        if (this.chart) {
-                            this.chart.destroy();
-                            this.chart = null;
-                        }
-                        return;
-                    }
-                    const ctx = document.getElementById('usageChart').getContext('2d');
-                    const used = this.app.downloadByte + this.app.uploadByte;
-                    const remained = this.app.totalByte - used;
-
-                    this.chart = new Chart(ctx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Used', 'Remained'],
-                            datasets: [{
-                                data: [used, remained > 0 ? remained : 0],
-                                backgroundColor: [
-                                    'rgba(163, 217, 255, 0.8)',
-                                    'rgba(243, 163, 255, 0.8)'
-                                ],
-                                borderColor: [
-                                    'rgba(26, 26, 46, 1)',
-                                    'rgba(26, 26, 46, 1)'
-                                ],
-                                borderWidth: 2,
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            cutout: '80%',
-                            plugins: {
-                                legend: {
-                                    display: true,
-                                    position: 'bottom',
-                                    labels: {
-                                        color: '#e0e0e0'
-                                    }
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(tooltipItem) {
-                                            const label = tooltipItem.label || '';
-                                            const value = tooltipItem.raw;
-                                            return `${label}: ${Util.bytesToSize(value)}`;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                },
-                updateChart() {
-                    if (this.chart && !this.isUnlimited) {
-                        const used = this.app.downloadByte + this.app.uploadByte;
-                        const remained = this.app.totalByte - used;
-                        this.chart.data.datasets[0].data = [used, remained > 0 ? remained : 0];
-                        this.chart.update();
-                    } else if (!this.chart && !this.isUnlimited) {
-                        this.initChart();
-                    } else if (this.chart && this.isUnlimited) {
-                        this.chart.destroy();
-                        this.chart = null;
-                    }
-                },
-                copy(text) {
-                    if (navigator.clipboard) {
-                        navigator.clipboard.writeText(text)
-                            .then(() => {
-                                this.$message.success('{{ i18n "copied" }}');
-                            })
-                            .catch(err => {
-                                this.$message.error('Failed to copy: ' + err);
-                            });
-                    } else {
-                        const el = document.createElement('textarea');
-                        el.value = text;
-                        document.body.appendChild(el);
-                        el.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(el);
-                        this.$message.success('{{ i18n "copied" }}');
-                    }
-                },
-                open(url) {
-                    window.open(url, '_blank');
-                },
-                linkName(url, idx) {
-                    const parts = url.split("://");
-                    if (parts.length > 1) {
-                        return parts[0].replace("ss", "Shadowsocks").replace("vmess", "V2Ray").replace("vless", "VLESS").toUpperCase();
-                    }
-                    return "{{ i18n "subscription.copyLink" }} " + (idx + 1);
-                }
-            }
-        });
-    });
-</script>
 
 {{ template "page/body_end" .}}
