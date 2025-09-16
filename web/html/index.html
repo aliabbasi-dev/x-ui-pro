@@ -36,7 +36,7 @@
              @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
              class="text-center"
       >
-        <a-progress type="dashboard" :stroke-color="status.cpu.color" :percent="status.cpu.percent" :width="100" :stroke-width="10"></a-progress>
+        <a-progress type="dashboard" :stroke-color="status.cpu.color" :percent="status.cpu.percent" width="100" stroke-width="10"></a-progress>
         <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
           <b>{{ i18n "pages.index.cpu" }}:</b> [[ CPUFormatter.cpuCoreFormat(status.cpuCores) ]]
           <a-tooltip>
@@ -56,7 +56,7 @@
              @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
              class="text-center"
       >
-        <a-progress type="dashboard" :stroke-color="status.mem.color" :percent="status.mem.percent" :width="100" :stroke-width="10"></a-progress>
+        <a-progress type="dashboard" :stroke-color="status.mem.color" :percent="status.mem.percent" width="100" stroke-width="10"></a-progress>
         <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
           <b>{{ i18n "pages.index.memory"}}:</b> [[ SizeFormatter.sizeFormat(status.mem.current) ]] / [[ SizeFormatter.sizeFormat(status.mem.total) ]]
         </div>
@@ -69,7 +69,7 @@
              @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
              class="text-center"
       >
-        <a-progress type="dashboard" :stroke-color="status.swap.color" :percent="status.swap.percent" :width="100" :stroke-width="10"></a-progress>
+        <a-progress type="dashboard" :stroke-color="status.swap.color" :percent="status.swap.percent" width="100" stroke-width="10"></a-progress>
         <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
           <b>{{ i18n "pages.index.swap" }}:</b> [[ SizeFormatter.sizeFormat(status.swap.current) ]] / [[ SizeFormatter.sizeFormat(status.swap.total) ]]
         </div>
@@ -82,7 +82,7 @@
              @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
              class="text-center"
       >
-        <a-progress type="dashboard" :stroke-color="status.disk.color" :percent="status.disk.percent" :width="100" :stroke-width="10"></a-progress>
+        <a-progress type="dashboard" :stroke-color="status.disk.color" :percent="status.disk.percent" width="100" stroke-width="10"></a-progress>
         <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
           <b>{{ i18n "pages.index.storage"}}:</b> [[ SizeFormatter.sizeFormat(status.disk.current) ]] / [[ SizeFormatter.sizeFormat(status.disk.total) ]]
         </div>
