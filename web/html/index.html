@@ -24,58 +24,66 @@
             </a-row>
             <a-row :gutter="[isMobile ? 8 : 16, isMobile ? 0 : 12]" v-else>
               <a-col>
-                <a-card hoverable>
-                  <a-row :gutter="[0, isMobile ? 16 : 0]">
-                    <a-col :sm="24" :md="12">
-                      <a-row>
-                        <a-col :span="12" class="text-center">
-                          <a-progress type="dashboard" status="normal"
+    <a-card hoverable
+        :style="{
+            'background-color': 'rgba(255, 255, 255, 0.2)',
+            'backdrop-filter': 'blur(10px)',
+            '-webkit-backdrop-filter': 'blur(10px)',
+            'border': '1px solid rgba(255, 255, 255, 0.3)',
+            'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
+            'border-radius': '12px'
+        }">
+        <a-row :gutter="[0, isMobile ? 16 : 0]">
+            <a-col :sm="24" :md="12">
+                <a-row>
+                    <a-col :span="12" class="text-center">
+                        <a-progress type="dashboard" status="normal"
                             :stroke-color="status.cpu.color"
                             :percent="status.cpu.percent"></a-progress>
-                          <div>
-                            <b>{{ i18n "pages.index.cpu" }}:</b> [[ CPUFormatter.cpuCoreFormat(status.cpuCores) ]] 
+                        <div>
+                            <b>{{ i18n "pages.index.cpu" }}:</b> [[ CPUFormatter.cpuCoreFormat(status.cpuCores) ]]
                             <a-tooltip>
-                              <a-icon type="area-chart"></a-icon> 
-                              <template slot="title">
-                                <div><b>{{ i18n "pages.index.logicalProcessors" }}:</b> [[ (status.logicalPro) ]]</div>
-                                <div><b>{{ i18n "pages.index.frequency" }}:</b> [[ CPUFormatter.cpuSpeedFormat(status.cpuSpeedMhz) ]]</div>
-                              </template>
+                                <a-icon type="area-chart"></a-icon>
+                                <template slot="title">
+                                    <div><b>{{ i18n "pages.index.logicalProcessors" }}:</b> [[ (status.logicalPro) ]]</div>
+                                    <div><b>{{ i18n "pages.index.frequency" }}:</b> [[ CPUFormatter.cpuSpeedFormat(status.cpuSpeedMhz) ]]</div>
+                                </template>
                             </a-tooltip>
-                          </div>
-                        </a-col>
-                        <a-col :span="12" class="text-center">
-                          <a-progress type="dashboard" status="normal"
+                        </div>
+                    </a-col>
+                    <a-col :span="12" class="text-center">
+                        <a-progress type="dashboard" status="normal"
                             :stroke-color="status.mem.color"
                             :percent="status.mem.percent"></a-progress>
-                          <div>
+                        <div>
                             <b>{{ i18n "pages.index.memory"}}:</b> [[ SizeFormatter.sizeFormat(status.mem.current) ]] / [[ SizeFormatter.sizeFormat(status.mem.total) ]]
-                          </div>
-                        </a-col>
-                      </a-row>
+                        </div>
                     </a-col>
-                    <a-col :sm="24" :md="12">
-                      <a-row>
-                        <a-col :span="12" class="text-center">
-                          <a-progress type="dashboard" status="normal"
+                </a-row>
+            </a-col>
+            <a-col :sm="24" :md="12">
+                <a-row>
+                    <a-col :span="12" class="text-center">
+                        <a-progress type="dashboard" status="normal"
                             :stroke-color="status.swap.color"
                             :percent="status.swap.percent"></a-progress>
-                          <div>
+                        <div>
                             <b>{{ i18n "pages.index.swap" }}:</b> [[ SizeFormatter.sizeFormat(status.swap.current) ]] / [[ SizeFormatter.sizeFormat(status.swap.total) ]]
-                          </div>
-                        </a-col>
-                        <a-col :span="12" class="text-center">
-                          <a-progress type="dashboard" status="normal"
+                        </div>
+                    </a-col>
+                    <a-col :span="12" class="text-center">
+                        <a-progress type="dashboard" status="normal"
                             :stroke-color="status.disk.color"
                             :percent="status.disk.percent"></a-progress>
-                          <div>
+                        <div>
                             <b>{{ i18n "pages.index.storage"}}:</b> [[ SizeFormatter.sizeFormat(status.disk.current) ]] / [[ SizeFormatter.sizeFormat(status.disk.total) ]]
-                          </div>
-                        </a-col>
-                      </a-row>
+                        </div>
                     </a-col>
-                  </a-row>
-                </a-card>
-              </a-col>
+                </a-row>
+            </a-col>
+        </a-row>
+    </a-card>
+</a-col>
               <a-col :sm="24" :lg="12">
                 <a-card hoverable>
                   <template #title>
