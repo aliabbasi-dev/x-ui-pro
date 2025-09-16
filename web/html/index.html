@@ -36,7 +36,7 @@
              @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
              class="text-center"
       >
-        <a-progress type="dashboard" :stroke-color="status.cpu.color" :percent="status.cpu.percent" width="80"></a-progress>
+        <a-progress type="dashboard" :stroke-color="status.cpu.color" :percent="status.cpu.percent" :width="100" :stroke-width="10"></a-progress>
         <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
           <b>{{ i18n "pages.index.cpu" }}:</b> [[ CPUFormatter.cpuCoreFormat(status.cpuCores) ]]
           <a-tooltip>
@@ -56,7 +56,7 @@
              @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
              class="text-center"
       >
-        <a-progress type="dashboard" :stroke-color="status.mem.color" :percent="status.mem.percent" width="80"></a-progress>
+        <a-progress type="dashboard" :stroke-color="status.mem.color" :percent="status.mem.percent" :width="100" :stroke-width="10"></a-progress>
         <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
           <b>{{ i18n "pages.index.memory"}}:</b> [[ SizeFormatter.sizeFormat(status.mem.current) ]] / [[ SizeFormatter.sizeFormat(status.mem.total) ]]
         </div>
@@ -69,7 +69,7 @@
              @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
              class="text-center"
       >
-        <a-progress type="dashboard" :stroke-color="status.swap.color" :percent="status.swap.percent" width="80"></a-progress>
+        <a-progress type="dashboard" :stroke-color="status.swap.color" :percent="status.swap.percent" :width="100" :stroke-width="10"></a-progress>
         <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
           <b>{{ i18n "pages.index.swap" }}:</b> [[ SizeFormatter.sizeFormat(status.swap.current) ]] / [[ SizeFormatter.sizeFormat(status.swap.total) ]]
         </div>
@@ -82,7 +82,7 @@
              @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
              class="text-center"
       >
-        <a-progress type="dashboard" :stroke-color="status.disk.color" :percent="status.disk.percent" width="80"></a-progress>
+        <a-progress type="dashboard" :stroke-color="status.disk.color" :percent="status.disk.percent" :width="100" :stroke-width="10"></a-progress>
         <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
           <b>{{ i18n "pages.index.storage"}}:</b> [[ SizeFormatter.sizeFormat(status.disk.current) ]] / [[ SizeFormatter.sizeFormat(status.disk.total) ]]
         </div>
@@ -91,116 +91,131 @@
   </a-card>
 </a-col>
 
-              <a-col :sm="24" :lg="12">
-                <a-card hoverable>
-                  <template #title>
-                    <a-space direction="horizontal">
-                      <span>{{ i18n "pages.index.xrayStatus" }}</span>
-                      <a-tag v-if="isMobile && status.xray.version != 'Unknown'" color="green">
-                        v[[ status.xray.version ]]
-                      </a-tag>
-                    </a-space>
-                  </template>
-                  <template #extra>
-                    <template v-if="status.xray.state != 'error'">
-                      <a-badge status="processing" class="running-animation" :text="status.xray.stateMsg" :color="status.xray.color"/>
-                    </template>
-                    <template v-else>
-                      <a-popover :overlay-class-name="themeSwitcher.currentTheme">
-                        <span slot="title">
-                          <a-row type="flex" align="middle" justify="space-between">
-                            <a-col>
-                              <span>{{ i18n "pages.index.xrayErrorPopoverTitle" }}</span>
-                            </a-col>
-                            <a-col>
-                              <a-icon type="bars" class="cursor-pointer float-right" @click="openLogs()"></a-icon>
-                            </a-col>
-                          </a-row>
-                        </span>
-                        <template slot="content">
-                          <span class="max-w-400" v-for="line in status.xray.errorMsg.split('\n')">[[ line ]]</span>
-                        </template>
-                        <a-badge :text="status.xray.stateMsg" :color="status.xray.color"/>
-                      </a-popover>
-                    </template>
-                  </template>
-                  <template #actions>
-                    <a-space v-if="app.ipLimitEnable" direction="horizontal" @click="openXrayLogs()" class="jc-center">
-                      <a-icon type="bars"></a-icon>
-                      <span v-if="!isMobile">{{ i18n "pages.index.logs" }}</span>
-                    </a-space>
-                    <a-space direction="horizontal" @click="stopXrayService" class="jc-center">
-                      <a-icon type="poweroff"></a-icon>
-                      <span v-if="!isMobile">{{ i18n "pages.index.stopXray" }}</span>
-                    </a-space>
-                    <a-space direction="horizontal" @click="restartXrayService" class="jc-center">
-                      <a-icon type="reload"></a-icon>
-                      <span v-if="!isMobile">{{ i18n "pages.index.restartXray" }}</span>
-                    </a-space>
-                    <a-space direction="horizontal" @click="openSelectV2rayVersion" class="jc-center">
-                      <a-icon type="tool"></a-icon>
-                      <span v-if="!isMobile">
-                        [[ status.xray.version != 'Unknown' ? `v${status.xray.version}` : '{{ i18n "pages.index.xraySwitch" }}' ]]
-                      </span>
-                    </a-space>
-                  </template>
-                </a-card>
+             <a-col :sm="24" :lg="12">
+  <a-card 
+    hoverable 
+    style="background: #1a1a2e; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); padding: 20px;"
+  >
+    <template #title>
+      <a-space direction="horizontal">
+        <span>{{ i18n "pages.index.xrayStatus" }}</span>
+        <a-tag v-if="isMobile && status.xray.version != 'Unknown'" color="#52c41a">
+          v[[ status.xray.version ]]
+        </a-tag>
+      </a-space>
+    </template>
+
+    <template #extra>
+      <template v-if="status.xray.state != 'error'">
+        <a-badge status="processing" class="running-animation" :text="status.xray.stateMsg" :color="status.xray.color"/>
+      </template>
+      <template v-else>
+        <a-popover :overlay-class-name="themeSwitcher.currentTheme">
+          <span slot="title">
+            <a-row type="flex" align="middle" justify="space-between">
+              <a-col>
+                <span>{{ i18n "pages.index.xrayErrorPopoverTitle" }}</span>
               </a-col>
-              <a-col :sm="24" :lg="12">
-                <a-card title='{{ i18n "menu.link" }}' hoverable>
-                  <template #actions>
-                    <a-space direction="horizontal" @click="openLogs()" class="jc-center">
-                      <a-icon type="bars"></a-icon>
-                      <span v-if="!isMobile">{{ i18n "pages.index.logs" }}</span>
-                    </a-space>
-                    <a-space direction="horizontal" @click="openConfig" class="jc-center">
-                      <a-icon type="control"></a-icon>
-                      <span v-if="!isMobile">{{ i18n "pages.index.config" }}</span>
-                    </a-space>
-                    <a-space direction="horizontal" @click="openBackup" class="jc-center">
-                      <a-icon type="cloud-server"></a-icon>
-                      <span v-if="!isMobile">{{ i18n "pages.index.backup" }}</span>
-                    </a-space>
-                  </template>
-                </a-card>
+              <a-col>
+                <a-icon type="bars" class="cursor-pointer float-right" @click="openLogs()"></a-icon>
               </a-col>
-              <a-col :sm="24" :lg="12">
-                <a-card title='Begubem' hoverable>
-                  <a rel="noopener" href="https://T.me/begobem" target="_blank">
-                    <a-tag color="green">
-                      <span>v{{ .cur_ver }}</span>
-                    </a-tag>
-                  </a>
-                  <a rel="noopener" href="https://t.me/BlackHost_cloud" target="_blank">
-                    <a-tag color="green">
-                      <span>@XrayUI</span>
-                    </a-tag>
-                  </a>
-                  <a rel="noopener" href="https://T.me/begobem" target="_blank">
-                    <a-tag color="purple">
-                      <span>{{ i18n "pages.index.documentation" }}</span>
-                    </a-tag>
-                  </a>
-                </a-card>
-              </a-col>
-              <a-col :sm="24" :lg="12">
-                <a-card title='{{ i18n "pages.index.operationHours" }}' hoverable>
-                  <a-tag :color="status.xray.color">Xray: [[ TimeFormatter.formatSecond(status.appStats.uptime) ]]</a-tag>
-                  <a-tag color="green">OS: [[ TimeFormatter.formatSecond(status.uptime) ]]</a-tag>
-                </a-card>
-              </a-col>
-              <a-col :sm="24" :lg="12">
-                <a-card title='{{ i18n "pages.index.systemLoad" }}' hoverable>
-                  <a-tag color="green">
-                    <a-tooltip>
-                      [[ status.loads[0] ]] | [[ status.loads[1] ]] | [[ status.loads[2] ]]
-                      <template slot="title">
-                        {{ i18n "pages.index.systemLoadDesc" }}
-                      </template>
-                    </a-tooltip>
-                  </a-tag>
-                </a-card>
-              </a-col>
+            </a-row>
+          </span>
+          <template slot="content">
+            <span class="max-w-400" v-for="line in status.xray.errorMsg.split('\n')">[[ line ]]</span>
+          </template>
+          <a-badge :text="status.xray.stateMsg" :color="status.xray.color"/>
+        </a-popover>
+      </template>
+    </template>
+
+    <template #actions>
+      <a-space v-if="app.ipLimitEnable" direction="horizontal" @click="openXrayLogs()" style="justify-content:center;">
+        <a-icon type="bars" style="color:#a3d9ff;"></a-icon>
+        <span v-if="!isMobile" style="color:#a3d9ff;">{{ i18n "pages.index.logs" }}</span>
+      </a-space>
+
+      <a-space direction="horizontal" @click="stopXrayService" style="justify-content:center;">
+        <a-icon type="poweroff" style="color:#ff4d4f;"></a-icon>
+        <span v-if="!isMobile" style="color:#ff4d4f;">{{ i18n "pages.index.stopXray" }}</span>
+      </a-space>
+
+      <a-space direction="horizontal" @click="restartXrayService" style="justify-content:center;">
+        <a-icon type="reload" style="color:#1890ff;"></a-icon>
+        <span v-if="!isMobile" style="color:#1890ff;">{{ i18n "pages.index.restartXray" }}</span>
+      </a-space>
+
+      <a-space direction="horizontal" @click="openSelectV2rayVersion" style="justify-content:center;">
+        <a-icon type="tool" style="color:#52c41a;"></a-icon>
+        <span v-if="!isMobile" style="color:#52c41a;">
+          [[ status.xray.version != 'Unknown' ? `v${status.xray.version}` : '{{ i18n "pages.index.xraySwitch" }}' ]]
+        </span>
+      </a-space>
+    </template>
+  </a-card>
+</a-col>
+
+<a-col :sm="24" :lg="12">
+  <a-card hoverable style="background: #1a1a2e; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); padding: 20px;" title='{{ i18n "menu.link" }}'>
+    <template #actions>
+      <a-space direction="horizontal" @click="openLogs()" style="justify-content:center;">
+        <a-icon type="bars" style="color:#a3d9ff;"></a-icon>
+        <span v-if="!isMobile" style="color:#a3d9ff;">{{ i18n "pages.index.logs" }}</span>
+      </a-space>
+
+      <a-space direction="horizontal" @click="openConfig" style="justify-content:center;">
+        <a-icon type="control" style="color:#1890ff;"></a-icon>
+        <span v-if="!isMobile" style="color:#1890ff;">{{ i18n "pages.index.config" }}</span>
+      </a-space>
+
+      <a-space direction="horizontal" @click="openBackup" style="justify-content:center;">
+        <a-icon type="cloud-server" style="color:#52c41a;"></a-icon>
+        <span v-if="!isMobile" style="color:#52c41a;">{{ i18n "pages.index.backup" }}</span>
+      </a-space>
+    </template>
+  </a-card>
+</a-col>
+
+<a-col :sm="24" :lg="12">
+  <a-card hoverable style="background: #1a1a2e; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); padding: 20px;" title='Begubem'>
+    <a rel="noopener" href="https://T.me/begobem" target="_blank">
+      <a-tag color="#52c41a">
+        <span>v[[ .cur_ver ]]</span>
+      </a-tag>
+    </a>
+    <a rel="noopener" href="https://t.me/BlackHost_cloud" target="_blank">
+      <a-tag color="#52c41a">
+        <span>@XrayUI</span>
+      </a-tag>
+    </a>
+    <a rel="noopener" href="https://T.me/begobem" target="_blank">
+      <a-tag color="#722ed1">
+        <span>{{ i18n "pages.index.documentation" }}</span>
+      </a-tag>
+    </a>
+  </a-card>
+</a-col>
+
+<a-col :sm="24" :lg="12">
+  <a-card hoverable style="background: #1a1a2e; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); padding: 20px;" title='{{ i18n "pages.index.operationHours" }}'>
+    <a-tag :color="status.xray.color">Xray: [[ TimeFormatter.formatSecond(status.appStats.uptime) ]]</a-tag>
+    <a-tag color="#52c41a">OS: [[ TimeFormatter.formatSecond(status.uptime) ]]</a-tag>
+  </a-card>
+</a-col>
+
+<a-col :sm="24" :lg="12">
+  <a-card hoverable style="background: #1a1a2e; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); padding: 20px;" title='{{ i18n "pages.index.systemLoad" }}'>
+    <a-tag color="#52c41a">
+      <a-tooltip>
+        [[ status.loads[0] ]] | [[ status.loads[1] ]] | [[ status.loads[2] ]]
+        <template slot="title">
+          {{ i18n "pages.index.systemLoadDesc" }}
+        </template>
+      </a-tooltip>
+    </a-tag>
+  </a-card>
+</a-col>
+
               <a-col :sm="24" :lg="12">
                 <a-card title='{{ i18n "usage"}}' hoverable>
                   <a-tag color="green"> {{ i18n "pages.index.memory" }}: [[ SizeFormatter.sizeFormat(status.appStats.mem) ]] </a-tag>
