@@ -288,22 +288,22 @@ body, html, #app {
                                 </a-descriptions-item>
                                 <a-descriptions-item
                                     label='{{ i18n "subscription.expiry" }}'>
-                                   <template v-if="!app.expireMs || app.expireMs.trim() === ''">
-                                         {{ i18n "subscription.noExpiry" }}
-                                    </template>
-                                    <template v-else>
-                                        <template
-                                            v-if="app.datepicker === 'gregorian'">
-                                            [[
-                                            DateUtil.formatMillis(app.expireMs)
-                                            ]]
-                                        </template>
-                                        <template v-else>
-                                            [[
-                                            DateUtil.convertToJalalian(moment(app.expireMs))
-                                            ]]
-                                        </template>
-                                    </template>
+                                   <template>
+  <div>
+    <template v-if="app.expireMs && app.expireMs > 0">
+      <template v-if="app.datepicker === 'gregorian'">
+        [[ DateUtil.formatMillis(app.expireMs) ]]
+      </template>
+      <template v-else>
+        [[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]
+      </template>
+    </template>
+    <template v-else>
+      {{ i18n "subscription.noExpiry" }}
+    </template>
+  </div>
+</template>
+
                                 </a-descriptions-item>
                             </a-descriptions>
                         </a-form-item>

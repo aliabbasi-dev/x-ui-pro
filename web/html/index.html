@@ -24,64 +24,73 @@
             </a-row>
             <a-row :gutter="[isMobile ? 8 : 16, isMobile ? 0 : 12]" v-else>
               <a-col>
-    <a-card hoverable :style="{
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        border: '1px solid rgba(0, 0, 0, 0.05)',
-        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-        borderRadius: '12px',
-        transition: 'all 0.3s ease'
-    }">
-        <a-row :gutter="[0, isMobile ? 16 : 0]">
-            <a-col :sm="24" :md="12">
-                <a-row>
-                    <a-col :span="12" class="text-center">
-                        <a-progress type="dashboard" status="normal"
-                            :stroke-color="status.cpu.color"
-                            :percent="status.cpu.percent"></a-progress>
-                        <div>
-                            <b>{{ i18n "pages.index.cpu" }}:</b> [[ CPUFormatter.cpuCoreFormat(status.cpuCores) ]] 
-                            <a-tooltip>
-                                <a-icon type="area-chart"></a-icon> 
-                                <template slot="title">
-                                    <div><b>{{ i18n "pages.index.logicalProcessors" }}:</b> [[ (status.logicalPro) ]]</div>
-                                    <div><b>{{ i18n "pages.index.frequency" }}:</b> [[ CPUFormatter.cpuSpeedFormat(status.cpuSpeedMhz) ]]</div>
-                                </template>
-                            </a-tooltip>
-                        </div>
-                    </a-col>
-                    <a-col :span="12" class="text-center">
-                        <a-progress type="dashboard" status="normal"
-                            :stroke-color="status.mem.color"
-                            :percent="status.mem.percent"></a-progress>
-                        <div>
-                            <b>{{ i18n "pages.index.memory"}}:</b> [[ SizeFormatter.sizeFormat(status.mem.current) ]] / [[ SizeFormatter.sizeFormat(status.mem.total) ]]
-                        </div>
-                    </a-col>
-                </a-row>
-            </a-col>
-            <a-col :sm="24" :md="12">
-                <a-row>
-                    <a-col :span="12" class="text-center">
-                        <a-progress type="dashboard" status="normal"
-                            :stroke-color="status.swap.color"
-                            :percent="status.swap.percent"></a-progress>
-                        <div>
-                            <b>{{ i18n "pages.index.swap" }}:</b> [[ SizeFormatter.sizeFormat(status.swap.current) ]] / [[ SizeFormatter.sizeFormat(status.swap.total) ]]
-                        </div>
-                    </a-col>
-                    <a-col :span="12" class="text-center">
-                        <a-progress type="dashboard" status="normal"
-                            :stroke-color="status.disk.color"
-                            :percent="status.disk.percent"></a-progress>
-                        <div>
-                            <b>{{ i18n "pages.index.storage"}}:</b> [[ SizeFormatter.sizeFormat(status.disk.current) ]] / [[ SizeFormatter.sizeFormat(status.disk.total) ]]
-                        </div>
-                    </a-col>
-                </a-row>
-            </a-col>
-        </a-row>
-    </a-card>
+  <a-card 
+    hoverable 
+    style="background: #1a1a2e; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); padding: 20px;"
+  >
+    <a-row :gutter="[16, 16]">
+      <!-- CPU -->
+      <a-col :xs="24" :sm="12" 
+             style="padding: 15px; background: #2a2a47; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s ease, box-shadow 0.2s ease;"
+             @mouseover="e => { e.currentTarget.style.transform='translateY(-5px)'; e.currentTarget.style.boxShadow='0 8px 25px rgba(0,0,0,0.4)'; }"
+             @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
+             class="text-center"
+      >
+        <a-progress type="dashboard" :stroke-color="status.cpu.color" :percent="status.cpu.percent" width="80"></a-progress>
+        <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
+          <b>{{ i18n "pages.index.cpu" }}:</b> [[ CPUFormatter.cpuCoreFormat(status.cpuCores) ]]
+          <a-tooltip>
+            <a-icon type="area-chart"></a-icon>
+            <template slot="title">
+              <div><b>{{ i18n "pages.index.logicalProcessors" }}:</b> [[ status.logicalPro ]]</div>
+              <div><b>{{ i18n "pages.index.frequency" }}:</b> [[ CPUFormatter.cpuSpeedFormat(status.cpuSpeedMhz) ]]</div>
+            </template>
+          </a-tooltip>
+        </div>
+      </a-col>
+
+      <!-- Memory -->
+      <a-col :xs="24" :sm="12" 
+             style="padding: 15px; background: #2a2a47; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s ease, box-shadow 0.2s ease;"
+             @mouseover="e => { e.currentTarget.style.transform='translateY(-5px)'; e.currentTarget.style.boxShadow='0 8px 25px rgba(0,0,0,0.4)'; }"
+             @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
+             class="text-center"
+      >
+        <a-progress type="dashboard" :stroke-color="status.mem.color" :percent="status.mem.percent" width="80"></a-progress>
+        <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
+          <b>{{ i18n "pages.index.memory"}}:</b> [[ SizeFormatter.sizeFormat(status.mem.current) ]] / [[ SizeFormatter.sizeFormat(status.mem.total) ]]
+        </div>
+      </a-col>
+
+      <!-- Swap -->
+      <a-col :xs="24" :sm="12" 
+             style="padding: 15px; background: #2a2a47; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s ease, box-shadow 0.2s ease;"
+             @mouseover="e => { e.currentTarget.style.transform='translateY(-5px)'; e.currentTarget.style.boxShadow='0 8px 25px rgba(0,0,0,0.4)'; }"
+             @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
+             class="text-center"
+      >
+        <a-progress type="dashboard" :stroke-color="status.swap.color" :percent="status.swap.percent" width="80"></a-progress>
+        <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
+          <b>{{ i18n "pages.index.swap" }}:</b> [[ SizeFormatter.sizeFormat(status.swap.current) ]] / [[ SizeFormatter.sizeFormat(status.swap.total) ]]
+        </div>
+      </a-col>
+
+      <!-- Storage -->
+      <a-col :xs="24" :sm="12" 
+             style="padding: 15px; background: #2a2a47; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s ease, box-shadow 0.2s ease;"
+             @mouseover="e => { e.currentTarget.style.transform='translateY(-5px)'; e.currentTarget.style.boxShadow='0 8px 25px rgba(0,0,0,0.4)'; }"
+             @mouseleave="e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 15px rgba(0,0,0,0.3)'; }"
+             class="text-center"
+      >
+        <a-progress type="dashboard" :stroke-color="status.disk.color" :percent="status.disk.percent" width="80"></a-progress>
+        <div style="margin-top: 10px; font-size: 0.9rem; color: #a3d9ff;">
+          <b>{{ i18n "pages.index.storage"}}:</b> [[ SizeFormatter.sizeFormat(status.disk.current) ]] / [[ SizeFormatter.sizeFormat(status.disk.total) ]]
+        </div>
+      </a-col>
+    </a-row>
+  </a-card>
 </a-col>
+
               <a-col :sm="24" :lg="12">
                 <a-card hoverable>
                   <template #title>
@@ -156,18 +165,18 @@
                 </a-card>
               </a-col>
               <a-col :sm="24" :lg="12">
-                <a-card title='3X-UI' hoverable>
-                  <a rel="noopener" href="https://github.com/MHSanaei/3x-ui/releases" target="_blank">
+                <a-card title='Begubem' hoverable>
+                  <a rel="noopener" href="https://T.me/begobem" target="_blank">
                     <a-tag color="green">
                       <span>v{{ .cur_ver }}</span>
                     </a-tag>
                   </a>
-                  <a rel="noopener" href="https://t.me/XrayUI" target="_blank">
+                  <a rel="noopener" href="https://t.me/BlackHost_cloud" target="_blank">
                     <a-tag color="green">
                       <span>@XrayUI</span>
                     </a-tag>
                   </a>
-                  <a rel="noopener" href="https://github.com/MHSanaei/3x-ui/wiki" target="_blank">
+                  <a rel="noopener" href="https://T.me/begobem" target="_blank">
                     <a-tag color="purple">
                       <span>{{ i18n "pages.index.documentation" }}</span>
                     </a-tag>
