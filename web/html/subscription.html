@@ -288,7 +288,10 @@ body, html, #app {
                                 </a-descriptions-item>
                                 <a-descriptions-item
                                     label='{{ i18n "subscription.expiry" }}'>
-                                     <template v-if="app.expireMs != 0">
+                                   <template v-if="!app.expireMs || app.expireMs.trim() === ''">
+                                         {{ i18n "subscription.noExpiry" }}
+                                    </template>
+                                    <template v-else>
                                         <template
                                             v-if="app.datepicker === 'gregorian'">
                                             [[

@@ -24,15 +24,13 @@
             </a-row>
             <a-row :gutter="[isMobile ? 8 : 16, isMobile ? 0 : 12]" v-else>
               <a-col>
-    <a-card hoverable
-        :style="{
-            'background-color': 'rgba(255, 255, 255, 0.2)',
-            'backdrop-filter': 'blur(10px)',
-            '-webkit-backdrop-filter': 'blur(10px)',
-            'border': '1px solid rgba(255, 255, 255, 0.3)',
-            'box-shadow': '0 4px 6px rgba(0, 0, 0, 0.1)',
-            'border-radius': '12px'
-        }">
+    <a-card hoverable :style="{
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        border: '1px solid rgba(0, 0, 0, 0.05)',
+        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+        borderRadius: '12px',
+        transition: 'all 0.3s ease'
+    }">
         <a-row :gutter="[0, isMobile ? 16 : 0]">
             <a-col :sm="24" :md="12">
                 <a-row>
@@ -41,9 +39,9 @@
                             :stroke-color="status.cpu.color"
                             :percent="status.cpu.percent"></a-progress>
                         <div>
-                            <b>{{ i18n "pages.index.cpu" }}:</b> [[ CPUFormatter.cpuCoreFormat(status.cpuCores) ]]
+                            <b>{{ i18n "pages.index.cpu" }}:</b> [[ CPUFormatter.cpuCoreFormat(status.cpuCores) ]] 
                             <a-tooltip>
-                                <a-icon type="area-chart"></a-icon>
+                                <a-icon type="area-chart"></a-icon> 
                                 <template slot="title">
                                     <div><b>{{ i18n "pages.index.logicalProcessors" }}:</b> [[ (status.logicalPro) ]]</div>
                                     <div><b>{{ i18n "pages.index.frequency" }}:</b> [[ CPUFormatter.cpuSpeedFormat(status.cpuSpeedMhz) ]]</div>
