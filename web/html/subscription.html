@@ -13,13 +13,13 @@
 body, html, #app {
     margin: 0;
     padding: 0;
-    height: 100%;
     font-family: 'Poppins', sans-serif;
     color: #e0e0e0;
     background: #0d0c1d;
     overflow-x: hidden;
 }
 
+/* Layout */
 .ant-layout {
     background: transparent !important;
 }
@@ -31,13 +31,18 @@ body, html, #app {
     border-radius: 20px !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
     margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
 }
 
 .elegant-card .ant-card-head {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-.elegant-card .ant-card-head-title, .elegant-card .ant-card-extra {
+.elegant-card .ant-card-head-title,
+.elegant-card .ant-card-extra {
     color: #fff !important;
     font-weight: 600;
 }
@@ -47,9 +52,18 @@ body, html, #app {
     font-size: 1.1rem;
     font-weight: 600;
     color: #a3d9ff;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     padding-left: 5px;
     border-left: 3px solid #f3a3ff;
+}
+
+/* ====== Chart ====== */
+.chart-container {
+    width: 100%;
+    max-width: 250px;
+    height: 250px;
+    margin: auto;
+    position: relative;
 }
 
 /* ====== QR Code Section ====== */
@@ -67,6 +81,8 @@ body, html, #app {
     background: #2a2a47;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s ease-in-out;
+    width: 200px;
+    height: 200px;
 }
 
 .qr-box:hover {
@@ -132,9 +148,9 @@ body, html, #app {
 .link-buttons {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     flex-wrap: wrap;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 .link-button {
@@ -177,31 +193,20 @@ body, html, #app {
     color: #a3d9ff !important;
 }
 
-.chart-container {
-    position: relative;
-    height: 250px;
-    width: 250px;
-    margin: auto;
-}
-
-/* ====== Responsive Styles for Mobile ====== */
+/* ====== Responsive ====== */
 @media (max-width: 768px) {
     .elegant-card {
         width: 90vw;
         max-width: 500px;
-        height: auto; /* اجازه می‌ده محتوا خودش ارتفاع بده */
-        border-radius: 15px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
+        height: auto;
+        padding: 15px;
         gap: 15px;
-        margin: 10px auto;
     }
 
     .chart-container {
         width: 100%;
-        max-width: 250px;
-        height: 250px;
+        max-width: 200px;
+        height: 200px;
         margin: auto;
     }
 
@@ -227,14 +232,13 @@ body, html, #app {
     }
 
     .qr-box {
-        width: 200px; /* اندازه ثابت برای QR روی موبایل */
+        width: 200px;
         height: 200px;
     }
 }
-
 </style>
-
 {{ template "page/head_end" .}}
+
 
 {{ template "page/body_start" .}}
 <a-layout id="app" v-cloak :class="themeSwitcher.currentTheme">
@@ -320,7 +324,7 @@ body, html, #app {
                                 </a-descriptions-item>
                                 <a-descriptions-item label='{{ i18n "subscription.expiry" }}'>
                                       <template v-if="app.expireMs == 0">
-                                        {{ i18n "subscription.noExpiry" }}
+                                        [[ DateUtil.convertToJalalian(moment(app.expire)) ]]
                                     </template>
                                     <template v-else>
                                         <template v-if="app.datepicker === 'gregorian'">
