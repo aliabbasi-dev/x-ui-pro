@@ -9,185 +9,269 @@
 
 <style>
     /* ------------------------------------------- */
-    /* Root Variables for Themes */
+    /* Root Variables for Themes (Neumorphism Focused) */
     /* ------------------------------------------- */
     :root, #app.light {
-        --color-background: #f4f6f9;
-        --color-card-bg: #fff;
-        --color-text: #2c3e50;
-        --color-secondary-text: #7f8c8d;
-        --color-border: #ecf0f1;
-        --color-list-hover: #fcfdfe;
-        --color-primary: #3498db;
-        --color-primary-hover: #2980b9;
-        --color-gradient-start: #e9f0f9;
-        --color-gradient-end: #d9e3f1;
+        --base-color: #e0e5ec;
+        --main-bg-gradient: linear-gradient(145deg, #e7ecef, #c3ccd4);
+        --card-bg: var(--base-color);
+        --text-color: #34495e;
+        --secondary-text-color: #7f8c8d;
+        --border-color: #d1d9e6;
+        --highlight-color: #f0f5fa; /* Lighter shade for neumorphic effect */
+        --shadow-light: #ffffff;
+        --shadow-dark: #a3b1c6;
+        --primary-button-bg: #3498db;
+        --primary-button-hover-bg: #2980b9;
+        --tag-color: #8e44ad;
     }
     #app.dark {
-        --color-background: #1e272e;
-        --color-card-bg: #2d3436;
-        --color-text: #ecf0f1;
-        --color-secondary-text: #bdc3c7;
-        --color-border: #3f4a4d;
-        --color-list-hover: #3a474a;
-        --color-primary: #3498db;
-        --color-primary-hover: #2980b9;
-        --color-gradient-start: #2a333c;
-        --color-gradient-end: #1e272e;
+        --base-color: #2e3a45;
+        --main-bg-gradient: linear-gradient(145deg, #323d46, #2a353d);
+        --card-bg: var(--base-color);
+        --text-color: #ecf0f1;
+        --secondary-text-color: #bdc3c7;
+        --border-color: #3f4a4d;
+        --highlight-color: #3d4a53; /* Lighter shade for neumorphic effect */
+        --shadow-light: #3d4a53;
+        --shadow-dark: #1f272c;
+        --primary-button-bg: #4a69bd;
+        --primary-button-hover-bg: #34495e;
+        --tag-color: #9b59b6;
     }
     #app.ultra-dark {
-        --color-background: #000000;
-        --color-card-bg: #0a0a0a;
-        --color-text: #f0f0f0;
-        --color-secondary-text: #b0b0b0;
-        --color-border: #1a1a1a;
-        --color-list-hover: #111111;
-        --color-primary: #4a69bd;
-        --color-primary-hover: #34495e;
-        --color-gradient-start: #0a0a0a;
-        --color-gradient-end: #050505;
+        --base-color: #1a1a1a;
+        --main-bg-gradient: linear-gradient(145deg, #1f1f1f, #151515);
+        --card-bg: var(--base-color);
+        --text-color: #f0f0f0;
+        --secondary-text-color: #b0b0b0;
+        --border-color: #2a2a2a;
+        --highlight-color: #2b2b2b; /* Lighter shade for neumorphic effect */
+        --shadow-light: #2a2a2a;
+        --shadow-dark: #0a0a0a;
+        --primary-button-bg: #6c5ce7;
+        --primary-button-hover-bg: #4c40b2;
+        --tag-color: #be2edd;
+    }
+
+    /* ------------------------------------------- */
+    /* Neumorphism Mixin (for reusable shadows) */
+    /* ------------------------------------------- */
+    .neumorphic-shadow-concave {
+        box-shadow: 
+            7px 7px 15px var(--shadow-dark), 
+            -7px -7px 15px var(--shadow-light);
+    }
+    .neumorphic-shadow-convex {
+        box-shadow: 
+            inset 5px 5px 10px var(--shadow-dark), 
+            inset -5px -5px 10px var(--shadow-light);
+    }
+    .neumorphic-button-shadow {
+        box-shadow: 
+            5px 5px 10px var(--shadow-dark), 
+            -5px -5px 10px var(--shadow-light);
+    }
+    .neumorphic-button-pressed {
+        box-shadow: 
+            inset 3px 3px 7px var(--shadow-dark), 
+            inset -3px -3px 7px var(--shadow-light);
     }
 
     /* ------------------------------------------- */
     /* General Styles */
     /* ------------------------------------------- */
     body {
-        font-family: 'Inter', 'Vazirmatn', sans-serif;
+        font-family: 'Poppins', 'Vazirmatn', sans-serif;
     }
     #app.subscription-page {
-        background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
+        background: var(--main-bg-gradient);
         transition: all 0.5s ease-in-out;
     }
     
     /* Card Styles */
     .subscription-card {
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        background-color: var(--color-card-bg);
-        transition: background-color 0.5s ease;
-        color: var(--color-text);
+        border-radius: 25px;
+        background-color: var(--card-bg);
+        color: var(--text-color);
         border: none;
+        padding: 20px; /* Adjust padding for better neumorphic spacing */
+        .neumorphic-shadow-concave; /* Apply convex shadow by default */
+        transition: all 0.5s ease-in-out;
     }
     .subscription-card .ant-card-head {
-        border-bottom: 1px solid var(--color-border);
+        border-bottom: none; /* No border for neumorphic look */
+        padding-bottom: 10px;
     }
     .ant-card-head-title, .ant-descriptions-item-label {
-        color: var(--color-text);
+        color: var(--text-color);
+        font-weight: 600;
     }
     .ant-descriptions-item-content {
-        color: var(--color-secondary-text);
+        color: var(--secondary-text-color);
     }
     .ant-popover-inner-content, .ant-dropdown-menu {
-        background-color: var(--color-card-bg);
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background-color: var(--card-bg);
+        border-radius: 15px;
+        .neumorphic-shadow-concave;
     }
     .ant-dropdown-menu-item, .ant-dropdown-menu-item a {
-        color: var(--color-text) !important;
+        color: var(--text-color) !important;
+        transition: background-color 0.2s;
+    }
+    .ant-dropdown-menu-item:hover {
+        background-color: var(--highlight-color);
     }
     .ant-btn-circle {
-        background-color: transparent;
-        border-color: transparent;
-        color: var(--color-secondary-text);
-        box-shadow: none;
-        transition: all 0.3s;
+        background-color: var(--card-bg);
+        border: none;
+        color: var(--secondary-text-color);
+        border-radius: 50%;
+        .neumorphic-button-shadow;
+        transition: all 0.2s ease-in-out;
     }
     .ant-btn-circle:hover {
-        background-color: rgba(0,0,0,0.05);
-    }
-    #app.dark .ant-btn-circle:hover, #app.ultra-dark .ant-btn-circle:hover {
-        background-color: rgba(255,255,255,0.05);
+        .neumorphic-button-pressed;
+        color: var(--primary-button-bg);
     }
 
     /* Descriptions List (Info Table) */
     .ant-descriptions-bordered {
-        border-radius: 16px;
+        border-radius: 20px;
         overflow: hidden;
         border: none;
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+        background-color: var(--card-bg);
+        .neumorphic-shadow-convex; /* Inner shadow for description list */
     }
     .ant-descriptions-bordered .ant-descriptions-item-label {
-        background-color: rgba(0, 0, 0, 0.02);
+        background-color: var(--highlight-color);
         font-weight: 500;
-        color: var(--color-secondary-text);
-    }
-    #app.dark .ant-descriptions-bordered .ant-descriptions-item-label, #app.ultra-dark .ant-descriptions-bordered .ant-descriptions-item-label {
-        background-color: rgba(255, 255, 255, 0.03);
+        color: var(--secondary-text-color);
+        border-bottom: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color); /* For columns */
     }
     .ant-descriptions-bordered .ant-descriptions-item-content {
-        background-color: var(--color-card-bg);
-        color: var(--color-text);
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        border-bottom: 1px solid var(--border-color);
     }
-
+    .ant-descriptions-bordered .ant-descriptions-item {
+        border-right: none !important; /* Remove default Ant Design borders */
+        border-bottom: none !important;
+    }
+    
     /* Buttons and Tags */
     .ant-btn-primary {
-        border-radius: 12px;
+        border-radius: 15px;
         font-weight: 600;
-        background-color: var(--color-primary);
-        border-color: var(--color-primary);
-        transition: all 0.3s;
+        background-color: var(--primary-button-bg);
+        border: none;
+        color: white; /* Ensure text is white for primary buttons */
+        .neumorphic-button-shadow;
+        transition: all 0.2s ease-in-out;
     }
     .ant-btn-primary:hover {
-        background-color: var(--color-primary-hover);
-        border-color: var(--color-primary-hover);
+        background-color: var(--primary-button-hover-bg);
+        .neumorphic-button-pressed;
     }
     .ant-tag {
-        border-radius: 8px;
-        font-size: 13px;
+        border-radius: 10px;
+        font-size: 14px;
+        padding: 5px 12px;
+        background-color: var(--tag-color); /* A specific accent color for tags */
+        color: white;
+        border: none;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
     }
 
     /* ------------------------------------------- */
-    /* QR Code Section - Glassmorphism & New Design */
+    /* QR Code Section - Neumorphic */
     /* ------------------------------------------- */
     .qr-box {
         position: relative;
-        background-color: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background-color: var(--card-bg);
+        border-radius: 25px;
+        padding: 30px;
+        .neumorphic-shadow-concave; /* Convex shadow for the outer QR box */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .qr-tag {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        border-radius: 10px;
+        font-size: 14px;
+        padding: 5px 12px;
+        background-color: var(--tag-color);
+        color: white;
+        border: none;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    .qr-bg-sub-inner {
         border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 24px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        background-color: var(--card-bg);
+        .neumorphic-shadow-convex; /* Concave shadow for the inner QR area */
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    #app.dark .qr-box, #app.ultra-dark .qr-box {
-        background-color: rgba(0, 0, 0, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .qr-tag {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        border-radius: 6px;
-    }
-    .qr-bg-sub-inner {
-        border-radius: 16px;
-        padding: 16px;
-        background-color: var(--color-card-bg);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
     #qrcode, #qrcode-subjson {
-        border-radius: 12px;
+        border-radius: 15px;
+        background-color: white; /* QR codes usually need a white background */
+    }
+    #app.dark #qrcode, #app.dark #qrcode-subjson,
+    #app.ultra-dark #qrcode, #app.ultra-dark #qrcode-subjson {
+        background-color: #fff; /* Ensure QR code is readable */
     }
 
     /* ------------------------------------------- */
     /* List Item */
     /* ------------------------------------------- */
     .ant-list {
-        border-radius: 16px;
+        border-radius: 20px;
         overflow: hidden;
-        border: 1px solid var(--color-border);
+        border: none;
+        background-color: var(--card-bg);
+        .neumorphic-shadow-concave;
     }
     .ant-list-item {
         transition: all 0.3s;
-        background-color: var(--color-card-bg);
-        border-bottom: 1px solid var(--color-border);
+        background-color: var(--card-bg);
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-color);
+    }
+    .ant-list-item:last-child {
+        border-bottom: none;
     }
     .ant-list-item:hover {
-        background-color: var(--color-list-hover);
+        background-color: var(--highlight-color);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 576px) {
+        .subscription-card {
+            padding: 15px;
+            border-radius: 18px;
+        }
+        .qr-box {
+            padding: 15px;
+            border-radius: 18px;
+        }
+        .qr-bg-sub-inner {
+            padding: 10px;
+            border-radius: 15px;
+        }
+        .ant-tag {
+            font-size: 12px;
+            padding: 3px 8px;
+        }
+        .ant-btn-primary {
+            border-radius: 10px;
+        }
     }
 
 </style>
@@ -197,7 +281,7 @@
 {{ template "page/body_start" .}}
 <a-layout id="app" v-cloak :class="themeSwitcher.currentTheme + ' subscription-page'">
     <a-layout-content class="p-2">
-        <a-row type="flex" justify="center" class="mt-2">
+        <a-row type="flex" justify="center" class="mt-4">
             <a-col :xs="24" :sm="22" :md="18" :lg="14" :xl="12">
                 <a-card hoverable class="subscription-card">
                     <template #title>
