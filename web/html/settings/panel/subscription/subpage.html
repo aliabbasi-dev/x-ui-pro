@@ -9,31 +9,31 @@
 
 <style>
     /* ------------------------------------------- */
-    /* Root Variables for Themes (Luxurious & Modern) */
+    /* Root Variables for Themes (Minimal & Modern) */
     /* ------------------------------------------- */
     :root, #app.light {
-        --color-background-start: #f0f4f8;
-        --color-background-end: #d9e2ec;
-        --color-card-bg: #e3ecf5;
+        --color-background-start: #f5f8fc;
+        --color-background-end: #e5eef7;
+        --color-card-bg: #ffffff;
         --color-text: #2c3e50;
-        --color-secondary-text: #7f8c8d;
-        --color-border: #ccd3dd;
-        --color-shadow-light: rgba(255, 255, 255, 0.8);
-        --color-shadow-dark: rgba(174, 192, 212, 0.5);
+        --color-secondary-text: #8b96a5;
+        --color-border: #e9eff6;
+        --color-shadow: rgba(44, 62, 80, 0.08);
+        --color-glow: rgba(52, 152, 219, 0.3);
         --color-primary: #3498db;
         --color-primary-hover: #2980b9;
     }
     #app.dark {
-        --color-background-start: #232b34;
-        --color-background-end: #1a2027;
+        --color-background-start: #1e2730;
+        --color-background-end: #171d24;
         --color-card-bg: #2b3540;
         --color-text: #ecf0f1;
         --color-secondary-text: #bdc3c7;
-        --color-border: #404a56;
-        --color-shadow-light: rgba(61, 74, 83, 0.5);
-        --color-shadow-dark: rgba(10, 15, 20, 0.8);
-        --color-primary: #3a80a8;
-        --color-primary-hover: #2e668a;
+        --color-border: #3c4857;
+        --color-shadow: rgba(0, 0, 0, 0.25);
+        --color-glow: rgba(74, 105, 189, 0.2);
+        --color-primary: #4a69bd;
+        --color-primary-hover: #34495e;
     }
     #app.ultra-dark {
         --color-background-start: #0a0a0a;
@@ -42,14 +42,14 @@
         --color-text: #f0f0f0;
         --color-secondary-text: #b0b0b0;
         --color-border: #222;
-        --color-shadow-light: rgba(40, 40, 40, 0.5);
-        --color-shadow-dark: rgba(0, 0, 0, 0.8);
+        --color-shadow: rgba(0, 0, 0, 0.4);
+        --color-glow: rgba(108, 92, 231, 0.2);
         --color-primary: #6c5ce7;
         --color-primary-hover: #4c40b2;
     }
 
     /* ------------------------------------------- */
-    /* General Styles (Modern & Sleek) */
+    /* General Styles */
     /* ------------------------------------------- */
     body {
         font-family: 'Poppins', 'Vazirmatn', sans-serif;
@@ -61,132 +61,114 @@
         padding: 2rem 0;
     }
     
-    /* Neumorphic Card Base */
     .subscription-card {
-        border-radius: 30px;
+        border-radius: 20px;
         background-color: var(--color-card-bg);
         color: var(--color-text);
         border: none;
-        box-shadow: 12px 12px 24px var(--color-shadow-dark), -12px -12px 24px var(--color-shadow-light);
-        transition: all 0.5s ease-in-out;
-        padding: 30px;
+        box-shadow: 0 10px 30px var(--color-shadow);
+        transition: all 0.3s ease-in-out;
+        padding: 25px;
     }
 
     .ant-card-head {
-        border-bottom: none;
+        border-bottom: 1px solid var(--color-border);
         padding-bottom: 20px;
     }
-    .ant-card-head-title, .ant-descriptions-item-label {
+    .ant-card-head-title {
         color: var(--color-text);
         font-weight: 600;
         font-size: 1.25rem;
     }
+    .ant-card-extra {
+        display: flex;
+        align-items: center;
+    }
 
-    /* Popover and Dropdown (Settings) - FIXED */
+    /* Popover and Dropdown (Settings) */
     .ant-popover-inner-content, .ant-dropdown-menu {
         background-color: var(--color-card-bg);
-        border-radius: 15px;
-        box-shadow: 8px 8px 16px var(--color-shadow-dark), -8px -8px 16px var(--color-shadow-light);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px var(--color-shadow);
+        border: 1px solid var(--color-border);
     }
     .ant-dropdown-menu-item, .ant-dropdown-menu-item a {
         color: var(--color-text) !important;
-        transition: background-color 0.2s;
         font-weight: 500;
+        transition: background-color 0.2s;
         padding: 10px 16px;
     }
     .ant-dropdown-menu-item:hover {
-        background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
-        color: var(--color-primary) !important;
+        background-color: var(--color-border);
     }
     .ant-btn-circle {
-        background-color: var(--color-card-bg);
+        background-color: transparent;
         border: none;
         color: var(--color-secondary-text);
-        border-radius: 50%;
-        box-shadow: 4px 4px 8px var(--color-shadow-dark), -4px -4px 8px var(--color-shadow-light);
-        transition: all 0.2s ease-in-out;
+        transition: all 0.2s;
     }
     .ant-btn-circle:hover {
-        box-shadow: inset 2px 2px 5px var(--color-shadow-dark), inset -2px -2px 5px var(--color-shadow-light);
         color: var(--color-primary);
     }
 
-    /* Info Descriptions */
+    /* Descriptions List (Info) */
     .ant-descriptions-bordered {
-        border-radius: 20px;
+        border-radius: 16px;
         overflow: hidden;
-        border: none;
-        box-shadow: inset 6px 6px 12px var(--color-shadow-dark), inset -6px -6px 12px var(--color-shadow-light);
-        padding: 10px;
-        background-color: var(--color-card-bg);
+        border: 1px solid var(--color-border);
     }
     .ant-descriptions-bordered .ant-descriptions-item-label {
-        background-color: transparent;
+        background-color: var(--color-background-start);
         font-weight: 500;
         color: var(--color-secondary-text);
-        border: none;
-        padding-left: 20px;
     }
     .ant-descriptions-bordered .ant-descriptions-item-content {
-        background-color: transparent;
-        color: var(--color-text);
-        border: none;
-        padding-right: 20px;
-    }
-    .ant-descriptions-item {
-        margin: 10px 0;
-        padding: 10px;
         background-color: var(--color-card-bg);
-        border-radius: 15px;
-        box-shadow: 4px 4px 8px var(--color-shadow-dark), -4px -4px 8px var(--color-shadow-light);
-        transition: all 0.3s;
+        color: var(--color-text);
     }
-    .ant-descriptions-item:hover {
-        box-shadow: inset 2px 2px 5px var(--color-shadow-dark), inset -2px -2px 5px var(--color-shadow-light);
+    .ant-descriptions-item-label, .ant-descriptions-item-content {
+        padding: 12px 16px;
+        font-size: 1rem;
     }
     .ant-tag {
-        border-radius: 12px;
-        font-size: 14px;
-        padding: 5px 12px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        padding: 4px 10px;
         border: none;
     }
 
     /* ------------------------------------------- */
-    /* QR Code Section (Glassmorphism & 3D Effect) */
+    /* QR Code Section (Minimal & Luminous) */
     /* ------------------------------------------- */
     .qr-box {
         position: relative;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 30px;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        padding: 40px;
+        background-color: var(--color-card-bg);
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 10px 20px var(--color-shadow), 0 0 20px var(--color-glow);
+        transition: all 0.3s ease-in-out;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        transition: all 0.3s ease-in-out;
-    }
-    #app.dark .qr-box, #app.ultra-dark .qr-box {
-        background: rgba(0, 0, 0, 0.2);
-        border: 2px solid rgba(255, 255, 255, 0.1);
+        gap: 1.5rem;
     }
     .qr-tag {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        font-weight: bold;
+        position: static; /* Let it flow normally */
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: var(--color-primary);
+        background-color: transparent;
+        box-shadow: none;
     }
     .qr-bg-sub-inner {
-        border-radius: 25px;
-        padding: 25px;
-        background: var(--color-card-bg);
-        box-shadow: inset 6px 6px 12px var(--color-shadow-dark), inset -6px -6px 12px var(--color-shadow-light);
-        transition: all 0.3s;
+        border-radius: 16px;
+        padding: 16px;
+        background-color: var(--color-card-bg);
+        box-shadow: inset 0 0 10px var(--color-shadow);
     }
     #qrcode, #qrcode-subjson {
-        border-radius: 20px;
+        border-radius: 12px;
         background-color: white;
     }
     #app.dark #qrcode, #app.dark #qrcode-subjson,
@@ -196,42 +178,33 @@
     
     /* Lists and Buttons */
     .ant-list {
-        border-radius: 25px;
+        border-radius: 16px;
         overflow: hidden;
-        border: none;
-        background-color: var(--color-card-bg);
-        box-shadow: 8px 8px 16px var(--color-shadow-dark), -8px -8px 16px var(--color-shadow-light);
-        padding: 10px;
+        border: 1px solid var(--color-border);
     }
     .ant-list-item {
         background-color: var(--color-card-bg);
-        border-bottom: none;
+        border-bottom: 1px solid var(--color-border);
         padding: 15px;
         transition: all 0.3s;
     }
-    .ant-list-item:not(:last-child) {
-        border-bottom: 1px solid var(--color-border);
-    }
     .ant-list-item:hover {
-        background-color: color-mix(in srgb, var(--color-card-bg) 10%, transparent);
+        background-color: var(--color-border);
     }
     
     .ant-btn-primary {
-        border-radius: 20px;
+        border-radius: 12px;
         font-weight: 600;
         background-color: var(--color-primary);
         border: none;
         color: white;
-        box-shadow: 6px 6px 12px var(--color-shadow-dark), -6px -6px 12px var(--color-shadow-light);
+        box-shadow: 0 4px 10px var(--color-shadow);
         transition: all 0.3s ease-in-out;
     }
     .ant-btn-primary:hover {
         background-color: var(--color-primary-hover);
-        box-shadow: inset 3px 3px 7px var(--color-shadow-dark), inset -3px -3px 7px var(--color-shadow-light);
-        transform: translateY(2px);
-    }
-    .ant-btn-primary a {
-        color: white !important;
+        box-shadow: 0 2px 5px var(--color-shadow);
+        transform: translateY(1px);
     }
 </style>
 
@@ -251,7 +224,7 @@
                     </template>
                     <template #extra>
                         <a-popover
-                            :overlay-class-name="themeSwitcher.currentTheme + ' ant-popover-lux'"
+                            :overlay-class-name="themeSwitcher.currentTheme"
                             title='{{ i18n "menu.settings" }}'
                             placement="bottomRight" trigger="click">
                             <template #content>
@@ -288,11 +261,7 @@
                                     <a-col :xs="24" :sm="app.subJsonUrl ? 12 : 24"
                                         style="text-align:center;">
                                         <tr-qr-box class="qr-box">
-                                            <a-tag color="purple"
-                                                class="qr-tag">
-                                                <span>{{ i18n
-                                                    "pages.settings.subSettings"}}</span>
-                                            </a-tag>
+                                            <span class="qr-tag">{{ i18n "pages.settings.subSettings"}}</span>
                                             <tr-qr-bg class="qr-bg-sub">
                                                 <tr-qr-bg-inner
                                                     class="qr-bg-sub-inner">
@@ -307,12 +276,7 @@
                                     <a-col v-if="app.subJsonUrl" :xs="24" :sm="12"
                                         style="text-align:center;">
                                         <tr-qr-box class="qr-box">
-                                            <a-tag color="purple"
-                                                class="qr-tag">
-                                                <span>{{ i18n
-                                                    "pages.settings.subSettings"}}
-                                                    Json</span>
-                                            </a-tag>
+                                            <span class="qr-tag">{{ i18n "pages.settings.subSettings"}} Json</span>
                                             <tr-qr-bg class="qr-bg-sub">
                                                 <tr-qr-bg-inner
                                                     class="qr-bg-sub-inner">
