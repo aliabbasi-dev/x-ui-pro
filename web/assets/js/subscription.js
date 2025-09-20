@@ -1,3 +1,11 @@
+// تابع تبدیل خودکار حجم به B / KB / MB / GB
+function formatSize(bytes) {
+    if (bytes >= 1024*1024*1024) return (bytes / (1024*1024*1024)).toFixed(2) + ' GB';
+    if (bytes >= 1024*1024) return (bytes / (1024*1024)).toFixed(2) + ' MB';
+    if (bytes >= 1024) return (bytes / 1024).toFixed(2) + ' KB';
+    return bytes + ' B';
+}
+
 // تابع رسم نمودار با استفاده از G2Plot
 function createUsageChart(used, total) {
     const data = [
@@ -11,23 +19,22 @@ function createUsageChart(used, total) {
         colorField: 'type',
         radius: 0.8,
         innerRadius: 0.6, // تبدیل به Doughnut
-        legend: {
-            position: 'bottom',
-        },
+        legend: { position: 'bottom' },
         tooltip: {
             formatter: (datum) => {
-                return { name: datum.type, value: FileUtil.formatBytes(datum.value) };
+                return { name: datum.type, value: formatSize(datum.value) };
             },
+        },
+        label: {
+            type: 'spider',
+            content: (datum) => `${datum.type}: ${formatSize(datum.value)}`,
+            style: { fontSize: 14 },
         },
         statistic: {
             title: false,
             content: {
-                formatter: ({ percent }) => {
-                    return `${(percent * 100).toFixed(1)}%`;
-                },
-                style: {
-                    fontSize: 24,
-                }
+                formatter: ({ percent }) => `${(percent * 100).toFixed(1)}%`,
+                style: { fontSize: 24 },
             },
         },
         interactions: [{ type: 'element-active' }],
@@ -39,6 +46,7 @@ function createUsageChart(used, total) {
 (function () {
     const el = document.getElementById('subscription-data');
     if (!el) return;
+
     const textarea = document.getElementById('subscription-links');
     const rawLinks = (textarea?.value || '').split('\n').filter(Boolean);
 
@@ -59,15 +67,15 @@ function createUsageChart(used, total) {
         datepicker: el.getAttribute('data-datepicker') || 'gregorian',
     };
 
-    if (data.lastOnlineMs && data.lastOnlineMs < 10_000_000_000) {
-        data.lastOnlineMs *= 1000;
-    }
+    if (data.lastOnlineMs && data.lastOnlineMs < 10_000_000_000) data.lastOnlineMs *= 1000;
 
     function renderLink(item) {
         return (
             Vue.h('a-list-item', {}, [
                 Vue.h('a-space', { props: { size: 'small' } }, [
-                    Vue.h('a-button', { props: { size: 'small' }, on: { click: () => copy(item) } }, [Vue.h('a-icon', { props: { type: 'copy' } })]),
+                    Vue.h('a-button', { props: { size: 'small' }, on: { click: () => copy(item) } }, [
+                        Vue.h('a-icon', { props: { type: 'copy' } })
+                    ]),
                     Vue.h('span', { class: 'break-all' }, item)
                 ])
             ])
@@ -81,16 +89,11 @@ function createUsageChart(used, total) {
         });
     }
 
-    function open(url) {
-        window.location.href = url;
-    }
+    function open(url) { window.location.href = url; }
 
-    function drawQR(value) {
-        try {
-            new QRious({ element: document.getElementById('qrcode'), value, size: 220 });
-        } catch (e) {
-            console.warn(e);
-        }
+    function drawQR(value, elementId='qrcode') {
+        try { new QRious({ element: document.getElementById(elementId), value, size: 220 }); }
+        catch (e) { console.warn(e); }
     }
 
     function linkName(link, idx) {
@@ -115,7 +118,7 @@ function createUsageChart(used, total) {
                 const hashIdx = link.indexOf('#');
                 if (hashIdx !== -1) return decodeURIComponent(link.substring(hashIdx + 1));
             }
-        } catch (e) { /* ignore and fallback */ }
+        } catch (e) { }
         return 'Link ' + (idx + 1);
     }
 
@@ -127,28 +130,17 @@ function createUsageChart(used, total) {
             app: data,
             links: rawLinks,
             lang: '',
-            viewportWidth: (typeof window !== 'undefined' ? window.innerWidth : 1024),
+            viewportWidth: window.innerWidth,
         },
         async mounted() {
             this.lang = LanguageManager.getLanguage();
-            const tpl = document.getElementById('subscription-data');
-            const sj = tpl ? tpl.getAttribute('data-subjson-url') : '';
-            if (sj) this.app.subJsonUrl = sj;
+
             drawQR(this.app.subUrl);
+            if (this.app.subJsonUrl) drawQR(this.app.subJsonUrl, 'qrcode-subjson');
 
-            try {
-                const elJson = document.getElementById('qrcode-subjson');
-                if (elJson && this.app.subJsonUrl) {
-                    new QRious({ element: elJson, value: this.app.subJsonUrl, size: 220 });
-                }
-            } catch (e) { /* ignore */ }
-
-            this._onResize = () => {
-                this.viewportWidth = window.innerWidth;
-            };
+            this._onResize = () => { this.viewportWidth = window.innerWidth; };
             window.addEventListener('resize', this._onResize);
 
-            // فراخوانی تابع رسم نمودار بعد از mount شدن
             if (this.app.totalByte > 0) {
                 this.$nextTick(() => {
                     const usedByte = this.app.downloadByte + this.app.uploadByte;
@@ -160,12 +152,8 @@ function createUsageChart(used, total) {
             if (this._onResize) window.removeEventListener('resize', this._onResize);
         },
         computed: {
-            isMobile() {
-                return this.viewportWidth < 576;
-            },
-            isUnlimited() {
-                return !this.app.totalByte;
-            },
+            isMobile() { return this.viewportWidth < 576; },
+            isUnlimited() { return !this.app.totalByte; },
             isActive() {
                 const now = Date.now();
                 const expiryOk = !this.app.expireMs || this.app.expireMs >= now;
@@ -173,12 +161,9 @@ function createUsageChart(used, total) {
                 return expiryOk && trafficOk;
             },
             usagePercentage() {
-                if (!this.app.totalByte || this.app.totalByte <= 0) {
-                    return 0;
-                }
+                if (!this.app.totalByte) return 0;
                 const usedByte = this.app.downloadByte + this.app.uploadByte;
-                const percentage = (usedByte / this.app.totalByte) * 100;
-                return Math.min(100, percentage);
+                return Math.min(100, (usedByte / this.app.totalByte) * 100);
             },
             shadowrocketUrl() {
                 const rawUrl = this.app.subUrl + '?flag=shadowrocket';
@@ -189,24 +174,10 @@ function createUsageChart(used, total) {
             v2boxUrl() {
                 return `v2box://install-sub?url=${encodeURIComponent(this.app.subUrl)}&name=${encodeURIComponent(this.app.sId)}`;
             },
-            streisandUrl() {
-                return `streisand://import/${encodeURIComponent(this.app.subUrl)}`;
-            },
-            v2raytunUrl() {
-                return this.app.subUrl;
-            },
-            npvtunUrl() {
-                return this.app.subUrl;
-            }
+            streisandUrl() { return `streisand://import/${encodeURIComponent(this.app.subUrl)}`; },
+            v2raytunUrl() { return this.app.subUrl; },
+            npvtunUrl() { return this.app.subUrl; },
         },
-        methods: {
-            renderLink,
-            copy,
-            open,
-            linkName,
-            i18nLabel(key) {
-                return '{{ i18n "' + key + '" }}';
-            },
-        },
+        methods: { renderLink, copy, open, linkName, i18nLabel(key) { return '{{ i18n "' + key + '" }}'; } },
     });
 })();
