@@ -22,6 +22,8 @@
         --color-glow: rgba(52, 152, 219, 0.3);
         --color-primary: #3498db;
         --color-primary-hover: #2980b9;
+        --color-section-bg: #f9fcff;
+        --color-icon: #52a9e2;
     }
     #app.dark {
         --color-background-start: #1e2730;
@@ -34,6 +36,8 @@
         --color-glow: rgba(74, 105, 189, 0.2);
         --color-primary: #4a69bd;
         --color-primary-hover: #34495e;
+        --color-section-bg: #242c36;
+        --color-icon: #7d96d2;
     }
     #app.ultra-dark {
         --color-background-start: #0a0a0a;
@@ -46,6 +50,8 @@
         --color-glow: rgba(108, 92, 231, 0.2);
         --color-primary: #6c5ce7;
         --color-primary-hover: #4c40b2;
+        --color-section-bg: #0e0e0e;
+        --color-icon: #8c7ae6;
     }
 
     /* ------------------------------------------- */
@@ -111,32 +117,6 @@
         color: var(--color-primary);
     }
 
-    /* Descriptions List (Info) */
-    .ant-descriptions-bordered {
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid var(--color-border);
-    }
-    .ant-descriptions-bordered .ant-descriptions-item-label {
-        background-color: var(--color-background-start);
-        font-weight: 500;
-        color: var(--color-secondary-text);
-    }
-    .ant-descriptions-bordered .ant-descriptions-item-content {
-        background-color: var(--color-card-bg);
-        color: var(--color-text);
-    }
-    .ant-descriptions-item-label, .ant-descriptions-item-content {
-        padding: 12px 16px;
-        font-size: 1rem;
-    }
-    .ant-tag {
-        border-radius: 8px;
-        font-size: 0.9rem;
-        padding: 4px 10px;
-        border: none;
-    }
-
     /* ------------------------------------------- */
     /* QR Code Section (Minimal & Luminous) */
     /* ------------------------------------------- */
@@ -154,7 +134,7 @@
         gap: 1.5rem;
     }
     .qr-tag {
-        position: static; /* Let it flow normally */
+        position: static;
         margin-bottom: 0.5rem;
         font-weight: 600;
         color: var(--color-primary);
@@ -205,6 +185,57 @@
         background-color: var(--color-primary-hover);
         box-shadow: 0 2px 5px var(--color-shadow);
         transform: translateY(1px);
+    }
+
+    /* ------------------------------------------- */
+    /* Subscription Info Section (Redesigned) */
+    /* ------------------------------------------- */
+    .info-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        background-color: var(--color-section-bg);
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: inset 0 0 10px var(--color-shadow);
+        justify-content: space-between;
+    }
+    .info-item {
+        flex: 1 1 calc(50% - 12px); /* Two columns on larger screens */
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+        background-color: var(--color-card-bg);
+        border-radius: 12px;
+        box-shadow: 0 2px 5px var(--color-shadow);
+    }
+    .info-item-full {
+        flex: 1 1 100%; /* Full width for specific items on mobile */
+    }
+    .info-icon {
+        color: var(--color-primary);
+        font-size: 1.5rem;
+    }
+    .info-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .info-label {
+        color: var(--color-secondary-text);
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    .info-value {
+        color: var(--color-text);
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    @media (max-width: 576px) {
+        .info-item {
+            flex: 1 1 100%; /* Single column on mobile */
+        }
     }
 </style>
 
@@ -293,83 +324,100 @@
                         </a-form-item>
 
                         <a-form-item>
-                            <a-descriptions bordered :column="1" size="small">
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.subId" }}'>[[
-                                    app.sId
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.status" }}'>
-                                    <template v-if="isUnlimited">
-                                        <a-tag color="purple">{{ i18n
-                                            "subscription.unlimited" }}</a-tag>
-                                    </template>
-                                    <template v-else>
-                                        <a-tag
-                                            :color="isActive ? 'green' : 'red'">[[
-                                            isActive ? '{{ i18n
-                                            "subscription.active" }}' : '{{ i18n
-                                            "subscription.inactive" }}'
-                                            ]]</a-tag>
-                                    </template>
-                                </a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.downloaded" }}'>[[
-                                    app.download
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.uploaded" }}'>[[
-                                    app.upload
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "usage" }}'>[[ app.used
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.totalQuota" }}'>[[
-                                    app.total
-                                    ]]</a-descriptions-item>
-                                <a-descriptions-item v-if="app.totalByte > 0"
-                                    label='{{ i18n "remained" }}'>[[
-                                    app.remained ]]</a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "lastOnline" }}'>
-                                    <template v-if="app.lastOnlineMs > 0">
-                                        <template
-                                            v-if="app.datepicker === 'gregorian'">
-                                            [[
-                                            DateUtil.formatMillis(app.lastOnlineMs)
-                                            ]]
+                            <div class="info-section">
+                                <div class="info-item info-item-full">
+                                    <a-icon type="idcard" class="info-icon" />
+                                    <div class="info-content">
+                                        <span class="info-label">{{ i18n "subscription.subId" }}</span>
+                                        <span class="info-value">[[ app.sId ]]</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <a-icon type="sync" class="info-icon" />
+                                    <div class="info-content">
+                                        <span class="info-label">{{ i18n "subscription.downloaded" }}</span>
+                                        <span class="info-value">[[ app.download ]]</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <a-icon type="sync" class="info-icon" />
+                                    <div class="info-content">
+                                        <span class="info-label">{{ i18n "subscription.uploaded" }}</span>
+                                        <span class="info-value">[[ app.upload ]]</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <a-icon type="cloud" class="info-icon" />
+                                    <div class="info-content">
+                                        <span class="info-label">{{ i18n "usage" }}</span>
+                                        <span class="info-value">[[ app.used ]]</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <a-icon type="database" class="info-icon" />
+                                    <div class="info-content">
+                                        <span class="info-label">{{ i18n "subscription.totalQuota" }}</span>
+                                        <span class="info-value">[[ app.total ]]</span>
+                                    </div>
+                                </div>
+                                <div class="info-item info-item-full" v-if="app.totalByte > 0">
+                                    <a-icon type="pie-chart" class="info-icon" />
+                                    <div class="info-content">
+                                        <span class="info-label">{{ i18n "remained" }}</span>
+                                        <span class="info-value">[[ app.remained ]]</span>
+                                    </div>
+                                </div>
+                                <div class="info-item info-item-full">
+                                    <a-icon type="thunderbolt" class="info-icon" />
+                                    <div class="info-content">
+                                        <span class="info-label">{{ i18n "subscription.status" }}</span>
+                                        <template v-if="isUnlimited">
+                                            <a-tag color="purple">{{ i18n "subscription.unlimited" }}</a-tag>
                                         </template>
                                         <template v-else>
-                                            [[
-                                            DateUtil.convertToJalalian(moment(app.lastOnlineMs))
-                                            ]]
+                                            <a-tag :color="isActive ? 'green' : 'red'">[[ isActive ? '{{ i18n "subscription.active" }}' : '{{ i18n "subscription.inactive" }}' ]]</a-tag>
                                         </template>
-                                    </template>
-                                    <template v-else>
-                                        <span>-</span>
-                                    </template>
-                                </a-descriptions-item>
-                                <a-descriptions-item
-                                    label='{{ i18n "subscription.expiry" }}'>
-                                    <template v-if="app.expireMs === 0">
-                                        {{ i18n "subscription.noExpiry" }}
-                                    </template>
-                                    <template v-else>
-                                        <template
-                                            v-if="app.datepicker === 'gregorian'">
-                                            [[
-                                            DateUtil.formatMillis(app.expireMs)
-                                            ]]
-                                        </template>
-                                        <template v-else>
-                                            [[
-                                            DateUtil.convertToJalalian(moment(app.expireMs))
-                                            ]]
-                                        </template>
-                                    </template>
-                                </a-descriptions-item>
-                            </a-descriptions>
+                                    </div>
+                                </div>
+                                <div class="info-item info-item-full">
+                                    <a-icon type="calendar" class="info-icon" />
+                                    <div class="info-content">
+                                        <span class="info-label">{{ i18n "lastOnline" }}</span>
+                                        <span class="info-value">
+                                            <template v-if="app.lastOnlineMs > 0">
+                                                <template v-if="app.datepicker === 'gregorian'">
+                                                    [[ DateUtil.formatMillis(app.lastOnlineMs) ]]
+                                                </template>
+                                                <template v-else>
+                                                    [[ DateUtil.convertToJalalian(moment(app.lastOnlineMs)) ]]
+                                                </template>
+                                            </template>
+                                            <template v-else>
+                                                <span>-</span>
+                                            </template>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="info-item info-item-full">
+                                    <a-icon type="clock-circle" class="info-icon" />
+                                    <div class="info-content">
+                                        <span class="info-label">{{ i18n "subscription.expiry" }}</span>
+                                        <span class="info-value">
+                                            <template v-if="app.expireMs === 0">
+                                                {{ i18n "subscription.noExpiry" }}
+                                            </template>
+                                            <template v-else>
+                                                <template v-if="app.datepicker === 'gregorian'">
+                                                    [[ DateUtil.formatMillis(app.expireMs) ]]
+                                                </template>
+                                                <template v-else>
+                                                    [[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]
+                                                </template>
+                                            </template>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </a-form-item>
                     </a-form>
 
