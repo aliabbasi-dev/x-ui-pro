@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/database/model"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/json_util"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/random"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/service"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/xray"
+	"github.com/aliabbasi-dev/x-ui-pro/database/model"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/util/json_util"
+	"github.com/aliabbasi-dev/x-ui-pro/util/random"
+	"github.com/aliabbasi-dev/x-ui-pro/web/service"
+	"github.com/aliabbasi-dev/x-ui-pro/xray"
 )
 
 //go:embed default.json

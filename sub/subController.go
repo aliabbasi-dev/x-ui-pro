@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/config"
+	"github.com/aliabbasi-dev/x-ui-pro/config"
 
 	"github.com/gin-gonic/gin"
 )
