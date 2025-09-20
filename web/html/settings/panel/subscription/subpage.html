@@ -1,7 +1,4 @@
-{{ define "page/head_start" }}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+{{ template "page/head_start" .}}
 <script src="{{ .base_path }}assets/moment/moment.min.js"></script>
 <script src="{{ .base_path }}assets/moment/moment-jalali.min.js?{{ .cur_ver }}"></script>
 <script src="{{ .base_path }}assets/vue/vue.min.js?{{ .cur_ver }}"></script>
@@ -9,149 +6,249 @@
 <script src="{{ .base_path }}assets/js/util/index.js?{{ .cur_ver }}"></script>
 <script src="{{ .base_path }}assets/js/util/date-util.js?{{ .cur_ver }}"></script>
 <script src="{{ .base_path }}assets/qrcode/qrious2.min.js?{{ .cur_ver }}"></script>
-
 <style>
+    /* --- Modern & Stylish Theme --- */
+    :root {
+        --bg-gradient-start: #1f2937;
+        --bg-gradient-end: #111827;
+        --card-bg: rgba(31, 41, 55, 0.6);
+        --card-border-color: rgba(255, 255, 255, 0.1);
+        --text-color: #e5e7eb;
+        --text-color-secondary: #9ca3af;
+        --primary-color: #6366f1;
+        --primary-hover-color: #818cf8;
+        --green-color: #34d399;
+        --red-color: #f87171;
+        --purple-color: #a78bfa;
+        --progress-bar-bg: #4b5563;
+        --progress-bar-fill: linear-gradient(90deg, var(--primary-color), var(--primary-hover-color));
+    }
+
+    [v-cloak] {
+        display: none;
+    }
+
     body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #f0f2f5;
+        background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     }
 
     .subscription-page {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background: transparent;
     }
 
     .subscription-card {
-        border-radius: 16px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-        border: none;
+        background: var(--card-bg) !important;
+        border-radius: 20px !important;
+        border: 1px solid var(--card-border-color) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+        color: var(--text-color) !important;
         overflow: hidden;
     }
 
-    .ant-card-head {
-        border-bottom: 1px solid #f0f0f0;
+    .subscription-card .ant-card-head {
+        border-bottom: 1px solid var(--card-border-color) !important;
+        color: var(--text-color) !important;
     }
 
-    .ant-card-head-title {
-        padding: 24px 0;
-        font-weight: 600;
-        font-size: 1.25rem;
+    .subscription-card .ant-card-head-title,
+    .subscription-card .ant-card-extra {
+        color: var(--text-color) !important;
     }
 
-    .ant-tag {
-        border-radius: 8px;
-        font-weight: 500;
-        padding: 4px 8px;
+    .subscription-card .ant-tag {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: var(--primary-color) !important;
+        color: var(--primary-color) !important;
+        font-weight: bold;
     }
     
-    .ant-descriptions-title {
-        margin-bottom: 24px;
-        font-size: 1.1rem;
+    .ant-popover.dark {
+        --card-bg: rgba(55, 65, 81, 0.9) !important;
     }
 
-    .ant-descriptions-item-label {
-        font-weight: 500;
-        color: #555;
+    .ant-popover.dark .ant-popover-inner {
+        background: var(--card-bg) !important;
+        backdrop-filter: blur(10px);
     }
 
-    .qr-box {
-        position: relative;
-        display: inline-block;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 12px;
-        border: 1px solid #e0e0e0;
+    .ant-popover.dark .ant-popover-title,
+    .ant-popover.dark .ant-popover-inner-content {
+        color: var(--text-color) !important;
+        border-bottom: 1px solid var(--card-border-color) !important;
     }
 
-    .qr-cv {
-        border-radius: 8px;
+    .qr-container {
+        padding: 1rem;
+        border-radius: 15px;
+        background: rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .qr-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+    }
+    
+    .qr-container canvas {
+        border-radius: 10px;
         cursor: pointer;
-        width: 150px;
-        height: 150px;
+        max-width: 100%;
+        height: auto;
     }
 
-    .qr-tag {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background-color: #6a1b9a;
-        color: #fff;
+    .qr-title {
+        margin-top: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-color);
     }
 
+    /* Usage Stats Progress Bar */
+    .usage-stats {
+        padding: 1.5rem;
+        border: 1px solid var(--card-border-color);
+        background: rgba(0,0,0,0.2);
+        border-radius: 15px;
+        margin-bottom: 1.5rem;
+    }
+
+    .usage-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 12px;
+        background-color: var(--progress-bar-bg);
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+
+    .progress {
+        height: 100%;
+        background: var(--progress-bar-fill);
+        border-radius: 6px;
+        transition: width 0.5s ease-in-out;
+    }
+
+    .usage-details {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        color: var(--text-color);
+    }
+
+    /* Subscription Info Section */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .info-item {
+        background: rgba(0,0,0,0.2);
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid var(--card-border-color);
+    }
+    .info-label {
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .info-value {
+        color: var(--text-color);
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    .info-value .ant-tag {
+        font-size: 1rem !important;
+        padding: 4px 10px !important;
+        border-radius: 8px !important;
+    }
+    .tag-active {
+        background: rgba(52, 211, 153, 0.1) !important;
+        border-color: var(--green-color) !important;
+        color: var(--green-color) !important;
+    }
+    .tag-inactive {
+        background: rgba(248, 113, 113, 0.1) !important;
+        border-color: var(--red-color) !important;
+        color: var(--red-color) !important;
+    }
+    .tag-unlimited {
+        background: rgba(167, 139, 250, 0.1) !important;
+        border-color: var(--purple-color) !important;
+        color: var(--purple-color) !important;
+    }
+
+
+    /* Buttons & Links */
+    .ant-list.ant-list-bordered {
+        border: 1px solid var(--card-border-color) !important;
+        border-radius: 15px;
+        background: transparent;
+    }
     .ant-list-item {
-        padding: 16px;
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid var(--card-border-color) !important;
+        padding: 1rem !important;
     }
     .ant-list-item:last-child {
-        border-bottom: none;
+        border-bottom: none !important;
     }
-    
     .ant-btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 0.3s;
+        background: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+        border-radius: 10px !important;
+        font-weight: bold;
+        transition: all 0.3s ease;
     }
-
-    .ant-btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
+    .ant-btn-primary:hover, .ant-btn-primary:focus {
+        background: var(--primary-hover-color) !important;
+        border-color: var(--primary-hover-color) !important;
         transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
     }
-
-    .ant-dropdown-menu {
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        padding: 8px 0;
-    }
-
-    .ant-dropdown-menu-item {
-        padding: 8px 16px;
-    }
-    
-    .ant-select-dropdown {
-        border-radius: 8px;
-    }
-
 </style>
-{{ end }}
+{{ template "page/head_end" .}}
+
 {{ template "page/body_start" .}}
 <a-layout id="app" v-cloak :class="themeSwitcher.currentTheme + ' subscription-page'">
-    <a-layout-content class="p-4">
-        <a-row type="flex" justify="center">
-            <a-col :xs="24" :sm="22" :md="18" :lg="14" :xl="12">
-                <a-card hoverable class="subscription-card">
+    <a-layout-content class="p-2">
+        <a-row type="flex" justify="center" class="mt-2">
+            <a-col :xs="24" :sm="22" :md="20" :lg="16" :xl="14">
+                <a-card class="subscription-card">
                     <template #title>
                         <a-space>
+                            <i class="anticon"><svg viewBox="64 64 896 896" focusable="false" data-icon="crown" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M899.9 266.3c-6.7 0-13.4 2.7-18.4 7.7L512 642.7 142.5 274.1c-5-5-11.7-7.7-18.4-7.7s-13.4 2.7-18.4 7.7l-42.5 42.5c-5 5-7.7 11.7-7.7 18.4s2.7 13.4 7.7 18.4L471.1 768c5 5 11.7 7.7 18.4 7.7s13.4-2.7 18.4-7.7l428.9-428.9c5-5 7.7-11.7 7.7-18.4s-2.7-13.4-7.7-18.4l-42.5-42.5c-5-5.1-11.7-7.8-18.4-7.8z"></path></svg></i>
                             <span>{{ i18n "subscription.title" }}</span>
-                            <a-tag color="#007bff">{{ .sId }}</a-tag>
+                            <a-tag>{{ .sId }}</a-tag>
                         </a-space>
                     </template>
                     <template #extra>
                         <a-popover
-                            :overlay-class-name="themeSwitcher.currentTheme"
+                            :overlay-class-name="themeSwitcher.currentTheme + ' dark'"
                             title='{{ i18n "menu.settings" }}'
                             placement="bottomRight" trigger="click">
                             <template #content>
-                                <a-space direction="vertical" :size="10">
+                                <a-space direction="vertical" :size="10" style="width: 180px">
                                     <a-theme-switch-login></a-theme-switch-login>
                                     <span>{{ i18n "pages.settings.language" }}</span>
-                                    <a-select ref="selectLang" class="w-100"
-                                        v-model="lang"
-                                        @change="LanguageManager.setLanguage(lang)"
-                                        :dropdown-class-name="themeSwitcher.currentTheme">
-                                        <a-select-option :value="l.value"
-                                            label="English"
-                                            v-for="l in LanguageManager.supportedLanguages"
-                                            :key="l.value">
-                                            <span role="img"
-                                                :aria-label="l.name"
-                                                v-text="l.icon"></span>
-                                            &nbsp;&nbsp;<span
-                                                v-text="l.name"></span>
+                                    <a-select ref="selectLang" class="w-100" v-model="lang" @change="LanguageManager.setLanguage(lang)" :dropdown-class-name="themeSwitcher.currentTheme">
+                                        <a-select-option :value="l.value" label="English" v-for="l in LanguageManager.supportedLanguages" :key="l.value">
+                                            <span role="img" :aria-label="l.name" v-text="l.icon"></span>
+                                            &nbsp;&nbsp;<span v-text="l.name"></span>
                                         </a-select-option>
                                     </a-select>
                                 </a-space>
@@ -160,118 +257,127 @@
                         </a-popover>
                     </template>
 
-                    <a-form layout="vertical">
-                        <a-form-item>
-                            <a-space direction="vertical" align="center" style="width: 100%;">
-                                <a-row type="flex" :gutter="[24,24]" justify="center" style="width:100%">
-                                    <a-col :xs="24" :sm="app.subJsonUrl ? 12 : 24" style="text-align:center;">
-                                        <div class="qr-box">
-                                            <a-tag color="#6a1b9a" class="qr-tag">
-                                                <span>{{ i18n "pages.settings.subSettings"}}</span>
-                                            </a-tag>
-                                            <canvas id="qrcode"
-                                                class="qr-cv"
-                                                title='{{ i18n "copy" }}'
-                                                @click="copy(app.subUrl)"></canvas>
-                                        </div>
-                                    </a-col>
-                                    <a-col v-if="app.subJsonUrl" :xs="24" :sm="12" style="text-align:center;">
-                                        <div class="qr-box">
-                                            <a-tag color="#6a1b9a" class="qr-tag">
-                                                <span>{{ i18n "pages.settings.subSettings"}} Json</span>
-                                            </a-tag>
-                                            <canvas id="qrcode-subjson"
-                                                class="qr-cv"
-                                                title='{{ i18n "copy" }}'
-                                                @click="copy(app.subJsonUrl)"></canvas>
-                                        </div>
-                                    </a-col>
-                                </a-row>
-                            </a-space>
-                        </a-form-item>
+                    <a-row type="flex" :gutter="[24,24]" justify="center" class="mb-4">
+                        <a-col :xs="24" :sm="app.subJsonUrl ? 12 : 24">
+                            <div class="qr-container">
+                                <canvas id="qrcode" @click="copy(app.subUrl)" :title='i18n "copy"'></canvas>
+                                <div class="qr-title">{{ i18n "pages.settings.subSettings"}}</div>
+                            </div>
+                        </a-col>
+                        <a-col v-if="app.subJsonUrl" :xs="24" :sm="12">
+                            <div class="qr-container">
+                                <canvas id="qrcode-subjson" @click="copy(app.subJsonUrl)" :title='i18n "copy"'></canvas>
+                                <div class="qr-title">{{ i18n "pages.settings.subSettings"}} Json</div>
+                            </div>
+                        </a-col>
+                    </a-row>
 
-                        <a-form-item>
-                            <a-descriptions bordered :column="1" size="middle">
-                                <a-descriptions-item label='{{ i18n "subscription.subId" }}'>[[ app.sId ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.status" }}'>
-                                    <template v-if="isUnlimited">
-                                        <a-tag color="purple">{{ i18n "subscription.unlimited" }}</a-tag>
+                    <div class="usage-stats" v-if="app.totalByte > 0">
+                        <div class="usage-header">
+                            <span>{{ i18n "usage" }}</span>
+                            <span>[[ app.remained ]] {{ i18n "remained" }}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" :style="{ width: usagePercentage + '%' }"></div>
+                        </div>
+                        <div class="usage-details">
+                            <span>↓ [[ app.download ]]</span>
+                            <span>↑ [[ app.upload ]]</span>
+                            <span>{{ i18n "subscription.totalQuota" }}: [[ app.total ]]</span>
+                        </div>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">{{ i18n "subscription.status" }}</span>
+                            <span class="info-value">
+                                <template v-if="isUnlimited">
+                                    <a-tag class="tag-unlimited">{{ i18n "subscription.unlimited" }}</a-tag>
+                                </template>
+                                <template v-else>
+                                    <a-tag :class="isActive ? 'tag-active' : 'tag-inactive'">
+                                        [[ isActive ? i18n("subscription.active") : i18n("subscription.inactive") ]]
+                                    </a-tag>
+                                </template>
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">{{ i18n "subscription.expiry" }}</span>
+                             <span class="info-value">
+                                <template v-if="app.expireMs === 0">
+                                    {{ i18n "subscription.noExpiry" }}
+                                </template>
+                                <template v-else>
+                                    <template v-if="app.datepicker === 'gregorian'">
+                                        [[ DateUtil.formatMillis(app.expireMs) ]]
                                     </template>
                                     <template v-else>
-                                        <a-tag :color="isActive ? 'green' : 'red'">
-                                            [[ isActive ? '{{ i18n "subscription.active" }}' : '{{ i18n "subscription.inactive" }}' ]]
-                                        </a-tag>
+                                        [[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]
                                     </template>
-                                </a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.downloaded" }}'>[[ app.download ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.uploaded" }}'>[[ app.upload ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "usage" }}'>[[ app.used ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.totalQuota" }}'>[[ app.total ]]</a-descriptions-item>
-                                <a-descriptions-item v-if="app.totalByte > 0" label='{{ i18n "remained" }}'>[[ app.remained ]]</a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "lastOnline" }}'>
-                                    <template v-if="app.lastOnlineMs > 0">
-                                        <template v-if="app.datepicker === 'gregorian'">[[ DateUtil.formatMillis(app.lastOnlineMs) ]]</template>
-                                        <template v-else>[[ DateUtil.convertToJalalian(moment(app.lastOnlineMs)) ]]</template>
+                                </template>
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">{{ i18n "lastOnline" }}</span>
+                            <span class="info-value">
+                                <template v-if="app.lastOnlineMs > 0">
+                                    <template v-if="app.datepicker === 'gregorian'">
+                                        [[ DateUtil.formatMillis(app.lastOnlineMs) ]]
                                     </template>
-                                    <template v-else><span>-</span></template>
-                                </a-descriptions-item>
-                                <a-descriptions-item label='{{ i18n "subscription.expiry" }}'>
-                                    <template v-if="app.expireMs === 0">{{ i18n "subscription.noExpiry" }}</template>
                                     <template v-else>
-                                        <template v-if="app.datepicker === 'gregorian'">[[ DateUtil.formatMillis(app.expireMs) ]]</template>
-                                        <template v-else>[[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]</template>
+                                        [[ DateUtil.convertToJalalian(moment(app.lastOnlineMs)) ]]
                                     </template>
-                                </a-descriptions-item>
-                            </a-descriptions>
-                        </a-form-item>
+                                </template>
+                                <template v-else>
+                                    <span>-</span>
+                                </template>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <a-list bordered v-if="links.length > 0">
+                         <a-list-item v-for="(link, idx) in links" :key="link">
+                            <div style="width:100%; text-align:center;">
+                                <a-button type="primary" :block="isMobile" @click="copy(link)">
+                                    <a-icon type="copy" /> [[ linkName(link, idx) ]]
+                                </a-button>
+                            </div>
+                        </a-list-item>
+                    </a-list>
+                    <br v-if="links.length > 0" />
 
-                        <br />
-                        <a-list bordered>
-                            <a-list-item v-for="(link, idx) in links" :key="link">
-                                <div style="width:100%; text-align:center;">
-                                    <a-button type="primary" :block="isMobile" size="large" @click="copy(link)">
-                                        [[ linkName(link, idx) ]]
-                                    </a-button>
-                                </div>
-                            </a-list-item>
-                        </a-list>
-                        <br />
 
-                        <a-form layout="vertical">
-                            <a-form-item>
-                                <a-row type="flex" justify="center" :gutter="[16,16]" style="width:100%">
-                                    <a-col :xs="24" :sm="12" style="text-align:center;">
-                                        <a-dropdown :trigger="['click']">
-                                            <a-button icon="android" :block="isMobile" :style="{ marginTop: isMobile ? '12px' : 0 }" size="large" type="primary">
-                                                Android <a-icon type="down" />
-                                            </a-button>
-                                            <a-menu slot="overlay" :class="themeSwitcher.currentTheme">
-                                                <a-menu-item key="android-v2box" @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
-                                                <a-menu-item key="android-v2rayng" @click="open('v2rayng://install-config?url=' + encodeURIComponent(app.subUrl))">V2RayNG</a-menu-item>
-                                                <a-menu-item key="android-singbox" @click="copy(app.subUrl)">Sing-box</a-menu-item>
-                                                <a-menu-item key="android-v2raytun" @click="copy(app.subUrl)">V2RayTun</a-menu-item>
-                                                <a-menu-item key="android-npvtunnel" @click="copy(app.subUrl)">NPV Tunnel</a-menu-item>
-                                            </a-menu>
-                                        </a-dropdown>
-                                    </a-col>
-                                    <a-col :xs="24" :sm="12" style="text-align:center;">
-                                        <a-dropdown :trigger="['click']">
-                                            <a-button icon="apple" :block="isMobile" :style="{ marginTop: isMobile ? '12px' : 0 }" size="large" type="primary">
-                                                iOS <a-icon type="down" />
-                                            </a-button>
-                                            <a-menu slot="overlay" :class="themeSwitcher.currentTheme">
-                                                <a-menu-item key="ios-shadowrocket" @click="open(shadowrocketUrl)">Shadowrocket</a-menu-item>
-                                                <a-menu-item key="ios-v2box" @click="open(v2boxUrl)">V2Box</a-menu-item>
-                                                <a-menu-item key="ios-streisand" @click="open(streisandUrl)">Streisand</a-menu-item>
-                                                <a-menu-item key="ios-v2raytun" @click="copy(v2raytunUrl)">V2RayTun</a-menu-item>
-                                                <a-menu-item key="ios-npvtunnel" @click="copy(npvtunUrl)">NPV Tunnel</a-menu-item>
-                                            </a-menu>
-                                        </a-dropdown>
-                                    </a-col>
-                                </a-row>
-                            </a-form-item>
-                        </a-form>
-                    </a-form>
+                    <a-row type="flex" justify="center" :gutter="[16,16]">
+                        <a-col :xs="24" :sm="12" style="text-align:center;">
+                            <a-dropdown :trigger="['click']">
+                                <a-button icon="android" :block="true" size="large" type="primary">
+                                    Android <a-icon type="down" />
+                                </a-button>
+                                <a-menu slot="overlay" :class="themeSwitcher.currentTheme">
+                                    <a-menu-item key="android-v2box" @click="open('v2box://install-sub?url=' + encodeURIComponent(app.subUrl) + '&name=' + encodeURIComponent(app.sId))">V2Box</a-menu-item>
+                                    <a-menu-item key="android-v2rayng" @click="open('v2rayng://install-config?url=' + encodeURIComponent(app.subUrl))">V2RayNG</a-menu-item>
+                                    <a-menu-item key="android-singbox" @click="copy(app.subUrl)">Sing-box</a-menu-item>
+                                    <a-menu-item key="android-v2raytun" @click="copy(app.subUrl)">V2RayTun</a-menu-item>
+                                    <a-menu-item key="android-npvtunnel" @click="copy(app.subUrl)">NPV Tunnel</a-menu-item>
+                                </a-menu>
+                            </a-dropdown>
+                        </a-col>
+                        <a-col :xs="24" :sm="12" style="text-align:center;">
+                            <a-dropdown :trigger="['click']">
+                                <a-button icon="apple" :block="true" size="large" type="primary">
+                                    iOS <a-icon type="down" />
+                                </a-button>
+                                <a-menu slot="overlay" :class="themeSwitcher.currentTheme">
+                                    <a-menu-item key="ios-shadowrocket" @click="open(shadowrocketUrl)">Shadowrocket</a-menu-item>
+                                    <a-menu-item key="ios-v2box" @click="open(v2boxUrl)">V2Box</a-menu-item>
+                                    <a-menu-item key="ios-streisand" @click="open(streisandUrl)">Streisand</a-menu-item>
+                                    <a-menu-item key="ios-v2raytun" @click="copy(v2raytunUrl)">V2RayTun</a-menu-item>
+                                    <a-menu-item key="ios-npvtunnel" @click="copy(npvtunUrl)">NPV Tunnel</a-menu-item>
+                                </a-menu>
+                            </a-dropdown>
+                        </a-col>
+                    </a-row>
+
                 </a-card>
             </a-col>
         </a-row>

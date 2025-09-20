@@ -112,21 +112,33 @@
     beforeDestroy() {
       if (this._onResize) window.removeEventListener('resize', this._onResize);
     },
-    computed: {
-      isMobile() {
+    // ...
+        computed: {
+        isMobile() {
         return this.viewportWidth < 576;
-      },
-      isUnlimited() {
+        },
+        isUnlimited() {
         return !this.app.totalByte;
-      },
-      isActive() {
+        },
+        isActive() {
         const now = Date.now();
         const expiryOk = !this.app.expireMs || this.app.expireMs >= now;
         const trafficOk = !this.app.totalByte || (this.app.uploadByte + this.app.downloadByte) <= this.app.totalByte;
         return expiryOk && trafficOk;
+        },
+
+      usagePercentage() {
+        if (!this.app.totalByte || this.app.totalByte <= 0) {
+            return 0;
+        }
+        const usedByte = this.app.downloadByte + this.app.uploadByte;
+        const percentage = (usedByte / this.app.totalByte) * 100;
+        return Math.min(100, percentage);
       },
-      shadowrocketUrl() {
+      // -----------------------------------------
+        shadowrocketUrl() {
         const rawUrl = this.app.subUrl + '?flag=shadowrocket';
+// ...
         const base64Url = btoa(rawUrl);
         const remark = encodeURIComponent(this.app.sId || 'Subscription');
         return `shadowrocket://add/sub/${base64Url}?remark=${remark}`;
