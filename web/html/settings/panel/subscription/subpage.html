@@ -6,6 +6,106 @@
 <script src="{{ .base_path }}assets/js/util/index.js?{{ .cur_ver }}"></script>
 <script src="{{ .base_path }}assets/js/util/date-util.js?{{ .cur_ver }}"></script>
 <script src="{{ .base_path }}assets/qrcode/qrious2.min.js?{{ .cur_ver }}"></script>
+
+<style>
+    /* Modern, clean, and elegant design */
+    body {
+        font-family: 'Inter', 'Vazirmatn', sans-serif;
+    }
+
+    /* Light Theme Styles */
+    #app.subscription-page {
+        background-color: #f0f2f5;
+    }
+    .subscription-card {
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        background-color: #fff;
+    }
+    .subscription-card .ant-card-head {
+        border-bottom: 1px solid #e8e8e8;
+    }
+    .ant-descriptions-bordered {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .ant-descriptions-bordered .ant-descriptions-item-label {
+        background-color: #fafafa;
+        font-weight: 500;
+        color: #595959;
+    }
+    .ant-descriptions-bordered .ant-descriptions-item-content {
+        background-color: #fff;
+    }
+    .ant-tag {
+        border-radius: 6px;
+    }
+    .ant-btn-primary {
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    .qr-box {
+        border-radius: 12px;
+        background-color: #fafafa;
+        padding: 24px;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+    .qr-tag {
+        top: 15px;
+        right: 15px;
+        border-radius: 6px;
+    }
+    .qr-bg-sub-inner {
+        border-radius: 8px;
+        padding: 8px;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .ant-list {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .ant-list-item {
+        transition: background-color 0.3s;
+    }
+    .ant-list-item:hover {
+        background-color: #f5f5f5;
+    }
+
+    /* Dark Theme Styles */
+    .subscription-page.dark {
+        background-color: #121212;
+    }
+    .dark .subscription-card {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    .dark .ant-card-head {
+        border-bottom-color: #333;
+    }
+    .dark .ant-card-head-title, .dark .ant-descriptions-item-label {
+        color: #e0e0e0;
+    }
+    .dark .ant-descriptions-bordered .ant-descriptions-item-label {
+        background-color: #2c2c2c;
+    }
+    .dark .ant-descriptions-bordered .ant-descriptions-item-content {
+        background-color: #1e1e1e;
+    }
+    .dark .qr-box {
+        background-color: #2c2c2c;
+        box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+    }
+    .dark .qr-bg-sub-inner {
+        background-color: #1e1e1e;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .dark .ant-list-item:hover {
+        background-color: #2c2c2c;
+    }
+</style>
+
 {{ template "page/head_end" .}}
 
 {{ template "page/body_start" .}}
@@ -54,7 +154,7 @@
                     <a-form layout="vertical">
                         <a-form-item>
                             <a-space direction="vertical" align="center">
-                                <a-row type="flex" :gutter="[8,8]"
+                                <a-row type="flex" :gutter="[16,16]"
                                     justify="center" style="width:100%">
                                     <a-col :xs="24" :sm="app.subJsonUrl ? 12 : 24"
                                         style="text-align:center;">
@@ -198,7 +298,6 @@
                                 style="width:100%">
                                 <a-col :xs="24" :sm="12"
                                     style="text-align:center;">
-                                    <!-- Android dropdown -->
                                     <a-dropdown :trigger="['click']">
                                         <a-button icon="android" :block="isMobile"
                                             :style="{ marginTop: isMobile ? '6px' : 0 }"
@@ -223,7 +322,6 @@
                                 </a-col>
                                 <a-col :xs="24" :sm="12"
                                     style="text-align:center;">
-                                    <!-- iOS dropdown -->
                                     <a-dropdown :trigger="['click']">
                                         <a-button icon="apple" :block="isMobile"
                                             :style="{ marginTop: isMobile ? '6px' : 0 }"
@@ -256,7 +354,6 @@
     </a-layout-content>
 </a-layout>
 
-<!-- Bootstrap data for external JS -->
 <template id="subscription-data" data-sid="{{ .sId }}"
     data-sub-url="{{ .subUrl }}" data-subjson-url="{{ .subJsonUrl }}"
     data-download="{{ .download }}"
