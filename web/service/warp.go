@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/common"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/util/common"
 )
 
 // WarpService provides business logic for Cloudflare WARP integration.

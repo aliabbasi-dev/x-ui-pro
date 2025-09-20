@@ -5,9 +5,9 @@ package controller
 import (
 	"net/http"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/locale"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/session"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/web/locale"
+	"github.com/aliabbasi-dev/x-ui-pro/web/session"
 
 	"github.com/gin-gonic/gin"
 )

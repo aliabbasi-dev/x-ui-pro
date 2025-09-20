@@ -4,8 +4,8 @@ package model
 import (
 	"fmt"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/json_util"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/xray"
+	"github.com/aliabbasi-dev/x-ui-pro/util/json_util"
+	"github.com/aliabbasi-dev/x-ui-pro/xray"
 )
 
 // Protocol represents the protocol type for Xray inbounds.

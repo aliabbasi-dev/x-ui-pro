@@ -1,8 +1,8 @@
 package job
 
 import (
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/service"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/web/service"
 )
 
 // Period represents the time period for traffic resets.

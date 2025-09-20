@@ -15,13 +15,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/common"
-	webpkg "github.com/aliabbasi-dev/x-ui-pro/v2/web"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/locale"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/middleware"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/network"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/service"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/util/common"
+	webpkg "github.com/aliabbasi-dev/x-ui-pro/web"
+	"github.com/aliabbasi-dev/x-ui-pro/web/locale"
+	"github.com/aliabbasi-dev/x-ui-pro/web/middleware"
+	"github.com/aliabbasi-dev/x-ui-pro/web/network"
+	"github.com/aliabbasi-dev/x-ui-pro/web/service"
 
 	"github.com/gin-gonic/gin"
 )

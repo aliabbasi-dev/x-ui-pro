@@ -3,9 +3,9 @@ package job
 import (
 	"encoding/json"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/service"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/xray"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/web/service"
+	"github.com/aliabbasi-dev/x-ui-pro/xray"
 
 	"github.com/valyala/fasthttp"
 )

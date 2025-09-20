@@ -5,7 +5,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
 )
 
 // PanelService provides business logic for panel management operations.

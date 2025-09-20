@@ -11,8 +11,8 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/common"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/util/common"
 
 	"github.com/xtls/xray-core/app/proxyman/command"
 	statsService "github.com/xtls/xray-core/app/stats/command"

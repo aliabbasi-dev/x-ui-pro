@@ -3,7 +3,7 @@ package xray
 import (
 	"bytes"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/json_util"
+	"github.com/aliabbasi-dev/x-ui-pro/util/json_util"
 )
 
 // InboundConfig represents an Xray inbound configuration.

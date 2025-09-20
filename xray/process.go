@@ -13,9 +13,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/config"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/common"
+	"github.com/aliabbasi-dev/x-ui-pro/config"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/util/common"
 )
 
 // GetBinaryName returns the Xray binary filename for the current OS and architecture.

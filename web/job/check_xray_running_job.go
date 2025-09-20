@@ -3,8 +3,8 @@
 package job
 
 import (
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/service"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/web/service"
 )
 
 // CheckXrayRunningJob monitors Xray process health and restarts it if it crashes.

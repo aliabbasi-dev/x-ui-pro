@@ -6,7 +6,7 @@ import (
 	"encoding/gob"
 	"net/http"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/database/model"
+	"github.com/aliabbasi-dev/x-ui-pro/database/model"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"

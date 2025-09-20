@@ -5,7 +5,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
 )
 
 // NewLogWriter returns a new LogWriter for processing Xray log output.

@@ -3,7 +3,7 @@ package xray
 import (
 	"bytes"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/json_util"
+	"github.com/aliabbasi-dev/x-ui-pro/util/json_util"
 )
 
 // Config represents the complete Xray configuration structure.

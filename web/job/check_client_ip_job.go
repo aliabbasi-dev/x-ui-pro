@@ -12,10 +12,10 @@ import (
 	"sort"
 	"time"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/database"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/database/model"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/xray"
+	"github.com/aliabbasi-dev/x-ui-pro/database"
+	"github.com/aliabbasi-dev/x-ui-pro/database/model"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/xray"
 )
 
 // CheckClientIpJob monitors client IP addresses from access logs and manages IP blocking based on configured limits.

@@ -1,7 +1,7 @@
 package job
 
 import (
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/service"
+	"github.com/aliabbasi-dev/x-ui-pro/web/service"
 )
 
 // LoginStatus represents the status of a login attempt.

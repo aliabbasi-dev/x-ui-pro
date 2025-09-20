@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/common"
+	"github.com/aliabbasi-dev/x-ui-pro/util/common"
 )
 
 // Msg represents a standard API response message with success status, message text, and optional data object.

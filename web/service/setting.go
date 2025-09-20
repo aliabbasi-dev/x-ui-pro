@@ -10,14 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/database"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/database/model"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/common"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/random"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/reflect_util"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/entity"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/xray"
+	"github.com/aliabbasi-dev/x-ui-pro/database"
+	"github.com/aliabbasi-dev/x-ui-pro/database/model"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/util/common"
+	"github.com/aliabbasi-dev/x-ui-pro/util/random"
+	"github.com/aliabbasi-dev/x-ui-pro/util/reflect_util"
+	"github.com/aliabbasi-dev/x-ui-pro/web/entity"
+	"github.com/aliabbasi-dev/x-ui-pro/xray"
 )
 
 //go:embed config.json

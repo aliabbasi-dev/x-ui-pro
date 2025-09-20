@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nicksnyder/go-i18n/v2/i18n"

@@ -19,12 +19,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/config"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/database"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/common"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/util/sys"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/xray"
+	"github.com/aliabbasi-dev/x-ui-pro/config"
+	"github.com/aliabbasi-dev/x-ui-pro/database"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/util/common"
+	"github.com/aliabbasi-dev/x-ui-pro/util/sys"
+	"github.com/aliabbasi-dev/x-ui-pro/xray"
 
 	"github.com/google/uuid"
 	"github.com/shirou/gopsutil/v4/cpu"

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
 )
 
 // NewErrorf creates a new error with formatted message.

@@ -5,9 +5,9 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/service"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/session"
+	"github.com/aliabbasi-dev/x-ui-pro/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/web/service"
+	"github.com/aliabbasi-dev/x-ui-pro/web/session"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"

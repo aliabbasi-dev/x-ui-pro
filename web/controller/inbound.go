@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/aliabbasi-dev/x-ui-pro/v2/database/model"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/service"
-	"github.com/aliabbasi-dev/x-ui-pro/v2/web/session"
+	"github.com/aliabbasi-dev/x-ui-pro/database/model"
+	"github.com/aliabbasi-dev/x-ui-pro/web/service"
+	"github.com/aliabbasi-dev/x-ui-pro/web/session"
 
 	"github.com/gin-gonic/gin"
 )
