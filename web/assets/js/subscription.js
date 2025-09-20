@@ -5,12 +5,12 @@ function createUsageChart(used, total) {
         { type: 'باقی‌مانده', value: total - used },
     ];
 
-    const doughnutPlot = new G2Plot.Doughnut('usage-chart', {
+    const doughnutPlot = new G2Plot.Pie('usage-chart', {
         data,
         angleField: 'value',
         colorField: 'type',
         radius: 0.8,
-        innerRadius: 0.6,
+        innerRadius: 0.6, // تبدیل به Doughnut
         legend: {
             position: 'bottom',
         },
