@@ -12,22 +12,28 @@
     /* Root Variables for Themes */
     /* ------------------------------------------- */
     :root, #app.light {
-        --color-background: #f0f2f5;
+        --color-background: #f4f6f9;
         --color-card-bg: #fff;
-        --color-text: #333;
-        --color-secondary-text: #666;
-        --color-border: #e8e8e8;
-        --color-list-hover: #f5f5f5;
-        --color-qr-bg: #fafafa;
+        --color-text: #2c3e50;
+        --color-secondary-text: #7f8c8d;
+        --color-border: #ecf0f1;
+        --color-list-hover: #fcfdfe;
+        --color-primary: #3498db;
+        --color-primary-hover: #2980b9;
+        --color-gradient-start: #e9f0f9;
+        --color-gradient-end: #d9e3f1;
     }
     #app.dark {
-        --color-background: #121212;
-        --color-card-bg: #1e1e1e;
-        --color-text: #e0e0e0;
-        --color-secondary-text: #a0a0a0;
-        --color-border: #333;
-        --color-list-hover: #2c2c2c;
-        --color-qr-bg: #2c2c2c;
+        --color-background: #1e272e;
+        --color-card-bg: #2d3436;
+        --color-text: #ecf0f1;
+        --color-secondary-text: #bdc3c7;
+        --color-border: #3f4a4d;
+        --color-list-hover: #3a474a;
+        --color-primary: #3498db;
+        --color-primary-hover: #2980b9;
+        --color-gradient-start: #2a333c;
+        --color-gradient-end: #1e272e;
     }
     #app.ultra-dark {
         --color-background: #000000;
@@ -36,7 +42,10 @@
         --color-secondary-text: #b0b0b0;
         --color-border: #1a1a1a;
         --color-list-hover: #111111;
-        --color-qr-bg: #1a1a1a;
+        --color-primary: #4a69bd;
+        --color-primary-hover: #34495e;
+        --color-gradient-start: #0a0a0a;
+        --color-gradient-end: #050505;
     }
 
     /* ------------------------------------------- */
@@ -46,41 +55,64 @@
         font-family: 'Inter', 'Vazirmatn', sans-serif;
     }
     #app.subscription-page {
-        background-color: var(--color-background);
-        transition: background-color 0.3s ease;
+        background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
+        transition: all 0.5s ease-in-out;
     }
-
+    
     /* Card Styles */
     .subscription-card {
-        border-radius: 16px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         background-color: var(--color-card-bg);
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        transition: background-color 0.5s ease;
         color: var(--color-text);
+        border: none;
     }
     .subscription-card .ant-card-head {
         border-bottom: 1px solid var(--color-border);
     }
-    .subscription-card .ant-card-head-title {
+    .ant-card-head-title, .ant-descriptions-item-label {
         color: var(--color-text);
+    }
+    .ant-descriptions-item-content {
+        color: var(--color-secondary-text);
     }
     .ant-popover-inner-content, .ant-dropdown-menu {
         background-color: var(--color-card-bg);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     .ant-dropdown-menu-item, .ant-dropdown-menu-item a {
         color: var(--color-text) !important;
     }
+    .ant-btn-circle {
+        background-color: transparent;
+        border-color: transparent;
+        color: var(--color-secondary-text);
+        box-shadow: none;
+        transition: all 0.3s;
+    }
+    .ant-btn-circle:hover {
+        background-color: rgba(0,0,0,0.05);
+    }
+    #app.dark .ant-btn-circle:hover, #app.ultra-dark .ant-btn-circle:hover {
+        background-color: rgba(255,255,255,0.05);
+    }
 
     /* Descriptions List (Info Table) */
     .ant-descriptions-bordered {
-        border-radius: 12px;
+        border-radius: 16px;
         overflow: hidden;
-        border: 1px solid var(--color-border);
+        border: none;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
     }
     .ant-descriptions-bordered .ant-descriptions-item-label {
-        background-color: color-mix(in srgb, var(--color-background) 15%, transparent);
+        background-color: rgba(0, 0, 0, 0.02);
         font-weight: 500;
         color: var(--color-secondary-text);
+    }
+    #app.dark .ant-descriptions-bordered .ant-descriptions-item-label, #app.ultra-dark .ant-descriptions-bordered .ant-descriptions-item-label {
+        background-color: rgba(255, 255, 255, 0.03);
     }
     .ant-descriptions-bordered .ant-descriptions-item-content {
         background-color: var(--color-card-bg);
@@ -89,36 +121,42 @@
 
     /* Buttons and Tags */
     .ant-btn-primary {
-        border-radius: 8px;
+        border-radius: 12px;
         font-weight: 600;
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+        transition: all 0.3s;
+    }
+    .ant-btn-primary:hover {
+        background-color: var(--color-primary-hover);
+        border-color: var(--color-primary-hover);
     }
     .ant-tag {
-        border-radius: 6px;
-    }
-    .ant-btn {
-        background-color: var(--color-card-bg);
-        border-color: var(--color-border);
-        color: var(--color-secondary-text);
-    }
-    .ant-btn-circle {
-        background-color: transparent;
-        border-color: transparent;
-        color: var(--color-secondary-text);
+        border-radius: 8px;
+        font-size: 13px;
     }
 
     /* ------------------------------------------- */
-    /* QR Code Section - Redesigned */
+    /* QR Code Section - Glassmorphism & New Design */
     /* ------------------------------------------- */
     .qr-box {
-        border-radius: 16px;
-        background-color: var(--color-qr-bg);
-        padding: 24px;
         position: relative;
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 24px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
         display: flex;
         justify-content: center;
         align-items: center;
     }
+    #app.dark .qr-box, #app.ultra-dark .qr-box {
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
     .qr-tag {
         position: absolute;
         top: 15px;
@@ -126,28 +164,25 @@
         border-radius: 6px;
     }
     .qr-bg-sub-inner {
-        border-radius: 12px;
-        padding: 12px;
+        border-radius: 16px;
+        padding: 16px;
         background-color: var(--color-card-bg);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     }
     #qrcode, #qrcode-subjson {
-        border-radius: 8px;
+        border-radius: 12px;
     }
 
     /* ------------------------------------------- */
     /* List Item */
     /* ------------------------------------------- */
     .ant-list {
-        border-radius: 12px;
+        border-radius: 16px;
         overflow: hidden;
         border: 1px solid var(--color-border);
     }
     .ant-list-item {
-        transition: background-color 0.3s;
+        transition: all 0.3s;
         background-color: var(--color-card-bg);
         border-bottom: 1px solid var(--color-border);
     }
@@ -155,18 +190,6 @@
         background-color: var(--color-list-hover);
     }
 
-    /* Dark and Ultra Dark Specifics */
-    .dark .ant-card-head, .ultra-dark .ant-card-head {
-        border-bottom-color: var(--color-border);
-    }
-    .dark .ant-btn-circle, .ultra-dark .ant-btn-circle {
-        background-color: transparent;
-        border-color: transparent;
-        color: var(--color-secondary-text);
-    }
-    .ultra-dark .subscription-card {
-        box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
-    }
 </style>
 
 {{ template "page/head_end" .}}
@@ -217,7 +240,7 @@
                     <a-form layout="vertical">
                         <a-form-item>
                             <a-space direction="vertical" align="center">
-                                <a-row type="flex" :gutter="[16,16]"
+                                <a-row type="flex" :gutter="[24,24]"
                                     justify="center" style="width:100%">
                                     <a-col :xs="24" :sm="app.subJsonUrl ? 12 : 24"
                                         style="text-align:center;">
