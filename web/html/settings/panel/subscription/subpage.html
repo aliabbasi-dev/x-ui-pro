@@ -188,54 +188,49 @@
     }
 
     /* ------------------------------------------- */
-    /* Subscription Info Section (Redesigned) */
+    /* Subscription Info Section (Responsive Grid) */
     /* ------------------------------------------- */
     .info-section {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 12px;
         background-color: var(--color-section-bg);
         border-radius: 16px;
         padding: 16px;
         box-shadow: inset 0 0 10px var(--color-shadow);
-        justify-content: space-between;
     }
     .info-item {
-        flex: 1 1 calc(50% - 12px); /* Two columns on larger screens */
         display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        gap: 10px;
-        padding: 12px;
+        gap: 8px;
+        padding: 15px;
         background-color: var(--color-card-bg);
         border-radius: 12px;
         box-shadow: 0 2px 5px var(--color-shadow);
-    }
-    .info-item-full {
-        flex: 1 1 100%; /* Full width for specific items on mobile */
+        text-align: center;
     }
     .info-icon {
         color: var(--color-primary);
-        font-size: 1.5rem;
-    }
-    .info-content {
-        display: flex;
-        flex-direction: column;
+        font-size: 1.8rem;
     }
     .info-label {
         color: var(--color-secondary-text);
         font-size: 0.8rem;
         font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .info-value {
         color: var(--color-text);
         font-size: 1rem;
         font-weight: 600;
+        word-break: break-word;
     }
-
-    @media (max-width: 576px) {
-        .info-item {
-            flex: 1 1 100%; /* Single column on mobile */
-        }
+    .info-item .ant-tag {
+        margin: 0 !important;
     }
 </style>
 
@@ -325,52 +320,40 @@
 
                         <a-form-item>
                             <div class="info-section">
-                                <div class="info-item info-item-full">
+                                <div class="info-item">
                                     <a-icon type="idcard" class="info-icon" />
-                                    <div class="info-content">
-                                        <span class="info-label">{{ i18n "subscription.subId" }}</span>
-                                        <span class="info-value">[[ app.sId ]]</span>
-                                    </div>
+                                    <div class="info-label">{{ i18n "subscription.subId" }}</div>
+                                    <div class="info-value">[[ app.sId ]]</div>
                                 </div>
                                 <div class="info-item">
-                                    <a-icon type="sync" class="info-icon" />
-                                    <div class="info-content">
-                                        <span class="info-label">{{ i18n "subscription.downloaded" }}</span>
-                                        <span class="info-value">[[ app.download ]]</span>
-                                    </div>
+                                    <a-icon type="arrow-down" class="info-icon" />
+                                    <div class="info-label">{{ i18n "subscription.downloaded" }}</div>
+                                    <div class="info-value">[[ app.download ]]</div>
                                 </div>
                                 <div class="info-item">
-                                    <a-icon type="sync" class="info-icon" />
-                                    <div class="info-content">
-                                        <span class="info-label">{{ i18n "subscription.uploaded" }}</span>
-                                        <span class="info-value">[[ app.upload ]]</span>
-                                    </div>
+                                    <a-icon type="arrow-up" class="info-icon" />
+                                    <div class="info-label">{{ i18n "subscription.uploaded" }}</div>
+                                    <div class="info-value">[[ app.upload ]]</div>
                                 </div>
                                 <div class="info-item">
                                     <a-icon type="cloud" class="info-icon" />
-                                    <div class="info-content">
-                                        <span class="info-label">{{ i18n "usage" }}</span>
-                                        <span class="info-value">[[ app.used ]]</span>
-                                    </div>
+                                    <div class="info-label">{{ i18n "usage" }}</div>
+                                    <div class="info-value">[[ app.used ]]</div>
                                 </div>
                                 <div class="info-item">
                                     <a-icon type="database" class="info-icon" />
-                                    <div class="info-content">
-                                        <span class="info-label">{{ i18n "subscription.totalQuota" }}</span>
-                                        <span class="info-value">[[ app.total ]]</span>
-                                    </div>
+                                    <div class="info-label">{{ i18n "subscription.totalQuota" }}</div>
+                                    <div class="info-value">[[ app.total ]]</div>
                                 </div>
-                                <div class="info-item info-item-full" v-if="app.totalByte > 0">
+                                <div class="info-item" v-if="app.totalByte > 0">
                                     <a-icon type="pie-chart" class="info-icon" />
-                                    <div class="info-content">
-                                        <span class="info-label">{{ i18n "remained" }}</span>
-                                        <span class="info-value">[[ app.remained ]]</span>
-                                    </div>
+                                    <div class="info-label">{{ i18n "remained" }}</div>
+                                    <div class="info-value">[[ app.remained ]]</div>
                                 </div>
-                                <div class="info-item info-item-full">
+                                <div class="info-item">
                                     <a-icon type="thunderbolt" class="info-icon" />
-                                    <div class="info-content">
-                                        <span class="info-label">{{ i18n "subscription.status" }}</span>
+                                    <div class="info-label">{{ i18n "subscription.status" }}</div>
+                                    <div class="info-value">
                                         <template v-if="isUnlimited">
                                             <a-tag color="purple">{{ i18n "subscription.unlimited" }}</a-tag>
                                         </template>
@@ -379,42 +362,38 @@
                                         </template>
                                     </div>
                                 </div>
-                                <div class="info-item info-item-full">
+                                <div class="info-item">
                                     <a-icon type="calendar" class="info-icon" />
-                                    <div class="info-content">
-                                        <span class="info-label">{{ i18n "lastOnline" }}</span>
-                                        <span class="info-value">
-                                            <template v-if="app.lastOnlineMs > 0">
-                                                <template v-if="app.datepicker === 'gregorian'">
-                                                    [[ DateUtil.formatMillis(app.lastOnlineMs) ]]
-                                                </template>
-                                                <template v-else>
-                                                    [[ DateUtil.convertToJalalian(moment(app.lastOnlineMs)) ]]
-                                                </template>
+                                    <div class="info-label">{{ i18n "lastOnline" }}</div>
+                                    <div class="info-value">
+                                        <template v-if="app.lastOnlineMs > 0">
+                                            <template v-if="app.datepicker === 'gregorian'">
+                                                [[ DateUtil.formatMillis(app.lastOnlineMs) ]]
                                             </template>
                                             <template v-else>
-                                                <span>-</span>
+                                                [[ DateUtil.convertToJalalian(moment(app.lastOnlineMs)) ]]
                                             </template>
-                                        </span>
+                                        </template>
+                                        <template v-else>
+                                            <span>-</span>
+                                        </template>
                                     </div>
                                 </div>
-                                <div class="info-item info-item-full">
+                                <div class="info-item">
                                     <a-icon type="clock-circle" class="info-icon" />
-                                    <div class="info-content">
-                                        <span class="info-label">{{ i18n "subscription.expiry" }}</span>
-                                        <span class="info-value">
-                                            <template v-if="app.expireMs === 0">
-                                                {{ i18n "subscription.noExpiry" }}
+                                    <div class="info-label">{{ i18n "subscription.expiry" }}</div>
+                                    <div class="info-value">
+                                        <template v-if="app.expireMs === 0">
+                                            {{ i18n "subscription.noExpiry" }}
+                                        </template>
+                                        <template v-else>
+                                            <template v-if="app.datepicker === 'gregorian'">
+                                                [[ DateUtil.formatMillis(app.expireMs) ]]
                                             </template>
                                             <template v-else>
-                                                <template v-if="app.datepicker === 'gregorian'">
-                                                    [[ DateUtil.formatMillis(app.expireMs) ]]
-                                                </template>
-                                                <template v-else>
-                                                    [[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]
-                                                </template>
+                                                [[ DateUtil.convertToJalalian(moment(app.expireMs)) ]]
                                             </template>
-                                        </span>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
