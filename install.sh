@@ -153,7 +153,7 @@ install_x-ui() {
 <<<<<<< HEAD
         wget -N -O /usr/local/x-ui-linux-$(arch).tar.gz https://github.com/aliabbasi-dev/x-ui-pro/releases/download/${tag_version}/x-ui-linux-$(arch).tar.gz
 =======
-        wget -N -O /usr/local/x-ui-linux-$(arch).tar.gz https://github.com/MHSanaei/x-ui-pro/releases/download/${tag_version}/x-ui-linux-$(arch).tar.gz
+        wget -N -O /usr/local/x-ui-linux-$(arch).tar.gz https://github.com/aliabbasi-dev/x-ui-pro/releases/download/${tag_version}/x-ui-linux-$(arch).tar.gz
 >>>>>>> 9f18fe9 (Prepare release v1.3.5)
         if [[ $? -ne 0 ]]; then
             echo -e "${red}Downloading x-ui failed, please be sure that your server can access GitHub ${plain}"
@@ -172,7 +172,7 @@ install_x-ui() {
 <<<<<<< HEAD
         url="https://github.com/aliabbasi-dev/x-ui-pro/releases/download/${tag_version}/x-ui-linux-$(arch).tar.gz"
 =======
-        url="https://github.com/MHSanaei/x-ui-pro/releases/download/${tag_version}/x-ui-linux-$(arch).tar.gz"
+        url="https://github.com/aliabbasi-dev/x-ui-pro/releases/download/${tag_version}/x-ui-linux-$(arch).tar.gz"
 >>>>>>> 9f18fe9 (Prepare release v1.3.5)
         echo -e "Beginning to install x-ui $1"
         wget -N -O /usr/local/x-ui-linux-$(arch).tar.gz ${url}
@@ -184,7 +184,7 @@ install_x-ui() {
 <<<<<<< HEAD
     wget -O /usr/bin/x-ui-temp https://raw.githubusercontent.com/aliabbasi-dev/x-ui-pro/main/x-ui.sh
 =======
-    wget -O /usr/bin/x-ui-temp https://raw.githubusercontent.com/MHSanaei/x-ui-pro/main/x-ui.sh
+    wget -O /usr/bin/x-ui-temp https://raw.githubusercontent.com/aliabbasi-dev/x-ui-pro/main/x-ui.sh
 >>>>>>> 9f18fe9 (Prepare release v1.3.5)
 
     # Stop x-ui service and remove old resources
