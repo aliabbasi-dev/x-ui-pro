@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mhsanaei/3x-ui/v2/database"
-	"github.com/mhsanaei/3x-ui/v2/database/model"
-	"github.com/mhsanaei/3x-ui/v2/logger"
-	"github.com/mhsanaei/3x-ui/v2/util/common"
-	"github.com/mhsanaei/3x-ui/v2/xray"
+	"github.com/aliabbasi-dev/x-ui-pro/v2/database"
+	"github.com/aliabbasi-dev/x-ui-pro/v2/database/model"
+	"github.com/aliabbasi-dev/x-ui-pro/v2/logger"
+	"github.com/aliabbasi-dev/x-ui-pro/v2/util/common"
+	"github.com/aliabbasi-dev/x-ui-pro/v2/xray"
 
 	"gorm.io/gorm"
 )
