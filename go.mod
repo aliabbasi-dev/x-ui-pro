@@ -98,3 +98,5 @@ require (
 	gvisor.dev/gvisor v0.0.0-20250503011706-39ed1f5ac29c // indirect
 	lukechampine.com/blake3 v1.4.1 // indirect
 )
+replace github.com/mhsanaei/3x-ui/v2 => github.com/aliabbasi-dev/x-ui-pro v2.6.7-custom
+
