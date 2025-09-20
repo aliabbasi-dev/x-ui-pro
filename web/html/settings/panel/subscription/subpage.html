@@ -18,6 +18,7 @@
         --color-secondary-text: #666;
         --color-border: #e8e8e8;
         --color-list-hover: #f5f5f5;
+        --color-qr-bg: #fafafa;
     }
     #app.dark {
         --color-background: #121212;
@@ -26,6 +27,7 @@
         --color-secondary-text: #a0a0a0;
         --color-border: #333;
         --color-list-hover: #2c2c2c;
+        --color-qr-bg: #2c2c2c;
     }
     #app.ultra-dark {
         --color-background: #000000;
@@ -34,6 +36,7 @@
         --color-secondary-text: #b0b0b0;
         --color-border: #1a1a1a;
         --color-list-hover: #111111;
+        --color-qr-bg: #1a1a1a;
     }
 
     /* ------------------------------------------- */
@@ -103,13 +106,18 @@
         color: var(--color-secondary-text);
     }
 
-    /* QR Code Section */
+    /* ------------------------------------------- */
+    /* QR Code Section - Redesigned */
+    /* ------------------------------------------- */
     .qr-box {
-        border-radius: 12px;
-        background-color: color-mix(in srgb, var(--color-background) 15%, transparent);
+        border-radius: 16px;
+        background-color: var(--color-qr-bg);
         padding: 24px;
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
         position: relative;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .qr-tag {
         position: absolute;
@@ -118,13 +126,21 @@
         border-radius: 6px;
     }
     .qr-bg-sub-inner {
-        border-radius: 8px;
-        padding: 8px;
+        border-radius: 12px;
+        padding: 12px;
         background-color: var(--color-card-bg);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #qrcode, #qrcode-subjson {
+        border-radius: 8px;
     }
 
+    /* ------------------------------------------- */
     /* List Item */
+    /* ------------------------------------------- */
     .ant-list {
         border-radius: 12px;
         overflow: hidden;
